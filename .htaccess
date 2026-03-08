@@ -1,0 +1,44 @@
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^www.akwagarant.ru$ [NC]
+RewriteRule ^(.*)$ http://akwagarant.ru/$1 [R=301,L]
+
+RewriteCond %{REQUEST_URI} !^public
+RewriteRule ^(.*)$ public/$1 [L]
+
+
+Redirect 301 /umnoe_otoplenie  /blog/umnoe-otoplenie
+Redirect 301 /gsm_modul_dlya_otopleniya  /blog/gsm-modul-dlya-otopleniya
+Redirect 301 /vneshnee-upravlenie-kotlom  /blog/vneshnee-upravlenie-kotlom
+Redirect 301 /montazh_otopleniya_v_voronezhe  /blog/montaj-otopleniya
+Redirect 301 /truby_i_fitingi  /blog/trubyi-dlya-otopleniya
+
+Redirect 301 /obvyazka_kotelnyh  /blog/montaj-i-obvyazka-kotelnoy
+Redirect 301 /gidravlicheskoe-ispytanie-trub  /blog/sdacha-obekta-zakazchiku
+Redirect 301 /posledovatelnost-montazha-inzhenernyh-sistem-v-kottedzhe  /blog/posledovatelnost-montaja-injenernyih-sistem-v-kottedje
+Redirect 301 /bojlery  /blog/boyleryi-dlya-goryachego-vodosnabjeniya
+Redirect 301 /montazh_kanalizacii  /blog/pravilnyiy-montaj-kanalizatsii
+
+Redirect 301 /gazovye_kolonki  /blog/gazovyie-kolonki
+Redirect 301 /radiatory_otopleniya  /blog/raznovidnosti-otopitelnyih-priborov
+Redirect 301 /istochniki_vodosnabzheniya  /blog/istochnik-vodosnabjeniya-dlya-chastnogo-doma
+Redirect 301 /montazh_vodosnabzheniya  /blog/montaj-vodoprovoda
+Redirect 301 /elektrosnabzhenie  /blog/gazovyiy-generator
+
+Redirect 301 /nasosy_  /blog/nasosyi-dlya-vodosnabjeniya
+Redirect 301 /kvartira_filtraciya  /blog/ochistka-vodyi-v-kvartire
+Redirect 301 /kottedzh_filtraciya  /blog/filtratsiya-vodyi-v-kottedje
+Redirect 301 /sistemy_snegotayaniya_i_obogrev_teplic  /blog/sistemyi-snegotayaniya
+Redirect 301 /chto_nam_stoit_dom_postroit  /blog/stoimost-sistemyi-otopleniya
+
+Redirect 301 /podgotovka_doma_pered_montazhom  /blog/podgotovka-doma-k-montaju-otopleniya
+Redirect 301 /slozhnye_sistemy_otopleniya  /blog/slojnyie-sistemyi-otopleniya
+Redirect 301 /tvyordotoplivnye_kotly  /blog/tverdotoplivnyie-kotlyi
+Redirect 301 /trebovaniya_k_pomeweniyu_kotelnoj/  /blog/trebovaniya-k-pomescheniyu-kotelnoy
+Redirect 301 /stancii-biologicheskoj-ochistki/  /blog/luchshie-stantsii-biologicheskoy-ochistki-dlya-doma
+
+<Files *.env>
+        Deny from all
+</Files>
+</IfModule>

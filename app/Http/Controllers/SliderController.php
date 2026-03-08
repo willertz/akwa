@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Slider;
+use Illuminate\Http\Request;
+
+class SliderController extends Controller
+{
+    public function getSliderByHash($hash) {
+        $res = null;
+        $slider = Slider::where("slider_hash",$hash)->get();
+        foreach ($slider as $slide) {
+            $res[] = $slide->url;
+
+        }
+        return $res;
+    }
+
+    public function addSliderByHash($slider, $hash) {
+        foreach($slider as $slide) {
+            $slider = new Slider();
+            $slider->slider_hash = $hash;
+            $slider->url = $slide;
+            $slider->save();
+        }
+    }
+}

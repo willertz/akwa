@@ -1,0 +1,175 @@
+.tasks{
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    padding: 50px 0;
+    @media #{$tablet}{
+        padding: 0 0 50px 0;
+    }
+    @media #{$mobile}{
+        padding: 30px 0;
+    }
+    .video_title{
+        text-align: center;
+        font-size: 40px;
+        color: #fff;
+        font-weight: 600;
+        font-family: 'Sovest', Arial, sans-serif;
+        margin-bottom: 20px;
+        text-align: center;
+        width: max-content;
+        margin: 0 auto 20px auto;
+        letter-spacing: 1px;
+        @media #{$mobile}{
+            font-size: 20px;
+        }
+    }
+    .video_row{
+        display: flex;
+        align-items: stretch;
+        gap: 30px 0;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        @media #{$tablet}{
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        @media #{$mobile}{
+            gap: 20px 0;
+            margin-bottom: 30px;
+        }
+        .video_item{
+            width: calc(33.333% - 15px);
+            flex: 0 0 auto;
+            height: 350px;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 300px;
+            // background: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &:nth-child(2){
+                margin-top: 100px;
+                @media #{$tablet}{
+                    margin-top: 0;
+                }
+            }
+            &:nth-child(n+4){
+                margin-top: 150px;
+                @media #{$tablet}{
+                    margin-top: 0;
+                }
+            }
+            &:nth-child(n+5){
+                @media #{$small_mobile}{
+                    display: none;
+                }
+            }
+            &:nth-child(5){
+                margin-top: 50px;
+                @media #{$tablet}{
+                    margin-top: 0;
+                }
+            }
+            @media #{$tablet}{
+                width: calc(48% - 10px);
+            }
+            &:last-child{
+                // margin-top: -50px;
+                @media #{$mobile}{
+                    margin-top: 0;
+                }
+            }
+            @media #{$mobile}{
+                width: 100%;
+            }
+            iframe{
+                object-fit: cover;
+                width: 100%;
+                height: 100%; /* 16:9 nisbat */
+            }
+        }
+    }
+    .more_video{
+        height: 60px;
+        width: 100%;
+        max-width: 300px;
+        margin: auto;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s all ease;
+        margin-top: 30px;
+        border: 1px solid #fff;
+        &:hover{
+            background-color: #fff;
+            color: #000;
+        }
+        @media #{$tablet}{
+            margin-top: 0;
+        }
+    }
+    .comment_title{
+        text-align: center;
+        margin-top: 50px;
+        vertical-align: middle;
+        color: #fff;
+        font-size: 35px;
+        font-family: 'Sovest', Arial, sans-serif;
+        // line-height: 1;
+        font-weight: 800;
+        margin-bottom: 30px;
+        display: none;
+        @media #{$tablet}{
+            font-size: 30px;
+        }
+    }
+    .comments{
+        display: none;
+        align-items: stretch;
+        justify-content: space-between;
+        gap: 20px 0;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        .com_item{
+            width: calc(33% - 15px);
+            flex: 0 0 auto;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #fff;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px 0;
+            @media #{$tablet}{
+                width: calc(50% - 10px);
+            }
+            @media #{$small_mobile}{
+                width: 100%;
+                padding: 15px;
+            }
+            .item_desc{
+                color: #000;
+                font-size: 16px;
+                font-family: 'Arial', Arial, sans-serif;
+                // line-height: 1.55;
+                font-weight: 600;
+            }
+            .item_name{
+                color: #000;
+                opacity: 0.7;
+                font-size: 16px;
+                font-family: 'Arial', Arial, sans-serif;
+                // line-height: 1.55;
+                font-weight: 400;
+            }
+        }
+    }
+}

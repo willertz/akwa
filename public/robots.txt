@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /thanks
+Disallow: /cart
+Disallow: /userfiles
+Host: akwagarant.ru
+Sitemap: https://akwagarant.ru/sitemap.xml
