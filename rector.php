@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
 use Rector\Set\ValueObject\SetList;
 use RectorLaravel\Set\LaravelSetList;
 
@@ -12,12 +11,6 @@ return RectorConfig::configure()
         __DIR__.'/app',
         // __DIR__ . '/tests',
     ])
-    ->withSkip([
-        RenameParamToMatchTypeRector::class => [
-            __DIR__.'/app/Filament/Resources/*',
-        ],
-    ])
-    // Используем стандартный LaravelSetList вместо провайдера для стабильности
     ->withSets([
         SetList::PHP_85,
         LaravelSetList::LARAVEL_120,
