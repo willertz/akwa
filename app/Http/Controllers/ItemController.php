@@ -37,7 +37,7 @@ class ItemController extends Controller
         $category = ShopCategory::where('id', '=', $id)->first();
         $url = $shopCategoryController->getUrlByCode($category->parent_id, $category->slug);
 
-        return 'https://akwagarant.ru'.$url;
+        return url($url);
     }
 
     public function parseItems($data): array

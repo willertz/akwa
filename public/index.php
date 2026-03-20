@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
  * Ну все равно не увидит никто
 */
 if (preg_match('~public~', $_SERVER['REQUEST_URI'])) {
-    $url = 'https://akwagarant.ru'.preg_replace('~public/~', '', $_SERVER['REQUEST_URI']);
+    $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+    $url = $protocol . "://" . $_SERVER['HTTP_HOST'] . preg_replace('~public/~', '', $_SERVER['REQUEST_URI']);
     header('HTTP/1.1 301 Moved Permanently');
     header('Location: '.$url);
     exit();

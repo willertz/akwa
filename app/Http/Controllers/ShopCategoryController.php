@@ -77,7 +77,7 @@ class ShopCategoryController extends Controller
     {
         $category = ShopCategory::where('id', '=', $id)->first();
 
-        return ['name' => $category->name, 'slug' => 'https://akwagarant.ru/catalog/'.$category->slug];
+        return ['name' => $category->name, 'slug' => url('/catalog/'.$category->slug)];
 
     }
 

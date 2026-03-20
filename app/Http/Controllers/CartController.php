@@ -16,7 +16,7 @@ class CartController extends Controller
         $items = $cartRequest->validated('items');
         $order = '';
         foreach ($items as $item) {
-            $order .= '<a href="https://akwagarant.ru/goods/'.$item['id'].'/">'.$item['name'].'</a><br>';
+            $order .= '<a href="'.url('/goods/'.$item['id'].'/').'">'.$item['name'].'</a><br>';
         }
         MessageController::sendOrder($name, $phone, $mail, $order);
 

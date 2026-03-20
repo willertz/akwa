@@ -17,9 +17,9 @@
                 <div class="service-content-block">
                     <span>Проектирование систем отопления</span>
                     <ul>
-                        <li><a href="https://akwagarant.ru/blog/montaj-teplogo-pola">Монтаж теплых полов</a></li>
-                        <li><a href="https://akwagarant.ru/blog/montaj-radiatorov-otopleniya">Монтаж радиаторов отопления</a></li>
-                        <li><a href="https://akwagarant.ru/blog/vnutripolnyiy-konvektor">Монтаж внутрипольных конвекторов</a></li>
+                        <li><a href="/blog/montaj-teplogo-pola">Монтаж теплых полов</a></li>
+                        <li><a href="/blog/montaj-radiatorov-otopleniya">Монтаж радиаторов отопления</a></li>
+                        <li><a href="/blog/vnutripolnyiy-konvektor">Монтаж внутрипольных конвекторов</a></li>
                     </ul>
                 </div>
             </div>
@@ -33,9 +33,9 @@
                 <div class="service-content-block">
                     <span>Монтаж котельных</span>
                     <ul>
-                        <li><a href="https://akwagarant.ru/blog/montaj-kotlov">Монтаж котлов отопления</a></li>
-                        <li><a href="https://akwagarant.ru/blog/montaj-boylera">Монтаж бойлеров</a></li>
-                        <li><a href="https://akwagarant.ru/blog/pusko-naladka-kotelnoy">Пуско-наладочные работы</a></li>
+                        <li><a href="/blog/montaj-kotlov">Монтаж котлов отопления</a></li>
+                        <li><a href="/blog/montaj-boylera">Монтаж бойлеров</a></li>
+                        <li><a href="/blog/pusko-naladka-kotelnoy">Пуско-наладочные работы</a></li>
                     </ul>
                 </div>
             </div>
@@ -49,9 +49,9 @@
                 <div class="service-content-block">
                     <span>Монтаж септиков</span>
                     <ul>
-                        <li><a href="https://akwagarant.ru/blog/montaj-septikov">Монтаж автономных канализационных станций</a></li>
-                        <li><a href="https://akwagarant.ru/blog/pravilnyiy-montaj-kanalizatsii">Монтаж труб канализации</a></li>
-                        <li><a href="https://akwagarant.ru/blog/zemlyanyie-rabotyi">Земляные работы</a></li>
+                        <li><a href="/blog/montaj-septikov">Монтаж автономных канализационных станций</a></li>
+                        <li><a href="/blog/pravilnyiy-montaj-kanalizatsii">Монтаж труб канализации</a></li>
+                        <li><a href="/blog/zemlyanyie-rabotyi">Земляные работы</a></li>
                     </ul>
                 </div>
             </div>
@@ -67,9 +67,9 @@
                 <div class="service-content-block">
                     <span>Монтаж систем отопления</span>
                     <ul>
-                        <li><a href="https://akwagarant.ru/blog/prokladka-trub-otopleniya">Прокладка труб отопления</a></li>
-                        <li><a href="https://akwagarant.ru/blog/proektirovanie-sistemy-otoplenie">Проектирование систем отопления</a></li>
-                        <li><a href="https://akwagarant.ru/blog/montaj-polotentsesushitelya">Монтаж полотенцесушителей</a></li>
+                        <li><a href="/blog/prokladka-trub-otopleniya">Прокладка труб отопления</a></li>
+                        <li><a href="/blog/proektirovanie-sistemy-otoplenie">Проектирование систем отопления</a></li>
+                        <li><a href="/blog/montaj-polotentsesushitelya">Монтаж полотенцесушителей</a></li>
                     </ul>
                 </div>
             </div>
@@ -86,9 +86,9 @@
 
 
 
-                        <li><a href="https://akwagarant.ru/blog/umnoe-otoplenie">Монтаж автоматики</a></li>
-                        <li><a href="https://akwagarant.ru/blog/servisnoe-obslujivanie-sistemyi-otopleniya">Сервисное обслуживание</a></li>
-                        <li><a href="https://akwagarant.ru/blog/gsm-modul-dlya-otopleniya">Mонтаж GSM-модулей</a></li>
+                        <li><a href="/blog/umnoe-otoplenie">Монтаж автоматики</a></li>
+                        <li><a href="/blog/servisnoe-obslujivanie-sistemyi-otopleniya">Сервисное обслуживание</a></li>
+                        <li><a href="/blog/gsm-modul-dlya-otopleniya">Mонтаж GSM-модулей</a></li>
                     </ul>
                 </div>
             </div>
@@ -102,9 +102,9 @@
                 <div class="service-content-block">
                     <span>Сантехнические работы</span>
                     <ul>
-                        <li><a href="https://akwagarant.ru/blog/ustanovka-santehniki">Монтаж смесителей</a></li>
-                        <li><a href="https://akwagarant.ru/blog/ustanovka-santehniki">Монтаж раковин</a></li>
-                        <li><a href="https://akwagarant.ru/blog/ustanovka-santehniki">Монтаж унитазов</a></li>
+                        <li><a href="/blog/ustanovka-santehniki">Монтаж смесителей</a></li>
+                        <li><a href="/blog/ustanovka-santehniki">Монтаж раковин</a></li>
+                        <li><a href="/blog/ustanovka-santehniki">Монтаж унитазов</a></li>
                     </ul>
                 </div>
             </div>
@@ -203,7 +203,7 @@
           </div>
         </div>
         <div class="row" style="margin-top: 20px">
-            <a href="https://akwagarant.ru/video" style="margin: 0 auto">
+            <a href="/video" style="margin: 0 auto">
                 <button class="btn btn-outline-dark">
                 Смотреть другие видео
             </button>
@@ -498,7 +498,7 @@
             </div>
         </div>
         <div class="row" style="margin-top: 20px">
-            <a href="https://akwagarant.ru/price" style="margin: 0 auto">
+            <a href="/price" style="margin: 0 auto">
                 <button class="btn btn-outline-dark">
                     Полный прайс лист
                 </button>

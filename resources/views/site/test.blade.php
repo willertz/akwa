@@ -227,19 +227,19 @@
                         <ul class="item_info">
                             <!-- text -->
                             <li>
-                                <a href="https://akwagarant.ru/blog/montaj-teplogo-pola">Монтаж тёплых полов</a>
+                                <a href="/blog/montaj-teplogo-pola">Монтаж тёплых полов</a>
                             </li>
                             <li>
-                                <a href="https://akwagarant.ru/blog/montaj-radiatorov-otopleniya">Монтаж радиаторов отопления</a>
+                                <a href="/blog/montaj-radiatorov-otopleniya">Монтаж радиаторов отопления</a>
                             </li>
                             <li>
-                                <a href="https://akwagarant.ru/blog/vnutripolnyiy-konvektor">Монтаж внутрипольных конвекторов</a>
+                                <a href="/blog/vnutripolnyiy-konvektor">Монтаж внутрипольных конвекторов</a>
                             </li>
                             <li>
-                                <a  href="https://akwagarant.ru/blog/prokladka-trub-otopleniya">Прокладка труб отопления</a>
+                                <a  href="/blog/prokladka-trub-otopleniya">Прокладка труб отопления</a>
                             </li>
                             <li>
-                                <a href="https://akwagarant.ru/blog/montaj-polotentsesushitelya">Монтаж полотенцесушителей</a>
+                                <a href="/blog/montaj-polotentsesushitelya">Монтаж полотенцесушителей</a>
                             </li>
                         </ul>
                         <a class="more-service-btn" href="#">подробнее
@@ -292,9 +292,9 @@
 
                         <!-- Item info -->
                         <ul class="item_info">
-                            <li><a href="https://akwagarant.ru/blog/montaj-septikov">Монтаж автономных канализационных станций</a></li>
-                            <li><a href="https://akwagarant.ru/blog/pravilnyiy-montaj-kanalizatsii">Монтаж труб канализации</a></li>
-                            <li><a href="https://akwagarant.ru/blog/zemlyanyie-rabotyi">Земляные работы</a></li>
+                            <li><a href="/blog/montaj-septikov">Монтаж автономных канализационных станций</a></li>
+                            <li><a href="/blog/pravilnyiy-montaj-kanalizatsii">Монтаж труб канализации</a></li>
+                            <li><a href="/blog/zemlyanyie-rabotyi">Земляные работы</a></li>
                         </ul>
                         <a href="#">подробнее
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -315,9 +315,9 @@
                         <p>Предпродажная <br> планировка</p>
                         <!-- Item info -->
                         <ul class="item_info">
-                            <li><a href="https://akwagarant.ru/blog/montaj-kotlov">Монтаж котлов отопления</a></li>
-                            <li><a href="https://akwagarant.ru/blog/montaj-boylera">Монтаж бойлеров</a></li>
-                            <li><a href="https://akwagarant.ru/blog/pusko-naladka-kotelnoy">Пуско-наладочные работы</a></li>
+                            <li><a href="/blog/montaj-kotlov">Монтаж котлов отопления</a></li>
+                            <li><a href="/blog/montaj-boylera">Монтаж бойлеров</a></li>
+                            <li><a href="/blog/pusko-naladka-kotelnoy">Пуско-наладочные работы</a></li>
                         </ul>
                         <a href="#">подробнее
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -338,9 +338,9 @@
                         <p>Производственные<br> компании</p>
                         <!-- Item info -->
                         <ul class="item_info">
-                            <li><a href="https://akwagarant.ru/blog/ustanovka-santehniki">Монтаж смесителей</a></li>
-                            <li><a href="https://akwagarant.ru/blog/ustanovka-santehniki">Монтаж раковин</a></li>
-                            <li><a href="https://akwagarant.ru/blog/ustanovka-santehniki">Монтаж унитазов</a></li>
+                            <li><a href="/blog/ustanovka-santehniki">Монтаж смесителей</a></li>
+                            <li><a href="/blog/ustanovka-santehniki">Монтаж раковин</a></li>
+                            <li><a href="/blog/ustanovka-santehniki">Монтаж унитазов</a></li>
                         </ul>
                         <a href="#">подробнее
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
