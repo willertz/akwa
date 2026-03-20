@@ -31,9 +31,8 @@ class AdminTest extends TestCase
 
     public function test_unauthenticated_user_cannot_access_api_management(): void
     {
-        $testResponse = $this->postJson('/api', ['apiMethod' => 'addNewArt']);
-        // Так как роут /api не защищен middleware auth в web.php,
-        // он возвращает 422 из-за неправильного типа Request, а не 401.
+        $testResponse = $this->postJson('/api/articles/new', []);
+        // Поскольку валидация теперь в FormRequest, пустой запрос вернет 422
         $testResponse->assertStatus(422);
     }
 
@@ -43,15 +42,13 @@ class AdminTest extends TestCase
         $this->actingAs($user);
 
         $articleData = [
-            'apiMethod' => 'addNewArt',
             'name' => 'New Test Article Name',
             'title' => 'New Test Article Title',
             'description' => 'Test description',
             'content' => 'This is test content for article',
-            'url' => 'new-test-article',
         ];
 
-        $testResponse = $this->postJson('/api', $articleData);
+        $testResponse = $this->postJson('/api/articles/new', $articleData);
 
         $testResponse->assertStatus(200);
         $this->assertDatabaseHas('articles', [
@@ -66,7 +63,6 @@ class AdminTest extends TestCase
         $this->actingAs($user);
 
         $objectData = [
-            'apiMethod' => 'newObject',
             'name' => 'New Test Object',
             'title' => 'Object Title',
             'description' => 'Object Description',
@@ -75,7 +71,7 @@ class AdminTest extends TestCase
             'slider' => [],
         ];
 
-        $testResponse = $this->postJson('/api', $objectData);
+        $testResponse = $this->postJson('/api/objects/new', $objectData);
 
         $testResponse->assertStatus(200);
         $this->assertDatabaseHas('a_objects', [

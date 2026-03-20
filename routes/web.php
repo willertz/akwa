@@ -38,7 +38,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/', 'PageController@showIndexPage')->name('showIndexPage');
     Route::get('/test', 'PageController@showIndexTestPage')->name('showIndexTestPage');
     Route::get('/objects', 'PageController@showObjectsListPage')->name('showObjectsListPage');
-    Route::get('/object/{id}', 'PageController@showObjectPage')->name('showObjectPage');
+    Route::get('/object/{object}', 'PageController@showObjectPage')->name('showObjectPage');
     Route::get('/blog', 'PageController@showArticlesListPage')->name('showArticlesListPage');
     Route::get('/blog/{article}', 'PageController@showArticlePage')->name('showArticlePage');
     Route::get('/price', 'PageController@showPricePage')->name('showPricePage');
@@ -52,6 +52,42 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     /**
      * Роуты для API
      */
-    Route::any('/api', 'ApiController@index')->name('apiRoute');
-    Route::post('/api/send-cart', 'CartController@sendCart')->name('api.send-cart');
+    Route::group(['prefix' => 'api'], function () {
+        Route::post('/send-mail', 'ApiController@sendMessage');
+        Route::post('/send-cart', 'CartController@sendCart');
+
+        Route::prefix('items')->group(function () {
+            Route::get('/', 'ItemController@loadAllItems');
+            Route::get('/{id}', 'ItemController@getItemById');
+            Route::post('/save', 'ItemController@saveItem');
+            Route::post('/new', 'ItemController@addNewItem');
+            Route::delete('/{id}', 'ItemController@deleteItem');
+        });
+
+        Route::prefix('categories')->group(function () {
+            Route::get('/', 'ShopCategoryController@getAllCategory');
+            Route::get('/{id}', 'ShopCategoryController@loadSingleCat');
+            Route::post('/new', 'ShopCategoryController@addNewCat');
+            Route::post('/update', 'ShopCategoryController@updateCat');
+            Route::delete('/{id}', 'ShopCategoryController@deleteCategory');
+        });
+
+        Route::prefix('articles')->group(function () {
+            Route::get('/', 'ArticleController@loadArticlesForApi');
+            Route::get('/{id}', 'ArticleController@loadSingleArt');
+            Route::post('/new', 'ArticleController@saveNewArt');
+            Route::post('/update', 'ArticleController@updateArticle');
+            Route::delete('/{id}', 'ArticleController@deleteArt');
+        });
+
+        Route::prefix('objects')->group(function () {
+            Route::get('/', 'AObjectController@getAllObjects');
+            Route::get('/{id}', 'AObjectController@loadSingleObj');
+            Route::post('/new', 'AObjectController@addNewObject');
+            Route::post('/update', 'AObjectController@updateObj');
+            Route::delete('/{id}', 'AObjectController@deleteObj');
+        });
+
+        Route::get('/notices', 'NoticeController@getNotice');
+    });
 });

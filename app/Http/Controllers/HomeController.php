@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 class HomeController extends Controller
 {
@@ -18,10 +19,8 @@ class HomeController extends Controller
 
     /**
      * Show the application dashboard.
-     *
-     * @return Renderable
      */
-    public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function index(): Factory|View
     {
         return view('layouts.admin');
     }

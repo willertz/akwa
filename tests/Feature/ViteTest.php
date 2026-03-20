@@ -15,9 +15,9 @@ class ViteTest extends TestCase
     public function test_admin_page_uses_vite(): void
     {
         // Проверяем страницу логина, так как она доступна гостям
-        $response = $this->get('/login');
-        $response->assertStatus(200);
-        $response->assertSee('resources/js/app.js');
+        $testResponse = $this->get('/login');
+        $testResponse->assertStatus(200);
+        $testResponse->assertSee('resources/js/app.js');
     }
 
     /**
@@ -25,8 +25,8 @@ class ViteTest extends TestCase
      */
     public function test_home_page_uses_vite(): void
     {
-        $response = $this->get('/');
-        $response->assertStatus(200);
-        $response->assertSee('resources/sass/app.scss');
+        $testResponse = $this->get('/');
+        $testResponse->assertStatus(200);
+        $testResponse->assertSee('resources/sass/app.scss');
     }
 }

@@ -6,22 +6,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AObjectRequest;
 use App\Models\AObject;
+use App\Services\SliderService;
+use App\UseCases\AObject\CreateAObjectAction;
+use App\UseCases\AObject\UpdateAObjectAction;
+use Illuminate\Http\JsonResponse;
 
 class AObjectController extends Controller
 {
+    public function __construct(
+        private readonly SliderService $sliderService,
+        private readonly CreateAObjectAction $createAObjectAction,
+        private readonly UpdateAObjectAction $updateAObjectAction
+    ) {}
+
     public function getAllObjects()
     {
         return AObject::orderBy('id', 'desc')->get();
-    }
-
-    public function getObject($id)
-    {
-        $object = AObject::find($id);
-        if ($object) {
-            return $object;
-        }
-
-        abort(404);
     }
 
     public function get4Object()
@@ -44,36 +44,45 @@ class AObjectController extends Controller
             ->get();
     }
 
-    public function deleteObj($id)
+    public function deleteObj($id): JsonResponse
     {
-        return AObject::where('id', '=', $id)->delete();
+        $deleted = AObject::where('id', '=', $id)->delete();
+
+        return response()->json(['success' => (bool) $deleted]);
     }
 
-    public function updateObj(AObjectRequest $aObjectRequest, $hash): void
+    public function updateObj(AObjectRequest $aObjectRequest): JsonResponse
     {
-        $object = AObject::find($aObjectRequest->validated('id'));
-        $object->name = $aObjectRequest->validated('name') ?? '';
-        $object->title = $aObjectRequest->validated('title') ?? '';
-        $object->preview_pict = $aObjectRequest->validated('preview_pict') ?? '';
-        $object->description = $aObjectRequest->validated('description') ?? '';
-        $object->slider_hash = $hash ?? '';
-        $object->content = $aObjectRequest->validated('content') ?? '';
-        $object->save();
+        $this->updateAObjectAction->execute(
+            (int) $aObjectRequest->validated('id'),
+            $aObjectRequest->validated()
+        );
+
+        return response()->json(['status' => 'success']);
     }
 
-    public function addNewObject(AObjectRequest $aObjectRequest, $hash): void
+    public function addNewObject(AObjectRequest $aObjectRequest): JsonResponse
     {
+        $this->createAObjectAction->execute($aObjectRequest->validated());
 
-        $aObject = new AObject;
-        $aObject->name = $aObjectRequest->validated('name');
-        $aObject->title = $aObjectRequest->validated('title') ?? '';
-        $aObject->preview_pict = $aObjectRequest->validated('preview_pict') ?? '';
-        $aObject->description = $aObjectRequest->validated('description') ?? '';
-        $aObject->slider_hash = $hash;
-        $aObject->content = $aObjectRequest->validated('content');
+        return response()->json(['status' => 'success']);
+    }
 
-        $aObject->save();
-        echo 'success';
+    public function loadSingleObj($id): JsonResponse
+    {
+        $object = $this->getObject($id);
+        $slider = $this->sliderService->getSliderUrlsByHash((string) $object->slider_hash);
 
+        return response()->json(['obj' => $object, 'slider' => $slider]);
+    }
+
+    public function getObject($id)
+    {
+        $object = AObject::find($id);
+        if ($object) {
+            return $object;
+        }
+
+        abort(404);
     }
 }

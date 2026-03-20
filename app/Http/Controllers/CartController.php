@@ -5,20 +5,22 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CartRequest;
+use App\Services\NotificationService;
+use Illuminate\Http\JsonResponse;
 
 class CartController extends Controller
 {
-    public function sendCart(CartRequest $cartRequest): void
-    {
-        $name = $cartRequest->validated('name');
-        $phone = $cartRequest->validated('phone');
-        $mail = $cartRequest->validated('mail');
-        $items = $cartRequest->validated('items');
-        $order = '';
-        foreach ($items as $item) {
-            $order .= '<a href="'.url('/goods/'.$item['id'].'/').'">'.$item['name'].'</a><br>';
-        }
-        MessageController::sendOrder($name, $phone, $mail, $order);
+    public function __construct(private readonly NotificationService $notificationService) {}
 
+    public function sendCart(CartRequest $cartRequest): JsonResponse
+    {
+        $this->notificationService->sendOrderNotification(
+            $cartRequest->validated('name'),
+            $cartRequest->validated('phone'),
+            $cartRequest->validated('mail'),
+            $cartRequest->validated('items')
+        );
+
+        return response()->json(['status' => 'success']);
     }
 }

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
+
 class NoticeController extends Controller
 {
-    public function getNotice()
+    public function getNotice(): JsonResponse
     {
-        $notice = null;
+        $notice = [];
         $notice[] = [
             'text' => 'После устранения бага с неправильным выводом товаров в категориях, теперь при добавлении товара необходимо вводить URL полностью.
                     Например: /catalog/napolnye-kotly-otopleniya/protherm-2/prinadlezhnosti-k-napolnym-kotlam/komnatnye_termoregulyatory',
@@ -18,6 +20,6 @@ class NoticeController extends Controller
                         Чем выше это число, тем выше товар будет в списке',
         ];
 
-        return json_encode($notice);
+        return response()->json($notice);
     }
 }

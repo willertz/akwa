@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -25,7 +26,7 @@ class Article extends Model
             ->saveSlugsTo('slug');
     }
 
-    #[\Override]
+    #[Override]
     public function getRouteKeyName(): string
     {
         return 'slug';

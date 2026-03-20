@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\UploadRequest;
+use Illuminate\Http\JsonResponse;
 
 class UploadController extends Controller
 {
-    public function upload(Request $request)
+    public function upload(UploadRequest $uploadRequest): JsonResponse
     {
-        $path = url('/').'/'.$request->file('file')->store('uploads', 'public_uploads');
+        $path = url('/').'/'.$uploadRequest->file('file')->store('uploads', 'public_uploads');
 
-        return json_encode(['location' => $path]);
+        return response()->json(['location' => $path]);
     }
 }

@@ -6,9 +6,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ShopCategoryRequest;
 use App\Models\ShopCategory;
+use App\UseCases\ShopCategory\SaveShopCategoryAction;
+use Illuminate\Http\JsonResponse;
 
 class ShopCategoryController extends Controller
 {
+    public function __construct(
+        private readonly SaveShopCategoryAction $saveShopCategoryAction
+    ) {}
+
     public function getRootCategory()
     {
         return ShopCategory::where('parent_id', '=', '-1')->get();
@@ -105,7 +111,7 @@ class ShopCategoryController extends Controller
         return '/catalog/'.implode('/', array_reverse($chains));
     }
 
-    public function getAllCategory(): void
+    public function getAllCategory(): JsonResponse
     {
         $categories = ShopCategory::all();
         $res = [];
@@ -123,7 +129,7 @@ class ShopCategoryController extends Controller
 
         }
 
-        echo json_encode($res);
+        return response()->json($res);
     }
 
     public function getCategoryLevelById($id)
@@ -131,46 +137,37 @@ class ShopCategoryController extends Controller
         return ShopCategory::where('id', '=', $id)->first();
     }
 
-    public function addNewCat(ShopCategoryRequest $shopCategoryRequest): void
+    public function addNewCat(ShopCategoryRequest $shopCategoryRequest): JsonResponse
     {
-        $shopCategory = new ShopCategory;
+        $shopCategory = $this->saveShopCategoryAction->execute($shopCategoryRequest->validated());
 
-        $name = $shopCategoryRequest->validated('name');
-        $title = $shopCategoryRequest->validated('title') ?: $shopCategoryRequest->validated('name');
-        $preview = $shopCategoryRequest->validated('preview');
-        $description = $shopCategoryRequest->validated('description');
-        $priority = $shopCategoryRequest->validated('priority', 0);
-        $parent_id = $shopCategoryRequest->validated('parent_id');
-        $depth_level = ($this->getCategoryLevelById($shopCategoryRequest->validated('papent_id') ?? $parent_id)->depth_level ?? 0) + 1;
-
-        $shopCategory->name = $name;
-        $shopCategory->title = $title;
-        $shopCategory->preview = $preview;
-        $shopCategory->description = $description;
-        $shopCategory->priority = $priority;
-        $shopCategory->parent_id = $parent_id;
-        $shopCategory->depth_level = $depth_level;
-
-        echo $shopCategory->save();
+        return response()->json($shopCategory->exists);
     }
 
-    public function updateCat(ShopCategoryRequest $shopCategoryRequest): void
+    public function updateCat(ShopCategoryRequest $shopCategoryRequest): JsonResponse
     {
-        $category = ShopCategory::find($shopCategoryRequest->validated('id'));
-        $category->name = $shopCategoryRequest->validated('name');
-        $category->preview = $shopCategoryRequest->validated('preview');
-        $category->title = $shopCategoryRequest->validated('title');
-        $category->description = $shopCategoryRequest->validated('description');
-        echo $category->save();
+        $shopCategory = $this->saveShopCategoryAction->execute($shopCategoryRequest->validated());
+
+        return response()->json($shopCategory->exists);
     }
 
-    public function deleteCategory($id): void
+    public function deleteCategory($id): JsonResponse
     {
-        echo ShopCategory::find($id)->delete();
+        $category = ShopCategory::find($id);
+        if (! $category) {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+
+        return response()->json($category->delete());
     }
 
-    public function loadSingleCat($id): void
+    public function loadSingleCat($id): JsonResponse
     {
-        echo ShopCategory::where('id','=',$id)->first();
+        $category = ShopCategory::where('id', '=', $id)->first();
+        if (! $category) {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+
+        return response()->json($category);
     }
 }

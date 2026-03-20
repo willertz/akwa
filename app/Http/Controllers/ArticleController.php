@@ -6,49 +6,48 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
+use App\UseCases\Article\SaveArticleAction;
+use Illuminate\Http\JsonResponse;
 
 class ArticleController extends Controller
 {
+    public function __construct(
+        private readonly SaveArticleAction $saveArticleAction
+    ) {}
+
     public function getAllArticles()
     {
         return Article::where('id', '>', 0)->orderBy('id', 'desc')->get();
     }
 
-    public function loadArticlesForApi(): void
+    public function loadArticlesForApi(): JsonResponse
     {
-        echo Article::all();
+        return response()->json(Article::all());
     }
 
-    public function saveNewArt(ArticleRequest $articleRequest): void
+    public function saveNewArt(ArticleRequest $articleRequest): JsonResponse
     {
-        $article = new Article;
-        $article->name = $articleRequest->validated('name');
-        $article->title = $articleRequest->validated('title');
-        $article->description = $articleRequest->validated('description');
-        $article->content = $articleRequest->validated('content');
-        $article->save();
-        echo 'success';
+        $this->saveArticleAction->execute($articleRequest->validated());
+
+        return response()->json(['status' => 'success']);
     }
 
-    public function deleteArt($id): void
+    public function deleteArt($id): JsonResponse
     {
         Article::where('id', '=', $id)->delete();
-        echo 'success';
+
+        return response()->json(['status' => 'success']);
     }
 
-    public function loadSingleArt($id): void
+    public function loadSingleArt($id): JsonResponse
     {
-        echo Article::where('id', '=', $id)->get();
+        return response()->json(Article::where('id', '=', $id)->get());
     }
 
-    public function updateArticle(ArticleRequest $articleRequest): void
+    public function updateArticle(ArticleRequest $articleRequest): JsonResponse
     {
-        $article = Article::find($articleRequest->validated('id'));
-        $article->name = $articleRequest->validated('name');
-        $article->title = $articleRequest->validated('title');
-        $article->description = $articleRequest->validated('description');
-        $article->content = $articleRequest->validated('content');
-        $article->save();
-        echo 'success';
+        $this->saveArticleAction->execute($articleRequest->validated());
+
+        return response()->json(['status' => 'success']);
     }
 }

@@ -47,6 +47,6 @@ class CartTest extends TestCase
 
         $testResponse->assertStatus(200);
 
-        Mail::assertSent(\App\Mail\OrderMail::class, static fn(\App\Mail\OrderMail $mail): bool => $mail->hasTo('timofeev@akwagarant.ru'));
+        Mail::assertSent(\App\Mail\OrderMail::class, static fn(\App\Mail\OrderMail $orderMail): bool => $orderMail->hasTo('timofeev@akwagarant.ru'));
     }
 }

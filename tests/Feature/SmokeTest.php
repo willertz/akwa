@@ -46,9 +46,9 @@ class SmokeTest extends TestCase
     }
 
     /** @test */
-    public function test_api_endpoint_is_accessible(): void
+    public function test_api_articles_endpoint_is_accessible(): void
     {
-        $testResponse = $this->get('/api');
+        $testResponse = $this->get('/api/articles');
         $testResponse->assertStatus(200);
     }
 }
