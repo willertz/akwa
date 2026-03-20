@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
@@ -21,6 +23,7 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
+    #[\Override]
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')
@@ -32,6 +35,7 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
+    #[\Override]
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');

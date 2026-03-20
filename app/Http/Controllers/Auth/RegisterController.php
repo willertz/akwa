@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -32,8 +34,6 @@ class RegisterController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -54,12 +54,12 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function register(Request $request)
+    public function register(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
     {
         return redirect('/');
     }
 
-    public function showRegistrationForm()
+    public function showRegistrationForm(): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
     {
         return redirect('/');
     }

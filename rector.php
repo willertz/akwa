@@ -9,7 +9,7 @@ use RectorLaravel\Set\LaravelSetList;
 return RectorConfig::configure()
     ->withPaths([
         __DIR__.'/app',
-        // __DIR__ . '/tests',
+        __DIR__.'/tests',
     ])
     ->withSets([
         SetList::PHP_85,

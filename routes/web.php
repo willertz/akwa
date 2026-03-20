@@ -53,4 +53,5 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
      * Роуты для API
      */
     Route::any('/api', 'ApiController@index')->name('apiRoute');
+    Route::post('/api/send-cart', 'CartController@sendCart')->name('api.send-cart');
 });

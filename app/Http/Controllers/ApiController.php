@@ -1,24 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse|null
     {
-        if (! empty($request->input('apiMethod'))) {
-            $method = $request->input('apiMethod');
-        } else {
-            $method = null;
-        }
+        $method = empty($request->input('apiMethod')) ? null : $request->input('apiMethod');
         switch ($method) {
             case 'sendMail':
                 $this->sendMessage($request);
 
                 return redirect('/');
-                break;
             case 'sendCart':
                 $this->sendCart($request);
                 break;
@@ -47,7 +44,7 @@ class ApiController extends Controller
                 $this->updateCategory($request);
                 break;
             case 'saveNewItem':
-                $this->saveNewItem($request);
+                $this->saveNewItem(app(\App\Http\Requests\ItemRequest::class));
                 break;
             case 'loadAllArticle':
                 $this->loadAllArticle();
@@ -59,7 +56,7 @@ class ApiController extends Controller
                 $this->loadNotice();
                 break;
             case 'addNewArt':
-                $this->addNewArticle($request);
+                $this->addNewArticle(app(\App\Http\Requests\ArticleRequest::class));
                 break;
             case 'deleteArt':
                 $this->deleteArt($request->input('id'));
@@ -71,7 +68,7 @@ class ApiController extends Controller
                 $this->loadSingleArt($request->input('id'));
                 break;
             case 'updateArticle':
-                $this->updateArticle($request);
+                $this->updateArticle(app(\App\Http\Requests\ArticleRequest::class));
                 break;
             case 'apiLoadAllItems':
                 $this->apiLoadAllItems();
@@ -80,33 +77,34 @@ class ApiController extends Controller
                 $this->loadSingleObj($request->input('id'));
                 break;
             case 'updateObject':
-                $this->updateObject($request);
+                $this->updateObject(app(\App\Http\Requests\AObjectRequest::class));
                 break;
             case 'newObject':
-                $this->newObject($request);
+                $this->newObject(app(\App\Http\Requests\AObjectRequest::class));
                 break;
         }
+        return null;
 
     }
 
-    public function updateObject($request)
+    public function updateObject(\App\Http\Requests\AObjectRequest $aObjectRequest): void
     {
         /** Получаем hash */
-        $hash = md5(time());
-        $slider = new SliderController;
-        $slider->addSliderByHash($request->input('slider'), $hash);
-        $objectC = new AObjectController;
-        $objectC->updateObj($request, $hash);
+        $hash = md5((string) time());
+        $sliderController = new SliderController;
+        $sliderController->addSliderByHash($aObjectRequest->input('slider'), $hash);
+        $aObjectController = new AObjectController;
+        $aObjectController->updateObj($aObjectRequest, $hash);
     }
 
-    public function newObject($request)
+    public function newObject(\App\Http\Requests\AObjectRequest $aObjectRequest): void
     {
         /** Получаем hash */
-        $hash = md5(time());
-        $slider = new SliderController;
-        $slider->addSliderByHash($request->input('slider'), $hash);
-        $objectC = new AObjectController;
-        $objectC->addNewObject($request, $hash);
+        $hash = md5((string) time());
+        $sliderController = new SliderController;
+        $sliderController->addSliderByHash($aObjectRequest->input('slider'), $hash);
+        $aObjectController = new AObjectController;
+        $aObjectController->addNewObject($aObjectRequest, $hash);
     }
 
     public function loadSingleObj($id): void
@@ -118,96 +116,96 @@ class ApiController extends Controller
         echo json_encode(['obj' => $object, 'slider' => $slider]);
     }
 
-    public function apiLoadAllItems()
+    public function apiLoadAllItems(): void
     {
-        $items = new ItemController;
-        echo $items->loadAllItems();
+        $itemController = new ItemController;
+        echo $itemController->loadAllItems();
     }
 
-    public function updateArticle($request)
+    public function updateArticle(\App\Http\Requests\ArticleRequest $articleRequest): void
     {
-        $article = new ArticleController;
-        $article->updateArticle($request);
+        $articleController = new ArticleController;
+        $articleController->updateArticle($articleRequest);
     }
 
-    public function loadSingleArt($id)
+    public function loadSingleArt($id): void
     {
         $articleController = new ArticleController;
         $articleController->loadSingleArt($id);
     }
 
-    public function deleteArt($id)
-    {
-        $article = new ArticleController;
-        $article->deleteArt($id);
-    }
-
-    public function deleteObj($id)
-    {
-        $article = new AObjectController;
-        $article->deleteObj($id);
-    }
-
-    public function addNewArticle($request)
+    public function deleteArt($id): void
     {
         $articleController = new ArticleController;
-        $articleController->saveNewArt($request);
+        $articleController->deleteArt($id);
     }
 
-    public function loadNotice()
+    public function deleteObj($id): void
     {
-        $notice = new NoticeController;
-        echo $notice->getNotice();
+        $aObjectController = new AObjectController;
+        $aObjectController->deleteObj($id);
     }
 
-    public function loadAllArticle()
+    public function addNewArticle(\App\Http\Requests\ArticleRequest $articleRequest): void
+    {
+        $articleController = new ArticleController;
+        $articleController->saveNewArt($articleRequest);
+    }
+
+    public function loadNotice(): void
+    {
+        $noticeController = new NoticeController;
+        echo $noticeController->getNotice();
+    }
+
+    public function loadAllArticle(): void
     {
         $articleController = new ArticleController;
         $articleController->loadArticlesForApi();
     }
 
-    public function loadAllObjects()
+    public function loadAllObjects(): void
     {
-        $articleController = new AObjectController;
-        echo $articleController->getAllObjects();
+        $aObjectController = new AObjectController;
+        echo $aObjectController->getAllObjects();
     }
 
-    public function saveNewItem($request)
+    public function saveNewItem(\App\Http\Requests\ItemRequest $itemRequest): void
     {
         $itemController = new ItemController;
-        $itemController->addNewItem($request);
+        $itemController->addNewItem($itemRequest);
     }
 
-    public function updateCategory($request)
+    public function updateCategory(\App\Http\Requests\ShopCategoryRequest $shopCategoryRequest): void
     {
-        $categoryController = new ShopCategoryController;
-        $categoryController->updateCat($request);
+        $shopCategoryController = new ShopCategoryController;
+        $shopCategoryController->updateCat($shopCategoryRequest);
     }
 
-    public function deleteCategory(Request $request)
+    public function deleteCategory(Request $request): void
     {
-        $categoryController = new ShopCategoryController;
-        $categoryController->deleteCategory($request->id);
+        $shopCategoryController = new ShopCategoryController;
+        $shopCategoryController->deleteCategory($request->id);
 
     }
 
-    public function addNewCat(Request $request)
+    public function addNewCat(Request $request): void
     {
-        $categoryController = new ShopCategoryController;
-        $categoryController->addNewCat($request);
+        $shopCategoryController = new ShopCategoryController;
+        $shopCategoryController->addNewCat($request);
     }
 
-    public function loadCat()
+    public function loadCat(): void
     {
-        $categoryController = new ShopCategoryController;
-        $categoryController->getAllCategory();
+        $shopCategoryController = new ShopCategoryController;
+        $shopCategoryController->getAllCategory();
     }
 
-    public function sendMessage(Request $request)
+    public function sendMessage(Request $request): bool
     {
-        $name = $request->name ?: 'Не указано';
-        $phone = $request->phone ?: 'Не указано';
-        $mail = $request->mail ?: 'Не указано';
+        $name = (string) ($request->name ?: 'Не указано');
+        $phone = (string) ($request->phone ?: 'Не указано');
+        $mail = (string) ($request->mail ?: 'Не указано');
         MessageController::sendMessage($name, $phone, $mail);
 
         return true;
@@ -220,29 +218,29 @@ class ApiController extends Controller
         $cartController->sendCart($request);
     }
 
-    public function loadItem(Request $request)
+    public function loadItem(Request $request): void
     {
         $itemController = new ItemController;
         $itemController->getItemById($request->id);
     }
 
-    public function saveItem(Request $request)
+    public function saveItem(Request $request): void
     {
 
         $itemController = new ItemController;
         $itemController->saveItem($request);
     }
 
-    public function deleteItem(Request $request)
+    public function deleteItem(Request $request): void
     {
         $id = $request->id;
         $itemController = new ItemController;
         $itemController->deleteItem($id);
     }
 
-    public function loadSingleCat(Request $request)
+    public function loadSingleCat(Request $request): void
     {
-        $categoryController = new ShopCategoryController;
-        $categoryController->loadSingleCat($request->id);
+        $shopCategoryController = new ShopCategoryController;
+        $shopCategoryController->loadSingleCat($request->id);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AObjectRequest;
@@ -24,7 +26,7 @@ class AObjectController extends Controller
 
     public function get4Object()
     {
-        return AObject::where(static function ($query) {
+        return AObject::where(static function ($query): void {
             // Основной запрос для получения 4 последних записей
             $query->whereNotIn('id', [100, 98])
                 ->orderBy('id', 'desc')
@@ -47,30 +49,31 @@ class AObjectController extends Controller
         return AObject::where('id', '=', $id)->delete();
     }
 
-    public function updateObj(AObjectRequest $request, $hash): void
+    public function updateObj(AObjectRequest $aObjectRequest, $hash): void
     {
-        $object = AObject::find($request->validated('id'));
-        $object->name = $request->validated('name') ?? '';
-        $object->title = $request->validated('title') ?? '';
-        $object->preview_pict = $request->validated('preview_pict') ?? '';
-        $object->description = $request->validated('description') ?? '';
+        $object = AObject::find($aObjectRequest->validated('id'));
+        $object->name = $aObjectRequest->validated('name') ?? '';
+        $object->title = $aObjectRequest->validated('title') ?? '';
+        $object->preview_pict = $aObjectRequest->validated('preview_pict') ?? '';
+        $object->description = $aObjectRequest->validated('description') ?? '';
         $object->slider_hash = $hash ?? '';
-        $object->content = $request->validated('content') ?? '';
+        $object->content = $aObjectRequest->validated('content') ?? '';
         $object->save();
     }
 
-    public function addNewObject(AObjectRequest $request, $hash): void
+    public function addNewObject(AObjectRequest $aObjectRequest, $hash): void
     {
 
-        $object = new AObject;
-        $object->name = $request->validated('name');
-        $object->title = '';
-        $object->preview_pict = $request->validated('preview_pict');
-        $object->description = '';
-        $object->slider_hash = $hash;
-        $object->content = $request->validated('content');
+        $aObject = new AObject;
+        $aObject->name = $aObjectRequest->validated('name');
+        $aObject->title = $aObjectRequest->validated('title') ?? '';
+        $aObject->preview_pict = $aObjectRequest->validated('preview_pict') ?? '';
+        $aObject->description = $aObjectRequest->validated('description') ?? '';
+        $aObject->slider_hash = $hash;
+        $aObject->content = $aObjectRequest->validated('content');
 
-        $object->save();
+        $aObject->save();
+        echo 'success';
 
     }
 }

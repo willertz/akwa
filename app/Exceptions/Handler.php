@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Exceptions;
 
 use Exception;
@@ -32,11 +34,11 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @return void
      *
      * @throws Exception
      */
-    public function report(Throwable $exception)
+    #[\Override]
+    public function report(Throwable $exception): void
     {
         parent::report($exception);
     }
@@ -49,6 +51,7 @@ class Handler extends ExceptionHandler
      *
      * @throws Throwable
      */
+    #[\Override]
     public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);

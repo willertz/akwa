@@ -1,25 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
+use App\Mail\OrderMail;
 use Illuminate\Support\Facades\Mail;
 
 class MessageController extends Controller
 {
-    public static function sendMessage($name, $phone, $mail): void
+    public static function sendMessage(string $name, string $phone, string $mail): void
     {
         $data = [
             'phone' => $phone,
             'name' => $name,
             'mail' => $mail,
         ];
-        Mail::send(['html' => 'mail'], $data, static function ($message) {
-            $message->to('timofeev@akwagarant.ru', 'Аквагарант')->subject('Новая заявка на сайте Аквагарант!');
-            $message->from('admin@vipseptic.ru', 'Support Akwagarant');
-        });
+        Mail::to('timofeev@akwagarant.ru')->send(new \App\Mail\OrderMail($data));
     }
 
-    public static function sendOrder($name, $phone, $mail, $order)
+    public static function sendOrder(string $name, string $phone, string $mail, string $order): void
     {
         $data = [
             'phone' => $phone,
@@ -27,9 +27,6 @@ class MessageController extends Controller
             'mail' => $mail,
             'order' => $order,
         ];
-        Mail::send(['html' => 'order'], $data, static function ($message) {
-            $message->to('timofeev@akwagarant.ru', 'Аквагарант')->subject('Новый заказ на сайте Аквагарант!');
-            $message->from('rsitnikov75@gmail.com', 'Support Akwagarant');
-        });
+        Mail::to('timofeev@akwagarant.ru')->send(new OrderMail($data));
     }
 }

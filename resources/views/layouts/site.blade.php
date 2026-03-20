@@ -168,8 +168,8 @@
         .table-striped tbody tr:nth-of-type(odd) {
             font-size: 18px;
         }
-        
-        
+
+
         #buderus {
             position: relative;
             padding-top: 35px;
@@ -201,7 +201,7 @@ left: 30px;">
         </a>
 </div>
 <?php
-        if (!preg_match("~cart~",$_SERVER['REQUEST_URI'])):
+        if (!preg_match("~cart~",request()->getRequestUri())):
 ?>
 <a href="/cart"  class="cart-link-wrapper" style="display: none">
 <div class="cart-link-box">
@@ -227,7 +227,7 @@ left: 30px;">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item
                 <?php
-                if ($_SERVER['REQUEST_URI'] == '/'):
+                if (request()->getRequestUri() == '/'):
                 ?>
                     active
                     <?php
@@ -238,7 +238,7 @@ left: 30px;">
                 </li>
                 <li class="nav-item
                 <?php
-                if ($_SERVER['REQUEST_URI'] == '/objects'):
+                if (request()->getRequestUri() == '/objects'):
                 ?>
                     active
                     <?php
@@ -248,7 +248,7 @@ left: 30px;">
                 </li>
                 <li class="nav-item
                 <?php
-                if ($_SERVER['REQUEST_URI'] == '/blog'):
+                if (request()->getRequestUri() == '/blog'):
                 ?>
                     active
                     <?php
@@ -259,7 +259,7 @@ left: 30px;">
                 </li>
                 <li class="nav-item
                 <?php
-                if ($_SERVER['REQUEST_URI'] == '/price'):
+                if (request()->getRequestUri() == '/price'):
                 ?>
                     active
                     <?php
@@ -274,7 +274,7 @@ left: 30px;">
                 -->
                 <li class="nav-item
                 <?php
-                if ($_SERVER['REQUEST_URI'] == '/contacts'):
+                if (request()->getRequestUri() == '/contacts'):
                 ?>
                     active
                     <?php
@@ -285,7 +285,7 @@ left: 30px;">
 
                 <li class="nav-item
                 <?php
-                if ($_SERVER['REQUEST_URI'] == '/internet-magazin'):
+                if (request()->getRequestUri() == '/internet-magazin'):
                 ?>
                         active
 <?php
@@ -297,14 +297,14 @@ left: 30px;">
             <form class="form-inline my-2 my-lg-0">
                 <span>г. Воронеж &nbsp;&nbsp;&nbsp;</span>
       <span class="number">
-          <a href="tel:+79036516410">+7 903 651 64 10</ a>
+          <a href="tel:+79036516410">+7 903 651 64 10</a>
       </span>
             </form>
         </div>
     </nav>
     <div
             <?php
-                    if (preg_match('~^/$~',$_SERVER['REQUEST_URI'])):
+                    if (preg_match('~^/$~',request()->getRequestUri())):
             ?>
              id="landing-header"
             <?php
@@ -330,7 +330,7 @@ left: 30px;">
 @yield('content')
 
 <?php
-        if (!preg_match("~contacts~",$_SERVER['REQUEST_URI'])):
+        if (!preg_match("~contacts~",request()->getRequestUri())):
 ?>
 <div id="footer">
     <div class="container-fluid">

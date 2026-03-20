@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Article;
@@ -9,7 +11,7 @@ use Illuminate\Http\Request;
 class PageController extends Controller
 {
     /** Метод для отображения главной страницы */
-    public function showIndexPage()
+    public function showIndexPage(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $h1 = 'Монтаж систем отопления в Воронеже';
         $aobjectController = new AObjectController;
@@ -23,7 +25,7 @@ class PageController extends Controller
         ]);
     }
 
-    public function showIndexTestPage()
+    public function showIndexTestPage(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $aobjectController = new AObjectController;
         $objects = $aobjectController->get4Object();
@@ -36,11 +38,11 @@ class PageController extends Controller
     }
 
     /** Метод для отображения списка объектов */
-    public function showObjectsListPage()
+    public function showObjectsListPage(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $h1 = 'НАШИ ОБЪЕКТЫ.';
-        $objectsController = new AObjectController;
-        $objects = $objectsController->getAllObjects();
+        $aObjectController = new AObjectController;
+        $objects = $aObjectController->getAllObjects();
 
         return view('site.objects', [
             'h1' => $h1,
@@ -51,7 +53,7 @@ class PageController extends Controller
     }
 
     /** Метод для отображения страницы объекта */
-    public function showObjectPage($id)
+    public function showObjectPage($id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $aobjectController = new AObjectController;
         $sliderController = new SliderController;
@@ -61,7 +63,7 @@ class PageController extends Controller
         return view('site.object', [
             'h1' => $object->name,
             'title' => 'Выполнен монтаж отопления на объекте "'.$object->name.'" – компания Аквагарант',
-            'description' => mb_strimwidth(strip_tags($object->content), 0, 160, '...'),
+            'description' => mb_strimwidth(strip_tags((string) $object->content), 0, 160, '...'),
             'object' => $object,
             'slider' => $slider,
             'topText' => 'Если вы хотели бы заказать монтаж отопления в коттедже, частном доме или квартире как на объекте
@@ -70,7 +72,7 @@ class PageController extends Controller
     }
 
     /** Метод для отображения списка статей */
-    public function showArticlesListPage()
+    public function showArticlesListPage(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $h1 = 'НАШИ СТАТЬИ.';
         $articleController = new ArticleController;
@@ -105,7 +107,7 @@ class PageController extends Controller
     }
 
     /** Метод для отображения прайс-листа */
-    public function showPricePage()
+    public function showPricePage(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $h1 = 'ПРАЙС-ЛИСТ';
 
@@ -117,7 +119,7 @@ class PageController extends Controller
     }
 
     /** Метод для отображения страницы контактов */
-    public function showContactPage()
+    public function showContactPage(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $h1 = 'КОНТАКТЫ.';
 
@@ -129,11 +131,11 @@ class PageController extends Controller
     }
 
     /** Метод для отображения главной страницы магазина */
-    public function showShopHeadPage()
+    public function showShopHeadPage(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $h1 = 'ИНТЕРНЕТ-МАГАЗИН';
-        $shopCategoriesController = new ShopCategoryController;
-        $cats = $shopCategoriesController->getRootCategory();
+        $shopCategoryController = new ShopCategoryController;
+        $cats = $shopCategoryController->getRootCategory();
 
         return view('site.shophead', [
             'h1' => $h1,
@@ -145,24 +147,24 @@ class PageController extends Controller
     }
 
     /** Метод для отображения страницы категорий магазина */
-    public function showCategoryPage(Request $request)
+    public function showCategoryPage(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         /** Получаем последнюю категорию */
         $uri = preg_replace("~\?.*~", '', $request->getRequestUri());
 
-        $sections = explode('/', $uri);
+        $sections = explode('/', (string) $uri);
 
         unset($sections[0]);
         unset($sections[1]);
-        $categoryController = new ShopCategoryController;
-        $categoryData = $categoryController->getCategoryByArray($sections);
+        $shopCategoryController = new ShopCategoryController;
+        $categoryData = $shopCategoryController->getCategoryByArray($sections);
 
         if (! $categoryData) {
             abort(404);
         }
         $h1 = $categoryData['name'];
 
-        $categories = $categoryController->getCategoryByParentId($categoryData['id']);
+        $categories = $shopCategoryController->getCategoryByParentId($categoryData['id']);
         if (count($categories) == 0) {
             $itemController = new ItemController;
             $items = $itemController->getItemsByCatId($categoryData['id']);
@@ -178,7 +180,7 @@ class PageController extends Controller
         }
         $url = [];
         foreach ($categories as $category) {
-            $url[$category->id] = $categoryController->getUrlByCode($category->parent_id, $category->slug);
+            $url[$category->id] = $shopCategoryController->getUrlByCode($category->parent_id, $category->slug);
         }
         $itemController = new ItemController;
         $items = $itemController->getItemsByCatId($categoryData['id']);
@@ -197,21 +199,20 @@ class PageController extends Controller
     }
 
     /** Метод, для отображения страницы товара */
-    public function showItemPage(Item $item)
+    public function showItemPage(Item $item): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
 
-        $itemControner = new ItemController;
+        $itemController = new ItemController;
         if (! $item) {
             abort(404);
             exit();
         }
-        $category = $item->category;
-        $categoryController = new ShopCategoryController;
+        new ShopCategoryController;
 
         $h1 = $item->name;
         $subitems = null;
         if ($item->main_item == 1) {
-            $subitems = $itemControner->getChildById($item->id);
+            $subitems = $itemController->getChildById($item->id);
 
             return view('site.itempage', [
                 'h1' => $h1,
@@ -234,7 +235,7 @@ class PageController extends Controller
     }
 
     /** Метод, для отображения корзины */
-    public function showCart()
+    public function showCart(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $h1 = 'Корзина';
 
@@ -247,7 +248,7 @@ class PageController extends Controller
     }
 
     /** Метод для отображения страницы спасибо за заказ */
-    public function showThanks()
+    public function showThanks(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $h1 = 'Успешное оформление заказа.';
 
@@ -259,7 +260,7 @@ class PageController extends Controller
         ]);
     }
 
-    public function showVideo()
+    public function showVideo(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $h1 = 'Видео о нас.';
 

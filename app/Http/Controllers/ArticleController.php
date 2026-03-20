@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
@@ -12,40 +14,40 @@ class ArticleController extends Controller
         return Article::where('id', '>', 0)->orderBy('id', 'desc')->get();
     }
 
-    public function loadArticlesForApi()
+    public function loadArticlesForApi(): void
     {
         echo Article::all();
     }
 
-    public function saveNewArt(ArticleRequest $request)
+    public function saveNewArt(ArticleRequest $articleRequest): void
     {
         $article = new Article;
-        $article->name = $request->validated('name');
-        $article->title = $request->validated('title');
-        $article->description = $request->validated('description');
-        $article->content = $request->validated('content');
+        $article->name = $articleRequest->validated('name');
+        $article->title = $articleRequest->validated('title');
+        $article->description = $articleRequest->validated('description');
+        $article->content = $articleRequest->validated('content');
         $article->save();
         echo 'success';
     }
 
-    public function deleteArt($id)
+    public function deleteArt($id): void
     {
         Article::where('id', '=', $id)->delete();
         echo 'success';
     }
 
-    public function loadSingleArt($id)
+    public function loadSingleArt($id): void
     {
         echo Article::where('id', '=', $id)->get();
     }
 
-    public function updateArticle(ArticleRequest $request)
+    public function updateArticle(ArticleRequest $articleRequest): void
     {
-        $article = Article::find($request->validated('id'));
-        $article->name = $request->validated('name');
-        $article->title = $request->validated('title');
-        $article->description = $request->validated('description');
-        $article->content = $request->validated('content');
+        $article = Article::find($articleRequest->validated('id'));
+        $article->name = $articleRequest->validated('name');
+        $article->title = $articleRequest->validated('title');
+        $article->description = $articleRequest->validated('description');
+        $article->content = $articleRequest->validated('content');
         $article->save();
         echo 'success';
     }

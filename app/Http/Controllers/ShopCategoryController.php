@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ShopCategoryRequest;
@@ -12,7 +14,7 @@ class ShopCategoryController extends Controller
         return ShopCategory::where('parent_id', '=', '-1')->get();
     }
 
-    public function getCategoryBySlug($slug)
+    public function getCategoryBySlug($slug): array
     {
         $category = ShopCategory::where('slug', '=', $slug)->first();
 
@@ -22,7 +24,10 @@ class ShopCategoryController extends Controller
         ];
     }
 
-    public function getSlugByArray($arr)
+    /**
+     * @return array{name: mixed, slug: mixed}[]
+     */
+    public function getSlugByArray($arr): array
     {
 
         $res = [];
@@ -68,7 +73,7 @@ class ShopCategoryController extends Controller
         return $categories;
     }
 
-    public function getNaviById($id)
+    public function getNaviById($id): array
     {
         $category = ShopCategory::where('id', '=', $id)->first();
 
@@ -76,26 +81,25 @@ class ShopCategoryController extends Controller
 
     }
 
-    public function getUrlByCode($id, $code)
+    public function getUrlByCode($id, string $code): string|false
     {
         $chains = [];
         $chains[] = $code;
         $parentId = $id;
         if ($id == -1) {
             return '/catalog/'.$code;
-        } else {
-            while (true) {
-                $category = ShopCategory::where('id', '=', $parentId)->first();
-                if (! $category) {
-                    return false;
-                }
-                if ($category->parent_id == -1) {
-                    break;
-                }
-                $chains[] = $category->slug;
-                $parentId = $category->parent_id;
-
+        }
+        while (true) {
+            $category = ShopCategory::where('id', '=', $parentId)->first();
+            if (! $category) {
+                return false;
             }
+            if ($category->parent_id == -1) {
+                break;
+            }
+            $chains[] = $category->slug;
+            $parentId = $category->parent_id;
+
         }
 
         return '/catalog/'.implode('/', array_reverse($chains));
@@ -127,36 +131,36 @@ class ShopCategoryController extends Controller
         return ShopCategory::where('id', '=', $id)->first();
     }
 
-    public function addNewCat(ShopCategoryRequest $request): void
+    public function addNewCat(ShopCategoryRequest $shopCategoryRequest): void
     {
-        $category = new ShopCategory;
+        $shopCategory = new ShopCategory;
 
-        $name = $request->validated('name');
-        $title = $request->validated('title') ?: $request->validated('name');
-        $preview = $request->validated('preview');
-        $description = $request->validated('description');
-        $priority = $request->validated('priority', 0);
-        $parent_id = $request->validated('parent_id');
-        $depth_level = ($this->getCategoryLevelById($request->validated('papent_id') ?? $parent_id)->depth_level ?? 0) + 1;
+        $name = $shopCategoryRequest->validated('name');
+        $title = $shopCategoryRequest->validated('title') ?: $shopCategoryRequest->validated('name');
+        $preview = $shopCategoryRequest->validated('preview');
+        $description = $shopCategoryRequest->validated('description');
+        $priority = $shopCategoryRequest->validated('priority', 0);
+        $parent_id = $shopCategoryRequest->validated('parent_id');
+        $depth_level = ($this->getCategoryLevelById($shopCategoryRequest->validated('papent_id') ?? $parent_id)->depth_level ?? 0) + 1;
 
-        $category->name = $name;
-        $category->title = $title;
-        $category->preview = $preview;
-        $category->description = $description;
-        $category->priority = $priority;
-        $category->parent_id = $parent_id;
-        $category->depth_level = $depth_level;
+        $shopCategory->name = $name;
+        $shopCategory->title = $title;
+        $shopCategory->preview = $preview;
+        $shopCategory->description = $description;
+        $shopCategory->priority = $priority;
+        $shopCategory->parent_id = $parent_id;
+        $shopCategory->depth_level = $depth_level;
 
-        echo $category->save();
+        echo $shopCategory->save();
     }
 
-    public function updateCat(ShopCategoryRequest $request): void
+    public function updateCat(ShopCategoryRequest $shopCategoryRequest): void
     {
-        $category = ShopCategory::find($request->validated('id'));
-        $category->name = $request->validated('name');
-        $category->preview = $request->validated('preview');
-        $category->title = $request->validated('title');
-        $category->description = $request->validated('description');
+        $category = ShopCategory::find($shopCategoryRequest->validated('id'));
+        $category->name = $shopCategoryRequest->validated('name');
+        $category->preview = $shopCategoryRequest->validated('preview');
+        $category->title = $shopCategoryRequest->validated('title');
+        $category->description = $shopCategoryRequest->validated('description');
         echo $category->save();
     }
 

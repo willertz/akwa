@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ItemRequest;
@@ -31,9 +33,9 @@ class ItemController extends Controller
 
     public function getCatUrlById($id): string
     {
-        $contr = new ShopCategoryController;
+        $shopCategoryController = new ShopCategoryController;
         $category = ShopCategory::where('id', '=', $id)->first();
-        $url = $contr->getUrlByCode($category->parent_id, $category->slug);
+        $url = $shopCategoryController->getUrlByCode($category->parent_id, $category->slug);
 
         return 'https://akwagarant.ru'.$url;
     }
@@ -77,44 +79,44 @@ class ItemController extends Controller
 
     public function getCategoryIdByUrl($url)
     {
-        $sections = explode('/', $url);
+        $sections = explode('/', (string) $url);
         unset($sections[0]);
         unset($sections[1]);
         unset($sections[2]);
         unset($sections[3]);
-        $categoryController = new ShopCategoryController;
+        $shopCategoryController = new ShopCategoryController;
 
-        return $categoryController->getCategoryByArray($sections)->id;
+        return $shopCategoryController->getCategoryByArray($sections)->id;
     }
 
-    public function saveItem(ItemRequest $request): void
+    public function saveItem(ItemRequest $itemRequest): void
     {
 
-        $item = Item::find($request->validated('id'));
+        $item = Item::find($itemRequest->validated('id'));
 
-        $item->art = $request->validated('art');
-        $item->name = $request->validated('name');
-        $item->price = $request->validated('price');
-        $item->priority = $request->validated('priority');
-        $item->price_usd = $request->validated('price_usd');
-        $item->price_eur = $request->validated('price_eur');
-        $item->category = $this->getCategoryIdByUrl($request->validated('cat_url'));
+        $item->art = $itemRequest->validated('art');
+        $item->name = $itemRequest->validated('name');
+        $item->price = $itemRequest->validated('price');
+        $item->priority = $itemRequest->validated('priority');
+        $item->price_usd = $itemRequest->validated('price_usd');
+        $item->price_eur = $itemRequest->validated('price_eur');
+        $item->category = $this->getCategoryIdByUrl($itemRequest->validated('cat_url'));
 
-        if ($request->validated('parent_id') && $request->validated('parent_id') != 0) {
+        if ($itemRequest->validated('parent_id') && $itemRequest->validated('parent_id') != 0) {
             $item->main_item = 0;
-            $item->parent_id = $request->validated('parent_id');
+            $item->parent_id = $itemRequest->validated('parent_id');
         } else {
             $item->main_item = 1;
             $item->parent_id = 0;
         }
 
-        $item->description = $request->validated('description');
-        $item->full_description = $request->validated('full_description');
-        $item->country = $request->validated('country');
-        $item->preview = $request->validated('preview');
-        $item->meta_title = $request->validated('meta_title');
-        $item->meta_description = $request->validated('meta_description');
-        $item->unit = $request->validated('unit');
+        $item->description = $itemRequest->validated('description');
+        $item->full_description = $itemRequest->validated('full_description');
+        $item->country = $itemRequest->validated('country');
+        $item->preview = $itemRequest->validated('preview');
+        $item->meta_title = $itemRequest->validated('meta_title');
+        $item->meta_description = $itemRequest->validated('meta_description');
+        $item->unit = $itemRequest->validated('unit');
         echo $item->save();
 
     }
@@ -124,22 +126,22 @@ class ItemController extends Controller
         Item::find($id)->delete();
     }
 
-    public function addNewItem(ItemRequest $request): void
+    public function addNewItem(ItemRequest $itemRequest): void
     {
-        $art = $request->validated('art') ?: '';
-        $name = $request->validated('name');
-        $price = $request->validated('price');
-        $price_usd = $request->validated('price_usd');
-        $price_eur = $request->validated('price_eur');
-        $description = $request->validated('description');
-        $full_description = $request->validated('full_description');
-        $country = $request->validated('country');
-        $preview = $request->validated('preview');
-        $priority = $request->validated('priority');
-        $meta_title = $request->validated('meta_title');
-        $meta_description = $request->validated('meta_description');
-        $category = $this->getCategoryIdByUrl($request->validated('category'));
-        $majorId = $request->validated('majorId') ?: false;
+        $art = $itemRequest->validated('art') ?: '';
+        $name = $itemRequest->validated('name');
+        $price = $itemRequest->validated('price');
+        $price_usd = $itemRequest->validated('price_usd');
+        $price_eur = $itemRequest->validated('price_eur');
+        $description = $itemRequest->validated('description');
+        $full_description = $itemRequest->validated('full_description');
+        $country = $itemRequest->validated('country');
+        $preview = $itemRequest->validated('preview');
+        $priority = $itemRequest->validated('priority');
+        $meta_title = $itemRequest->validated('meta_title');
+        $meta_description = $itemRequest->validated('meta_description');
+        $category = $this->getCategoryIdByUrl($itemRequest->validated('category'));
+        $majorId = $itemRequest->validated('majorId') ?: false;
         $item = new Item;
         $item->category = $category;
         $item->priority = $priority;
@@ -151,7 +153,7 @@ class ItemController extends Controller
         $item->description = $description;
         $item->full_description = $full_description;
         $item->country = $country;
-        $item->unit = $request->validated('unit');
+        $item->unit = $itemRequest->validated('unit');
         if ($majorId && $majorId != 0) {
             $item->main_item = 0;
             $item->parent_id = $majorId;

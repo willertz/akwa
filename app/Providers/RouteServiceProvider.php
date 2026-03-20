@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -18,10 +20,9 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
      */
-    public function boot()
+    #[\Override]
+    public function boot(): void
     {
         //
 
@@ -30,10 +31,8 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define the routes for the application.
-     *
-     * @return void
      */
-    public function map()
+    public function map(): void
     {
         $this->mapApiRoutes();
 
@@ -52,7 +51,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-            ->group(function ($router) {
+            ->group(function ($router): void {
                 require base_path('routes/web.php');
             });
     }
@@ -68,7 +67,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
             ->middleware('api')
-            ->group(function ($router) {
+            ->group(function ($router): void {
                 require base_path('routes/api.php');
             });
     }

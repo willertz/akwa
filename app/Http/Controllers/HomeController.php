@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
@@ -8,8 +10,6 @@ class HomeController extends Controller
 {
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -21,7 +21,7 @@ class HomeController extends Controller
      *
      * @return Renderable
      */
-    public function index()
+    public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('layouts.admin');
     }
