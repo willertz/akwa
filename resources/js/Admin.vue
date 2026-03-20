@@ -1,80 +1,65 @@
 <template>
     <v-app>
-        <v-navigation-drawer app>
-            <v-list dense class="pt-0">
-                <v-list-tile
-                        v-for="item in items"
-                        :key="item.title"
-                        @click=""
-                        :to="item.link"
+        <v-navigation-drawer permanent>
+            <v-list density="compact" class="pt-0">
+                <v-list-item
+                    v-for="item in items"
+                    :key="item.title"
+                    :to="item.link"
+                    :prepend-icon="item.icon"
+                    :title="item.title"
+                    link
                 >
-                    <v-list-tile-action>
-                        <v-icon>{{ item.icon }}</v-icon>
-                    </v-list-tile-action>
-
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
+                </v-list-item>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar app>
-            <v-toolbar-title>Панель администратора</v-toolbar-title>
+        <v-app-bar>
+            <v-app-bar-title>Панель администратора</v-app-bar-title>
             <v-spacer></v-spacer>
-            <v-toolbar-items>
-                <v-btn flat>Выход &#8194;<v-icon>input</v-icon></v-btn>
-            </v-toolbar-items>
-        </v-toolbar>
-        <v-content>
+            <v-btn variant="text">Выход &#8194;<v-icon>mdi-logout</v-icon></v-btn>
+        </v-app-bar>
+        <v-main>
             <v-container fluid>
                 <router-view></router-view>
             </v-container>
-        </v-content>
+        </v-main>
         <v-footer app></v-footer>
     </v-app>
 </template>
 
-<script>
-    export default {
-        name: "Admin",
-        data () {
-            return {
-                items: [
-                    {
-                        title: 'Главная',
-                        icon: 'dashboard',
-                        link: '/home/index'
-                    },
-                    {
-                        title: 'Статьи',
-                        icon: 'edit',
-                        link: '/home/articles'
-                    },
-                    {
-                        title: 'Объекты',
-                        icon: 'edit',
-                        link: '/home/objects'
-                    },
-                    {
-                        title: 'Категории магазина',
-                        icon: 'folder',
-                        link: '/home/shop-category'
-                    },
-                    {
-                        title: 'Товары',
-                        icon: 'local_offer',
-                        link: '/home/shop-item'
-                    },
-                    {
-                        title: 'Файлы',
-                        icon: 'perm_media',
-                        link: '/home/file'
-                    },
-                ],
-                right: null
-            }
-        }
-    }
+<script setup>
+const items = [
+    {
+        title: 'Главная',
+        icon: 'mdi-view-dashboard',
+        link: '/home/index'
+    },
+    {
+        title: 'Статьи',
+        icon: 'mdi-pencil',
+        link: '/home/articles'
+    },
+    {
+        title: 'Объекты',
+        icon: 'mdi-pencil-box-multiple',
+        link: '/home/objects'
+    },
+    {
+        title: 'Категории магазина',
+        icon: 'mdi-folder',
+        link: '/home/shop-category'
+    },
+    {
+        title: 'Товары',
+        icon: 'mdi-tag',
+        link: '/home/shop-item'
+    },
+    {
+        title: 'Файлы',
+        icon: 'mdi-image-multiple',
+        link: '/home/file'
+    },
+];
 </script>
 
 <style scoped>

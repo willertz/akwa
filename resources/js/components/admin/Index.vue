@@ -2,41 +2,34 @@
 <template>
     <div class="container">
         <div class="notice-line"
-                v-for="not in notice"
+                v-for="(not, index) in notice"
+                :key="index"
         >
             <b>{{not.text}}</b>
         </div>
     </div>
 </template>
 
-<script>
-    const axios = require('axios');
-    axios.defaults.headers.common = {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')    };
-    export default {
-        name: "Index.vue",
-        data: function() {
-          return {
-              notice: []
-          }
-        },
-        methods: {
-            loadNotice: function() {
-                var self = this;
-                var data = axios.post('/api', {
-                        apiMethod: 'loadNotice',
-                    },
-                ).then(response => self.notice = response.data)
-                    .catch(function (error) {
-                        console.log(error)
-                    });
-            }
-        },
-        mounted: function() {
-            this.loadNotice()
-        }
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+const notice = ref([]);
+
+const loadNotice = async () => {
+    try {
+        const response = await axios.post('/api', {
+            apiMethod: 'loadNotice',
+        });
+        notice.value = response.data;
+    } catch (error) {
+        console.error(error);
     }
+};
+
+onMounted(() => {
+    loadNotice();
+});
 </script>
 
 <style scoped>

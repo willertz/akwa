@@ -9,7 +9,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <table class="table" v-if="items">
+                <table class="table" v-if="items.length > 0">
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">Удалить</th>
@@ -19,12 +19,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in items">
+                    <tr v-for="item in items" :key="item.id">
                         <td> <i class="material-icons" style="cursor: pointer" @click="deleteItem(item.id)">
                             clear
                         </i></td>
                         <td>{{item.name}}</td>
-                        <td><number-input inline controls v-model="item.count" :min="1"></number-input></td>
+                        <td><VueNumberInput inline controls v-model="item.count" :min="1"></VueNumberInput></td>
                         <td>{{getFloorNumber(item.price)}}</td>
                     </tr>
                     </tbody>
@@ -48,99 +48,82 @@
                         <input type="email" class="form-control" id="exampleInputFIO"  placeholder="Введите ФИО" v-model="name">
                     </div>
 
-                    <button v-on:submit.prevent class="btn btn-primary" @click="sendCart()">Отправить заказ менеджеру</button>
+                    <button type="button" class="btn btn-primary" @click="sendCart()">Отправить заказ менеджеру</button>
             </div>
         </div>
     </div>
 </template>
 
-<script>
-    const axios = require('axios');
-    axios.defaults.headers.common = {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')    };
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import axios from 'axios';
 
-    export default {
-        name: "Cart",
-        computed: {
-          sum: function() {
-              var sum = 0;
-              var items = this.items;
-              for(var i = 0; i < items.length; i++) {
-                  sum += items[i].count * items[i].price
-              }
-              return (parseInt(sum * 100)) / 100
-          }
-        },
-        mounted: function() {
-          var data = this.getCartData();
-          var keys = [];
-          for(var el in data) {
-              console.log(data[el])
-              this.items.push(
-                  {
-                      id: el,
-                      name: data[el][0],
-                      price: data[el][1],
-                      count: data[el][2]
-                  }
-              )
-          }
+const items = ref([]);
+const name = ref("");
+const phone = ref("");
+const mail = ref("");
 
-        },
-        data: function() {
-            return {
-                items: [],
-                name: "",
-                phone: "",
-                mail: "",
-            }
-        },
-        methods: {
-            deleteItem: function(id) {
-                var cartData = getCartData() || {};
-                if(cartData.hasOwnProperty(id)){ // если такой товар уже в корзине, то добавляем +1 к его количеству
-                    delete cartData[id];
-                    if(!setCartData(cartData)){
-                        var i = 0;
-                        for(var el in cartData) {
-                            i++;
-                        }
-                        if(i == 0) {
-                            localStorage.clear()
-                        }
+const sum = computed(() => {
+    let s = 0;
+    for (let i = 0; i < items.value.length; i++) {
+        s += items.value[i].count * items.value[i].price;
+    }
+    return Math.floor(s * 100) / 100;
+});
 
+const getCartData = () => {
+    try {
+        return JSON.parse(localStorage.getItem('cart')) || {};
+    } catch (e) {
+        return {};
+    }
+};
 
-                    }
-                }
-                location.reload();
-            },
-            getFloorNumber: function(n) {
-                return (parseInt(n * 100)) / 100
-            },
-            getCartData: function() {
-                return JSON.parse(localStorage.getItem('cart'));
-            },
-            sendCart: function() {
-                axios.post('/api', {
-                        apiMethod: 'sendCart',
-                        name: this.name,
-                        phone: this.phone,
-                        mail: this.mail,
-                        items: this.items
-                    },
-                )
-                    .then(function (response) {
-                        console.log(response)
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    });
-                localStorage.clear()
-                setTimeout( 'location="/thanks";', 0 );
-            },
+onMounted(() => {
+    const data = getCartData();
+    for (let el in data) {
+        items.value.push({
+            id: el,
+            name: data[el][0],
+            price: data[el][1],
+            count: data[el][2]
+        });
+    }
+});
+
+const getFloorNumber = (n) => {
+    return Math.floor(n * 100) / 100;
+};
+
+const deleteItem = (id) => {
+    const cartData = getCartData();
+    if (cartData.hasOwnProperty(id)) {
+        delete cartData[id];
+        localStorage.setItem('cart', JSON.stringify(cartData));
+        if (Object.keys(cartData).length === 0) {
+            localStorage.clear();
         }
     }
+    location.reload();
+};
+
+const sendCart = () => {
+    axios.post('/api', {
+        apiMethod: 'sendCart',
+        name: name.value,
+        phone: phone.value,
+        mail: mail.value,
+        items: items.value
+    })
+    .then(response => {
+        console.log(response);
+        localStorage.clear();
+        location.href = "/thanks";
+    })
+    .catch(error => {
+        console.log(error);
+    });
+};
 </script>
 
 <style scoped>

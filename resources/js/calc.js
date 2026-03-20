@@ -5,16 +5,10 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
-window.Vue = require('vue');
+import './bootstrap';
+import { createApp } from 'vue';
+import CalcComponent from './Calc.vue';
 
-Vue.component('calc', require('./Calc.vue').default);
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-const calc = new Vue({
-    el: '#calc'
-});
+const app = createApp({});
+app.component('calc', CalcComponent);
+app.mount('#calc');

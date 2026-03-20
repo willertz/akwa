@@ -1,25 +1,21 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-
-Vue.use(VueRouter)
+import { createRouter, createWebHistory } from 'vue-router'
 console.log('I am router');
-import ShopCategory from './components/admin/ShopCategory'
-import ShopItem from './components/admin/ShopItem'
-import File from './components/admin/File'
-import NewCat from './components/admin/NewCat'
-import UpdateCat from './components/admin/UpdateCat'
-import CreateItem from './components/admin/CreateItem'
-import Articles from './components/admin/Articles'
-import Objects from './components/admin/Objects'
-import Index from './components/admin/Index'
-import CreateArticle from './components/admin/CreateArticle'
-import UpdateArticle from './components/admin/UpdateArticle'
-import UpdateObj from './components/admin/UpdateObject'
-import NewObj from './components/admin/NewObject'
+import ShopCategory from './components/admin/ShopCategory.vue'
+import ShopItem from './components/admin/ShopItem.vue'
+import File from './components/admin/File.vue'
+import NewCat from './components/admin/NewCat.vue'
+import UpdateCat from './components/admin/UpdateCat.vue'
+import CreateItem from './components/admin/CreateItem.vue'
+import Articles from './components/admin/Articles.vue'
+import Objects from './components/admin/Objects.vue'
+import Index from './components/admin/Index.vue'
+import CreateArticle from './components/admin/CreateArticle.vue'
+import UpdateArticle from './components/admin/UpdateArticle.vue'
+import UpdateObj from './components/admin/UpdateObject.vue'
+import NewObj from './components/admin/NewObject.vue'
 
-export default new VueRouter({
-    mode: "history",
-    base: process.env.BASE_URL,
+const router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: "/home",
@@ -93,3 +89,5 @@ export default new VueRouter({
         },
     ]
 })
+
+export default router;

@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-5">
-                            <div class="card" @click="selectImage1(1)" v-bind:class="isSelectedImage1(1)">
+                            <div class="card" @click="selectImage1(1)" :class="isSelectedImage1(1)">
                                 <img class="card-img-top" src="/img/calculate/11.jpg">
                                 <div class="card-body">
                                     <h5 class="card-title">Кирпичный дом</h5>
@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <div class="card" @click="selectImage1(2)" v-bind:class="isSelectedImage1(2)">
+                            <div class="card" @click="selectImage1(2)" :class="isSelectedImage1(2)">
                                 <img class="card-img-top" src="/img/calculate/12.jpg">
                                 <div class="card-body">
                                     <h5 class="card-title">Деревянный дом</h5>
@@ -35,15 +35,15 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-5">
-                            <div class="card" @click="selectImage1(3)" v-bind:class="isSelectedImage1(3)">
-                                <img class="card-img-top" src="/img/calculate/13.jpg" style="    height: 244px;">
+                            <div class="card" @click="selectImage1(3)" :class="isSelectedImage1(3)">
+                                <img class="card-img-top" src="/img/calculate/13.jpg" style="height: 244px;">
                                 <div class="card-body">
                                     <h5 class="card-title">Дом из газобетона</h5>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-5">
-                            <div class="card" @click="selectImage1(4)" v-bind:class="isSelectedImage1(4)">
+                            <div class="card" @click="selectImage1(4)" :class="isSelectedImage1(4)">
                                 <img class="card-img-top" src="/img/calculate/14.jpg">
                                 <div class="card-body">
                                     <h5 class="card-title">Другой</h5>
@@ -54,8 +54,8 @@
                     </div>
                 </div>
                 <div class="calc-button-line">
-                    <button v-bind:class="prevActive" @click="prev()">Назад</button>
-                    <button v-bind:class="nextActive" @click="next()">Вперед</button>
+                    <button :class="prevActive" @click="prev()">Назад</button>
+                    <button :class="nextActive" @click="next()">Вперед</button>
                 </div>
             </div>
 
@@ -72,8 +72,8 @@
                     </div>
                 </div>
                 <div class="calc-button-line">
-                    <button v-bind:class="prevActive" @click="prev()">Назад</button>
-                    <button v-bind:class="nextActive" @click="next()">Вперед</button>
+                    <button :class="prevActive" @click="prev()">Назад</button>
+                    <button :class="nextActive" @click="next()">Вперед</button>
                 </div>
             </div>
 
@@ -82,7 +82,7 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
-                            <div class="card card-3" @click="selectImage3(1)" v-bind:class="isSelectedImage3(1)">
+                            <div class="card card-3" @click="selectImage3(1)" :class="isSelectedImage3(1)">
                                 <img class="card-img-top" src="/img/calculate/31.png">
                                 <div class="card-body body-3">
                                     <ul>
@@ -94,7 +94,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="card card-3" @click="selectImage3(2)" v-bind:class="isSelectedImage3(2)">
+                            <div class="card card-3" @click="selectImage3(2)" :class="isSelectedImage3(2)">
                                 <img class="card-img-top" src="/img/calculate/33.jpg">
                                 <div class="card-body body-3">
                                     <ul>
@@ -108,7 +108,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="card card-3" @click="selectImage3(3)" v-bind:class="isSelectedImage3(3)">
+                            <div class="card card-3" @click="selectImage3(3)" :class="isSelectedImage3(3)">
                                 <img class="card-img-top" src="/img/calculate/32.jpg">
                                 <div class="card-body body-3">
                                     <ul>
@@ -126,8 +126,8 @@
                     </div>
                 </div>
                 <div class="calc-button-line">
-                    <button v-bind:class="prevActive" @click="prev()">Назад</button>
-                    <button v-bind:class="nextActive" @click="next()">Вперед</button>
+                    <button :class="prevActive" @click="prev()">Назад</button>
+                    <button :class="nextActive" @click="next()">Вперед</button>
                 </div>
             </div>
 
@@ -141,8 +141,8 @@
 
                 </div>
                 <div class="calc-button-line">
-                    <button v-bind:class="prevActive" @click="prev()">Назад</button>
-                    <button v-bind:class="nextActive" @click="next()">Вперед</button>
+                    <button :class="prevActive" @click="prev()">Назад</button>
+                    <button :class="nextActive" @click="next()">Вперед</button>
                 </div>
             </div>
 
@@ -150,7 +150,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col" style="margin-top: 10px">
-                            <div class="card" @click="selectImage5(1)" v-bind:class="isSelectedImage5(1)" style="height: 100%;">
+                            <div class="card" @click="selectImage5(1)" :class="isSelectedImage5(1)" style="height: 100%;">
                                 <img class="card-img-top" src="/img/calculate/51.jpg">
                                 <div class="card-body">
                                     <span class="card-title">Полипропилен (Россия)</span>
@@ -159,7 +159,7 @@
                         </div>
 
                         <div class="col" style="margin-top: 10px">
-                            <div class="card" @click="selectImage5(2)" v-bind:class="isSelectedImage5(2)" style="height: 100%;">
+                            <div class="card" @click="selectImage5(2)" :class="isSelectedImage5(2)" style="height: 100%;">
                                 <img class="card-img-top" src="/img/calculate/52.jpg">
                                 <div class="card-body">
                                     <span class="card-title">Сшитый полиэтилен STOUT (Испания)</span>
@@ -168,7 +168,7 @@
                         </div>
 
                         <div class="col" style="margin-top: 10px">
-                            <div class="card" @click="selectImage5(3)" v-bind:class="isSelectedImage5(3)" style="height: 100%;">
+                            <div class="card" @click="selectImage5(3)" :class="isSelectedImage5(3)" style="height: 100%;">
                                 <img class="card-img-top" src="/img/calculate/53.jpg">
                                 <div class="card-body">
                                     <span class="card-title">Сшитый полиэтилен REHAU/UPONOR (Германия)</span>
@@ -178,8 +178,8 @@
                     </div>
                 </div>
                 <div class="calc-button-line">
-                    <button v-bind:class="prevActive" @click="prev()">Назад</button>
-                    <button v-bind:class="nextActive" @click="next()">Вперед</button>
+                    <button :class="prevActive" @click="prev()">Назад</button>
+                    <button :class="nextActive" @click="next()">Вперед</button>
                 </div>
             </div>
 
@@ -188,9 +188,8 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-5" style="margin-top: 10px">
-                            <div class="card" @click="selectImage6(1)" v-bind:class="isSelectedImage6(1)" style="height: 100%;">
-                                <img class="card-img-top" src="/img/calculate/61.jpg" style="width: 65% !important;
-    margin: 0 auto;">
+                            <div class="card" @click="selectImage6(1)" :class="isSelectedImage6(1)" style="height: 100%;">
+                                <img class="card-img-top" src="/img/calculate/61.jpg" style="width: 65% !important; margin: 0 auto;">
                                 <div class="card-body">
                                     <span class="card-title">Алюминиевые секционные (Китай)</span>
                                 </div>
@@ -198,9 +197,8 @@
                         </div>
 
                         <div class="col-md-5" style="margin-top: 10px">
-                            <div class="card" @click="selectImage6(2)" v-bind:class="isSelectedImage6(2)" style="height: 100%;">
-                                <img class="card-img-top" src="/img/calculate/62.jpg" style="width: 65% !important;
-    margin: 0 auto;">
+                            <div class="card" @click="selectImage6(2)" :class="isSelectedImage6(2)" style="height: 100%;">
+                                <img class="card-img-top" src="/img/calculate/62.jpg" style="width: 65% !important; margin: 0 auto;">
                                 <div class="card-body">
                                     <span class="card-title">Стальные панельные с нижним подключением PRADO (Россия)</span>
                                 </div>
@@ -211,9 +209,8 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-5" style="margin-top: 10px">
-                            <div class="card" @click="selectImage6(3)" v-bind:class="isSelectedImage6(3)" style="height: 100%;">
-                                <img class="card-img-top" src="/img/calculate/63.jpg" style="width: 65% !important;
-    margin: 0 auto;">
+                            <div class="card" @click="selectImage6(3)" :class="isSelectedImage6(3)" style="height: 100%;">
+                                <img class="card-img-top" src="/img/calculate/63.jpg" style="width: 65% !important; margin: 0 auto;">
                                 <div class="card-body">
                                     <span class="card-title">Медно-алюминиевые JAGA Strada (Бельгия)</span>
                                 </div>
@@ -221,9 +218,8 @@
                         </div>
 
                         <div class="col-md-5" style="margin-top: 10px">
-                            <div class="card" @click="selectImage6(4)" v-bind:class="isSelectedImage6(4)" style="height: 100%;">
-                                <img class="card-img-top" src="/img/calculate/64.jpg" style="width: 65% !important;
-    margin: 0 auto;">
+                            <div class="card" @click="selectImage6(4)" :class="isSelectedImage6(4)" style="height: 100%;">
+                                <img class="card-img-top" src="/img/calculate/64.jpg" style="width: 65% !important; margin: 0 auto;">
                                 <div class="card-body">
                                     <span class="card-title">Трубчатые стальные (Германия)</span>
                                 </div>
@@ -233,8 +229,8 @@
                     </div>
                 </div>
                 <div class="calc-button-line">
-                    <button v-bind:class="prevActive" @click="prev()">Назад</button>
-                    <button  @click="showForm()">Вперед</button>
+                    <button :class="prevActive" @click="prev()">Назад</button>
+                    <button @click="showForm()">Вперед</button>
                 </div>
             </div>
 
@@ -247,21 +243,21 @@
 
                             <p class="calc-result-subtitle" style="margin-top: 15px;">Спасибо! Теперь у нас есть вся информация, чтобы рассчитать стоимость отопления для вашего дома. Заполните форму ниже и мы пришлем вам 3 варианта сметы в разных ценовых сегментах!</p>
                             <hr>
-                            <form>
+                            <form @submit.prevent>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Имя</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1"  v-model="name" aria-describedby="emailHelp" >
+                                    <input type="text" class="form-control" id="exampleInputEmail1" v-model="name" >
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail2">Email</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail2" v-model="mail" aria-describedby="emailHelp" >
+                                    <input type="email" class="form-control" id="exampleInputEmail2" v-model="mail" >
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail3" >Телефон</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail3" v-model="phone" aria-describedby="emailHelp" >
+                                    <input type="text" class="form-control" id="exampleInputEmail3" v-model="phone" >
                                 </div>
 
-                                <button  class="btn btn-primary" @click="send()">Отправить</button>
+                                <button class="btn btn-primary" @click="send()">Отправить</button>
                             </form>
                         </div>
                     </div>
@@ -287,145 +283,127 @@
 
 </template>
 
-<script>
-    import VueSlider from 'vue-slider-component'
-    import 'vue-slider-component/theme/antd.css'
-    const axios = require('axios');
-    axios.defaults.headers.common = {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')    };
+<script setup>
+import { ref, computed } from 'vue';
+import VueSlider from 'vue-slider-component';
+import 'vue-slider-component/theme/antd.css';
+import axios from 'axios';
 
-    export default {
-        name: "Calc",
-        components: {
-            VueSlider
-        },
-        data: function () {
-            return {
-                ishowForm: false,
-                showThanks: false,
-                questions: [
-                    {
-                        text: 'Из какого материала ваш дом?',
-                        value: '1'
-                    },
-                    {
-                        text: 'Количество окон',
-                        value: 0
-                    },
-                    {
-                        text: 'Утройство котельной',
-                        value: '1'
-                    },
-                    {
-                        text: 'Площадь теплых полов (квадратных метров)',
-                        value: 0
-                    },
-                    {
-                        text: 'Трубы на отопление и водопровод',
-                        value: '1'
-                    },
-                    {
-                        text: 'Отопительные приборы',
-                        value: '1'
-                    },
-                ],
-                currentQuestion: 1,
-                allQuestion: 6,
-                name: " ",
-                mail: " ",
-                phone: " "
-            }
-        },
-        methods: {
-            send: function() {
-                axios.post('/api', {
-                        apiMethod: 'sendMail',
-                        name: this.name,
-                        phone: this.phone,
-                        mail: this.mail,
-                        question1: this.questions[0].value,
-                        question2: this.questions[1].value,
-                        question3: this.questions[2].value,
-                        question4: this.questions[3].value,
-                        question5: this.questions[4].value,
-                        question6: this.questions[5].value,
-                    },
-                ).then(response => console.log(success))
-                    .catch(function (error) {
-                        console.log(error)
-                    });
+const ishowForm = ref(false);
+const showThanks = ref(false);
+const questions = ref([
+    {
+        text: 'Из какого материала ваш дом?',
+        value: '1'
+    },
+    {
+        text: 'Количество окон',
+        value: 0
+    },
+    {
+        text: 'Утройство котельной',
+        value: '1'
+    },
+    {
+        text: 'Площадь теплых полов (квадратных метров)',
+        value: 0
+    },
+    {
+        text: 'Трубы на отопление и водопровод',
+        value: '1'
+    },
+    {
+        text: 'Отопительные приборы',
+        value: '1'
+    },
+]);
+const currentQuestion = ref(1);
+const allQuestion = ref(6);
+const name = ref(" ");
+const mail = ref(" ");
+const phone = ref(" ");
 
-                this.ishowForm = false;
-                this.showThanks = true;
-            },
-            showForm: function() {
-                this.currentQuestion = 12;
-this.ishowForm = true;
-            },
-            selectImage6(n) {
-                this.questions[5].value = n;
-            },
-            isSelectedImage6: function (n) {
-                if (n == this.questions[5].value) {
-                    return 'select-image';
-                }
-            },
-            selectImage5(n) {
-                this.questions[4].value = n;
-            },
-            isSelectedImage5: function (n) {
-                if (n == this.questions[4].value) {
-                    return 'select-image';
-                }
-            },
-            selectImage3(n) {
-                this.questions[2].value = n;
-            },
-            isSelectedImage3: function (n) {
-                if (n == this.questions[2].value) {
-                    return 'select-image';
-                }
-            },
-            selectImage1(n) {
-                this.questions[0].value = n;
-            },
-            isSelectedImage1: function (n) {
-                if (n == this.questions[0].value) {
-                    return 'select-image';
-                }
-            },
-            next: function () {
-                if (this.currentQuestion != this.allQuestion) {
-                    this.currentQuestion++;
-                }
-            },
-            prev: function () {
-                if (this.currentQuestion != 1) {
-                    this.currentQuestion--;
-                }
-            }
-        },
-        computed: {
-            showTitle: function() {
-                if(this.ishowForm || this.showThanks) {
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-            prevActive: function () {
-                if (this.currentQuestion == 1) {
-                    return 'disabled-btn';
-                }
-            },
-            nextActive: function () {
-                if (this.currentQuestion == this.allQuestion) {
-                    return 'disabled-btn';
-                }
-            },
-        }
+const showTitle = computed(() => {
+    return !(ishowForm.value || showThanks.value);
+});
+
+const prevActive = computed(() => {
+    return currentQuestion.value === 1 ? 'disabled-btn' : '';
+});
+
+const nextActive = computed(() => {
+    return currentQuestion.value === allQuestion.value ? 'disabled-btn' : '';
+});
+
+const send = async () => {
+    try {
+        await axios.post('/api', {
+            apiMethod: 'sendMail',
+            name: name.value,
+            phone: phone.value,
+            mail: mail.value,
+            question1: questions.value[0].value,
+            question2: questions.value[1].value,
+            question3: questions.value[2].value,
+            question4: questions.value[3].value,
+            question5: questions.value[4].value,
+            question6: questions.value[5].value,
+        });
+        ishowForm.value = false;
+        showThanks.value = true;
+    } catch (error) {
+        console.error(error);
     }
+};
+
+const showForm = () => {
+    currentQuestion.value = 12;
+    ishowForm.value = true;
+};
+
+const selectImage6 = (n) => {
+    questions.value[5].value = n;
+};
+
+const isSelectedImage6 = (n) => {
+    return n == questions.value[5].value ? 'select-image' : '';
+};
+
+const selectImage5 = (n) => {
+    questions.value[4].value = n;
+};
+
+const isSelectedImage5 = (n) => {
+    return n == questions.value[4].value ? 'select-image' : '';
+};
+
+const selectImage3 = (n) => {
+    questions.value[2].value = n;
+};
+
+const isSelectedImage3 = (n) => {
+    return n == questions.value[2].value ? 'select-image' : '';
+};
+
+const selectImage1 = (n) => {
+    questions.value[0].value = n;
+};
+
+const isSelectedImage1 = (n) => {
+    return n == questions.value[0].value ? 'select-image' : '';
+};
+
+const next = () => {
+    if (currentQuestion.value != allQuestion.value) {
+        currentQuestion.value++;
+    }
+};
+
+const prev = () => {
+    if (currentQuestion.value != 1) {
+        currentQuestion.value--;
+    }
+};
 </script>
 
 <style scoped>

@@ -3,72 +3,70 @@
         <h1>Редактирование объекта</h1>
         <v-snackbar
                 v-model="snackbar"
-                :bottom="y === 'bottom'"
-                :left="x === 'left'"
-                :multi-line="mode === 'multi-line'"
-                :right="x === 'right'"
+                location="top right"
                 :timeout="timeout"
-                :top="y === 'top'"
-                :vertical="mode === 'vertical'"
         >
             {{ text }}
-            <v-btn
-                    color="pink"
-                    flat
-                    @click="snackbar = false"
-            >
-                Close
-            </v-btn>
+            <template v-slot:actions>
+                <v-btn
+                        color="pink"
+                        variant="text"
+                        @click="snackbar = false"
+                >
+                    Close
+                </v-btn>
+            </template>
         </v-snackbar>
 
-        <v-flex xs12>
-            <v-text-field
-                    label="Название"
-                    outline
-                    v-model="name"
-            ></v-text-field>
-        </v-flex>
+        <v-row>
+            <v-col cols="12">
+                <v-text-field
+                        label="Название"
+                        variant="outlined"
+                        v-model="name"
+                ></v-text-field>
+            </v-col>
 
-        <v-flex xs12>
-            <v-text-field
-                    label="Title (SEO)"
-                    outline
-                    v-model="title"
-            ></v-text-field>
-        </v-flex>
+            <v-col cols="12">
+                <v-text-field
+                        label="Title (SEO)"
+                        variant="outlined"
+                        v-model="title"
+                ></v-text-field>
+            </v-col>
 
-        <v-flex xs12>
-            <v-textarea
-                    outline
-                    name="input-7-4"
-                    label="Описание (description)"
-                    v-model="description"
-            ></v-textarea>
-        </v-flex>
+            <v-col cols="12">
+                <v-textarea
+                        variant="outlined"
+                        name="input-7-4"
+                        label="Описание (description)"
+                        v-model="description"
+                ></v-textarea>
+            </v-col>
+        </v-row>
         <h3>Содержание</h3>
         <tinymce id="d1"
                  :other_options="tinyOptions"
                  v-model="content"
         ></tinymce>
 <br><br>
-        <v-flex xs12>
-            <input
-                    v-model="preview_pict"
-                    type="text"
-                    id="previewEditItem"
-                    placeholder="URL фотографии"
-                    disabled
-
-            >
-            <v-btn color="info" block small @click="openPopupImage()">Загрузить изображение</v-btn>
-
-        </v-flex>
+        <v-row>
+            <v-col cols="12">
+                <v-text-field
+                        v-model="preview_pict"
+                        label="URL фотографии"
+                        variant="outlined"
+                        readonly
+                ></v-text-field>
+                <v-btn color="info" block size="small" @click="openPopupImage()">Загрузить изображение</v-btn>
+            </v-col>
+        </v-row>
         <hr>
         <h3>Галерея</h3>
         <v-btn color="success" block @click="openPopupImage2()">Добавить</v-btn><br>
-        <div id="img-box" v-for="(img,key) in slider">
+        <div id="img-box" v-for="(img,key) in slider" :key="key">
             <img :src="img"><br>
-            <v-btn color="success" block v-on:click="slider.splice(key, 1)">Удалить</v-btn>
+            <v-btn color="error" block size="small" @click="slider.splice(key, 1)">Удалить</v-btn>
         </div>
 <br><br>
         <v-btn color="info" block @click="updateObject()">Сохранить изменения</v-btn><br>
@@ -76,133 +74,117 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: "UpdateObject",
-        data: function() {
-            return {
-                slider: [],
-                snackbar: false,
-                y: 'top',
-                x: 'right',
-                mode: '',
-                timeout: 6000,
-                text: 'Объект успешно изменен!',
-                id: this.$route.params.id,
-                name: "",
-                title: "",
-                description: "",
-                content: "",
-                preview_pict: "",
-                tinyOptions: {
-                    'height': 500,
-                    language_url: '/langs/ru.js',
-                    plugins: [
-                        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                        "searchreplace wordcount visualblocks visualchars code fullscreen",
-                        "insertdatetime media nonbreaking save table contextmenu directionality",
-                        "emoticons template paste textcolor colorpicker textpattern"
-                    ],
-                    toolbar: ' undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media',
-                    images_upload_url: '/upload-image',
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import axios from 'axios';
 
+const route = useRoute();
+const id = route.params.id;
 
-                }
-            }
-        },
-        mounted: function() {
-            this.loadObj();
-        },
-        methods: {
-            updateObject: function() {
-                var id = this.id;
-                var name = this.name;
-                var title = this.title;
-                var description = this.description;
-                var content = this.content;
-                var preview_pict = this.preview_pict;
-                var slider = this.slider;
-                axios.post('/api', {
-                        apiMethod: 'updateObject',
-                        id: id,
-                        name: name,
-                        title: title,
-                        description: description,
-                        content: content,
-                        slider: slider,
-                        preview_pict: preview_pict,
-                    },
-                ).then(response => console.log(success))
-                    .catch(function (error) {
-                        console.log(error)
-                    });
+const slider = ref([]);
+const snackbar = ref(false);
+const timeout = ref(6000);
+const text = ref('Объект успешно изменен!');
+const name = ref("");
+const title = ref("");
+const description = ref("");
+const content = ref("");
+const preview_pict = ref("");
 
-                this.snackbar = true;
+const tinyOptions = {
+    'height': 500,
+    language_url: '/langs/ru.js',
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern"
+    ],
+    toolbar: ' undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media',
+    images_upload_url: '/upload-image',
+};
 
-            },
-            openPopupImage() {
-                var self = this;
-                CKFinder.popup( {
-                    chooseFiles: true,
-                    width: 800,
-                    height: 600,
-                    onInit: function( finder ) {
-
-                        finder.on( 'files:choose', function( evt ) {
-                            var file = evt.data.files.first();
-                            self.preview_pict = file.getUrl();
-                        } );
-
-                        finder.on( 'file:choose:resizedImage', function( evt ) {
-                            self.preview_pict = evt.data.resizedUrl;
-                        } );
-                    }
-                } );
-            },
-            openPopupImage2() {
-                var self = this;
-                CKFinder.popup( {
-                    chooseFiles: true,
-                    width: 800,
-                    height: 600,
-                    onInit: function( finder ) {
-
-                        finder.on( 'files:choose', function( evt ) {
-                            var file = evt.data.files.first();
-                            self.addImage(file.getUrl());
-                        } );
-
-                        finder.on( 'file:choose:resizedImage', function( evt ) {
-                            self.addImage(evt.data.resizedUrl);
-                        } );
-                    }
-                } );
-            },
-            addImage: function(image) {
-                this.slider.splice(0, 0, image);
-            },
-            loadObj: function() {
-                var self = this;
-                axios.post('/api', {
-                        apiMethod: 'loadSingleObj',
-                        id: this.id,
-                    },
-                )
-                    .then(function (response) {
-                        console.log(response)
-                        self.name = response.data.obj.name
-                        self.title = response.data.obj.title
-                        self.description = response.data.obj.description
-                        self.content = response.data.obj.content,
-                        self.preview_pict = response.data.obj.preview_pict
-                        self.slider = response.data.slider
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    });
-            }
-        }
+const updateObject = async () => {
+    try {
+        await axios.post('/api', {
+            apiMethod: 'updateObject',
+            id: id,
+            name: name.value,
+            title: title.value,
+            description: description.value,
+            content: content.value,
+            slider: slider.value,
+            preview_pict: preview_pict.value,
+        });
+        snackbar.value = true;
+    } catch (error) {
+        console.error(error);
     }
+};
+
+const openPopupImage = () => {
+    CKFinder.popup({
+        chooseFiles: true,
+        width: 800,
+        height: 600,
+        onInit: function (finder) {
+            finder.on('files:choose', function (evt) {
+                var file = evt.data.files.first();
+                preview_pict.value = file.getUrl();
+            });
+
+            finder.on('file:choose:resizedImage', function (evt) {
+                preview_pict.value = evt.data.resizedUrl;
+            });
+        }
+    });
+};
+
+const openPopupImage2 = () => {
+    CKFinder.popup({
+        chooseFiles: true,
+        width: 800,
+        height: 600,
+        onInit: function (finder) {
+            finder.on('files:choose', function (evt) {
+                var file = evt.data.files.first();
+                addImage(file.getUrl());
+            });
+
+            finder.on('file:choose:resizedImage', function (evt) {
+                addImage(evt.data.resizedUrl);
+            });
+        }
+    });
+};
+
+const addImage = (image) => {
+    slider.value.splice(0, 0, image);
+};
+
+const loadObj = async () => {
+    try {
+        const response = await axios.post('/api', {
+            apiMethod: 'loadSingleObj',
+            id: id,
+        });
+        if (response.data && response.data.obj) {
+            name.value = response.data.obj.name;
+            title.value = response.data.obj.title;
+            description.value = response.data.obj.description;
+            content.value = response.data.obj.content;
+            preview_pict.value = response.data.obj.preview_pict;
+            slider.value = response.data.slider || [];
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+onMounted(() => {
+    loadObj();
+});
 </script>
 
 <style scoped>

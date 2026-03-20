@@ -5,49 +5,45 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import './bootstrap';
+import { createApp } from 'vue';
 import router from './router';
-window.Vue = require('vue');
-import Vuetify from 'vuetify'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
-Vue.use(Vuetify, {
-    iconfont: 'md'
-})
-import VueNumberInput from '@chenfengyuan/vue-number-input';
-import 'vuetify/dist/vuetify.min.css'
 
-import CKEditor from '@ckeditor/ckeditor5-vue';
+// Vuetify 3
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+import 'vuetify/styles';
+import { mdi } from 'vuetify/iconsets/mdi';
+import '@mdi/font/css/materialdesignicons.css';
 
-Vue.use( CKEditor );
-import ImgInputer from 'vue-img-inputer'
-import 'vue-img-inputer/dist/index.css'
-
-Vue.component('ImgInputer', ImgInputer)
-
-import tinymce from 'vue-tinymce-editor'
-
-Vue.component('tinymce', tinymce)
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
-
-Vue.component('admin-component', require('./Admin.vue').default);
-Vue.component('cart-component', require('./components/Cart.vue').default);
-Vue.component(VueNumberInput.name, VueNumberInput);
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-const app = new Vue({
-    el: '#app',
-    router
+const vuetify = createVuetify({
+    components,
+    directives,
+    icons: {
+        defaultSet: 'mdi',
+        sets: {
+            mdi,
+        },
+    },
 });
+
+import VueNumberInput from '@chenfengyuan/vue-number-input';
+import CKEditor from '@ckeditor/ckeditor5-vue';
+import Editor from '@tinymce/tinymce-vue';
+
+import AdminComponent from './Admin.vue';
+import CartComponent from './components/Cart.vue';
+
+const app = createApp({});
+
+app.use(router);
+app.use(vuetify);
+app.use(CKEditor);
+
+app.component('admin-component', AdminComponent);
+app.component('cart-component', CartComponent);
+app.component(VueNumberInput.name, VueNumberInput);
+app.component('tinymce', Editor);
+
+app.mount('#app');
