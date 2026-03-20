@@ -2,10 +2,13 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ViteTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * A basic test to check if admin page loads with Vite script.
      */
