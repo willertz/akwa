@@ -11,31 +11,46 @@
 |
 */
 
-Auth::routes();
+Route::group(['namespace' => 'App\Http\Controllers'], function () {
+    // Authentication Routes...
+    Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+    Route::post('login', 'Auth\LoginController@login');
+    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/home', 'HomeController@index')->name('home');
+    // Registration Routes...
+    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+    Route::post('register', 'Auth\RegisterController@register');
 
-Route::post('/upload-image','UploadController@upload');
+    // Password Reset Routes...
+    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+    Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
-Route::get('home/{any}', 'HomeController@index')->where('any', '.*');
-/**
- * Роуты для навигации по сайту
- */
-Route::get('/','PageController@showIndexPage')->name('showIndexPage');
-Route::get('/test','PageController@showIndexTestPage')->name('showIndexTestPage');
-Route::get('/objects','PageController@showObjectsListPage')->name('showObjectsListPage');
-Route::get('/object/{id}','PageController@showObjectPage')->name('showObjectPage');
-Route::get('/blog','PageController@showArticlesListPage')->name('showArticlesListPage');
-Route::get('/blog/{article}','PageController@showArticlePage')->name('showArticlePage');
-Route::get('/price','PageController@showPricePage')->name('showPricePage');
-Route::get('/contacts','PageController@showContactPage')->name('showContactPage');
-Route::get('/internet-magazin','PageController@showShopHeadPage')->name('showShopHeadPage');
-Route::get('/catalog/{any}','PageController@showCategoryPage')->name('showCategoryPage')->where('any', '.*');
-Route::get('/goods/{item}','PageController@showItemPage')->name('showItemPage');
-Route::get('/cart','PageController@showCart')->name('showCart');
-Route::get('/thanks','PageController@showThanks')->name('showThanks');
-Route::get('/video','PageController@showVideo')->name('showVideo');
-/**
- * Роуты для API
- */
-Route::any('/api','ApiController@index')->name('apiRoute');
+    Route::get('/home', 'HomeController@index')->name('home');
+
+    Route::post('/upload-image','UploadController@upload');
+
+    Route::get('home/{any}', 'HomeController@index')->where('any', '.*');
+    /**
+     * Роуты для навигации по сайту
+     */
+    Route::get('/','PageController@showIndexPage')->name('showIndexPage');
+    Route::get('/test','PageController@showIndexTestPage')->name('showIndexTestPage');
+    Route::get('/objects','PageController@showObjectsListPage')->name('showObjectsListPage');
+    Route::get('/object/{id}','PageController@showObjectPage')->name('showObjectPage');
+    Route::get('/blog','PageController@showArticlesListPage')->name('showArticlesListPage');
+    Route::get('/blog/{article}','PageController@showArticlePage')->name('showArticlePage');
+    Route::get('/price','PageController@showPricePage')->name('showPricePage');
+    Route::get('/contacts','PageController@showContactPage')->name('showContactPage');
+    Route::get('/internet-magazin','PageController@showShopHeadPage')->name('showShopHeadPage');
+    Route::get('/catalog/{any}','PageController@showCategoryPage')->name('showCategoryPage')->where('any', '.*');
+    Route::get('/goods/{item}','PageController@showItemPage')->name('showItemPage');
+    Route::get('/cart','PageController@showCart')->name('showCart');
+    Route::get('/thanks','PageController@showThanks')->name('showThanks');
+    Route::get('/video','PageController@showVideo')->name('showVideo');
+    /**
+     * Роуты для API
+     */
+    Route::any('/api','ApiController@index')->name('apiRoute');
+});

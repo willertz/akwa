@@ -13,7 +13,7 @@ class PageController extends Controller
         $h1 = 'Монтаж систем отопления в Воронеже';
         $aobjectController = new AObjectController();
         $objects = $aobjectController->get4Object();
-        return view('site.test',[
+        return view('site.index',[
             'h1' => $h1,
             'title' => 'Монтаж отопления в Воронеже – компания Аквагарант',
             'description' => 'Наша компания выполнит монтаж систем отопления в Воронеже под ключ в квартире, коттедже или частном доме.',
