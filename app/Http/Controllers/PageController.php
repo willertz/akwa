@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
-use App\Item;
-use Illuminate\Http\Request;
+use App\Models\Article;
+use App\Models\Item;
 
 class PageController extends Controller
 {

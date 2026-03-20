@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ShopCategory;
+use App\Models\ShopCategory;
 use Illuminate\Http\Request;
 
 
@@ -23,11 +23,11 @@ class ShopCategoryController extends Controller
     }
 
     public function getSlugByArray($arr) {
-        
+
         $res = [];
         $parentId = null;
     foreach($arr as $slug) {
-        
+
         if ($parentId) {
             $category = ShopCategory::where('slug','=',$slug)->where('parent_id','=',$parentId)->first();
         } else {
@@ -38,8 +38,8 @@ class ShopCategoryController extends Controller
     }
         return $res;
     }
-    
-    
+
+
     public function getCategoryByArray($arr) {
         $parentId = null;
         $categoryR = null;
@@ -67,7 +67,7 @@ class ShopCategoryController extends Controller
     $category = ShopCategory::where('id','=',$id)->first();
     $res = ['name' => $category->name,'slug'=>"https://akwagarant.ru/catalog/" . $category->slug];
     return $res;
-    
+
    }
     public function getUrlByCode($id, $code) {
         $chains = [];

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\AObject;
+use App\Models\AObject;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Object_;
 
@@ -30,9 +30,9 @@ public function get4Object() {
     })
     ->orWhereIn('id', [91, 89]) // Добавляем замены
     ->orderByRaw("
-        CASE 
-            WHEN id IN (91, 89) THEN 0 
-            ELSE 1 
+        CASE
+            WHEN id IN (91, 89) THEN 0
+            ELSE 1
         END,
         id DESC
     ")
@@ -56,7 +56,7 @@ public function get4Object() {
     }
 
     public function addNewObject(Request $request,$hash) {
-        
+
         $object = new AObject();
         $object->name = $request->name;
         $object->title = "";
@@ -64,8 +64,8 @@ public function get4Object() {
         $object->description = "";
         $object->slider_hash = $hash;
         $object->content = $request->content;
-       
+
         $object->save();
-        
+
     }
 }

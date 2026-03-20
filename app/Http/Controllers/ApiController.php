@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\ShopCategory;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
