@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container p-5">
-        
+
         <div class="topText">
             {{$topText}}
         </div>
@@ -52,7 +52,7 @@
                         ?>
                     </div>
                     <div class="main-items-content">
-                        <a href="/goods/{{$item->id}}">
+                        <a href="{{route('showItemPage', $item)}}">
                             <h3>{{$item->name}}</h3>
                         </a>
                         <?php
@@ -120,7 +120,7 @@
                                 @foreach($items['subitems'][$item->id] as $subitem)
                                     <tr>
                                         <th scope="row">{{$subitem->art}}</th>
-                                        <td><a href="/goods/{{$subitem->id}}/">{{$subitem->name}}</a></td>
+                                        <td><a href="{{route('showItemPage', $subitem)}}">{{$subitem->name}}</a></td>
                                         <?php
                                         $price = null;
                                         $priceController = new \App\Http\Controllers\PriceController();

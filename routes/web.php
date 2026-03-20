@@ -11,83 +11,99 @@
 |
 */
 
-Route::group(['namespace' => 'App\Http\Controllers'], function () {
-    // Authentication Routes...
-    Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-    Route::post('login', 'Auth\LoginController@login');
-    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+use App\Http\Controllers\AObjectController;
+use App\Http\Controllers\ApiController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\NoticeController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\ShopCategoryController;
+use App\Http\Controllers\UploadController;
+use Illuminate\Support\Facades\Route;
 
-    // Registration Routes...
-    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-    Route::post('register', 'Auth\RegisterController@register');
+// Authentication Routes...
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-    // Password Reset Routes...
-    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+// Registration Routes...
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [RegisterController::class, 'register']);
 
-    Route::get('/home', 'HomeController@index')->name('home');
+// Password Reset Routes...
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-    Route::post('/upload-image', 'UploadController@upload');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::get('home/{any}', 'HomeController@index')->where('any', '.*');
-    /**
-     * Роуты для навигации по сайту
-     */
-    Route::get('/', 'PageController@showIndexPage')->name('showIndexPage');
-    Route::get('/test', 'PageController@showIndexTestPage')->name('showIndexTestPage');
-    Route::get('/objects', 'PageController@showObjectsListPage')->name('showObjectsListPage');
-    Route::get('/object/{object}', 'PageController@showObjectPage')->name('showObjectPage');
-    Route::get('/blog', 'PageController@showArticlesListPage')->name('showArticlesListPage');
-    Route::get('/blog/{article}', 'PageController@showArticlePage')->name('showArticlePage');
-    Route::get('/price', 'PageController@showPricePage')->name('showPricePage');
-    Route::get('/contacts', 'PageController@showContactPage')->name('showContactPage');
-    Route::get('/internet-magazin', 'PageController@showShopHeadPage')->name('showShopHeadPage');
-    Route::get('/catalog/{any}', 'PageController@showCategoryPage')->name('showCategoryPage')->where('any', '.*');
-    Route::get('/goods/{item}', 'PageController@showItemPage')->name('showItemPage');
-    Route::get('/cart', 'PageController@showCart')->name('showCart');
-    Route::get('/thanks', 'PageController@showThanks')->name('showThanks');
-    Route::get('/video', 'PageController@showVideo')->name('showVideo');
-    /**
-     * Роуты для API
-     */
-    Route::group(['prefix' => 'api'], function () {
-        Route::post('/send-mail', 'ApiController@sendMessage');
-        Route::post('/send-cart', 'CartController@sendCart');
+Route::post('/upload-image', [UploadController::class, 'upload']);
 
-        Route::prefix('items')->group(function () {
-            Route::get('/', 'ItemController@loadAllItems');
-            Route::get('/{id}', 'ItemController@getItemById');
-            Route::post('/save', 'ItemController@saveItem');
-            Route::post('/new', 'ItemController@addNewItem');
-            Route::delete('/{id}', 'ItemController@deleteItem');
-        });
+Route::get('home/{any}', [HomeController::class, 'index'])->where('any', '.*');
 
-        Route::prefix('categories')->group(function () {
-            Route::get('/', 'ShopCategoryController@getAllCategory');
-            Route::get('/{id}', 'ShopCategoryController@loadSingleCat');
-            Route::post('/new', 'ShopCategoryController@addNewCat');
-            Route::post('/update', 'ShopCategoryController@updateCat');
-            Route::delete('/{id}', 'ShopCategoryController@deleteCategory');
-        });
+/**
+ * Роуты для навигации по сайту
+ */
+Route::get('/', [PageController::class, 'showIndexPage'])->name('showIndexPage');
+Route::get('/test', [PageController::class, 'showIndexTestPage'])->name('showIndexTestPage');
+Route::get('/objects', [PageController::class, 'showObjectsListPage'])->name('showObjectsListPage');
+Route::get('/object/{object}', [PageController::class, 'showObjectPage'])->name('showObjectPage');
+Route::get('/blog', [PageController::class, 'showArticlesListPage'])->name('showArticlesListPage');
+Route::get('/blog/{article}', [PageController::class, 'showArticlePage'])->name('showArticlePage');
+Route::get('/price', [PageController::class, 'showPricePage'])->name('showPricePage');
+Route::get('/contacts', [PageController::class, 'showContactPage'])->name('showContactPage');
+Route::get('/internet-magazin', [PageController::class, 'showShopHeadPage'])->name('showShopHeadPage');
+Route::get('/catalog/{any}', [PageController::class, 'showCategoryPage'])->name('showCategoryPage')->where('any', '.*');
+Route::get('/goods/{item}', [PageController::class, 'showItemPage'])->name('showItemPage');
+Route::get('/cart', [PageController::class, 'showCart'])->name('showCart');
+Route::get('/thanks', [PageController::class, 'showThanks'])->name('showThanks');
+Route::get('/video', [PageController::class, 'showVideo'])->name('showVideo');
 
-        Route::prefix('articles')->group(function () {
-            Route::get('/', 'ArticleController@loadArticlesForApi');
-            Route::get('/{id}', 'ArticleController@loadSingleArt');
-            Route::post('/new', 'ArticleController@saveNewArt');
-            Route::post('/update', 'ArticleController@updateArticle');
-            Route::delete('/{id}', 'ArticleController@deleteArt');
-        });
+/**
+ * Роуты для API
+ */
+Route::prefix('api')->group(function () {
+    Route::post('/send-mail', [ApiController::class, 'sendMessage']);
+    Route::post('/send-cart', [CartController::class, 'sendCart']);
 
-        Route::prefix('objects')->group(function () {
-            Route::get('/', 'AObjectController@getAllObjects');
-            Route::get('/{id}', 'AObjectController@loadSingleObj');
-            Route::post('/new', 'AObjectController@addNewObject');
-            Route::post('/update', 'AObjectController@updateObj');
-            Route::delete('/{id}', 'AObjectController@deleteObj');
-        });
-
-        Route::get('/notices', 'NoticeController@getNotice');
+    Route::prefix('items')->group(function () {
+        Route::get('/', [ItemController::class, 'loadAllItems']);
+        Route::get('/{id}', [ItemController::class, 'getItemById']);
+        Route::post('/save', [ItemController::class, 'saveItem']);
+        Route::post('/new', [ItemController::class, 'addNewItem']);
+        Route::delete('/{id}', [ItemController::class, 'deleteItem']);
     });
+
+    Route::prefix('categories')->group(function () {
+        Route::get('/', [ShopCategoryController::class, 'getAllCategory']);
+        Route::get('/{id}', [ShopCategoryController::class, 'loadSingleCat']);
+        Route::post('/new', [ShopCategoryController::class, 'addNewCat']);
+        Route::post('/update', [ShopCategoryController::class, 'updateCat']);
+        Route::delete('/{id}', [ShopCategoryController::class, 'deleteCategory']);
+    });
+
+    Route::prefix('articles')->group(function () {
+        Route::get('/', [ArticleController::class, 'loadArticlesForApi']);
+        Route::get('/{id}', [ArticleController::class, 'loadSingleArt']);
+        Route::post('/new', [ArticleController::class, 'saveNewArt']);
+        Route::post('/update', [ArticleController::class, 'updateArticle']);
+        Route::delete('/{id}', [ArticleController::class, 'deleteArt']);
+    });
+
+    Route::prefix('objects')->group(function () {
+        Route::get('/', [AObjectController::class, 'getAllObjects']);
+        Route::get('/{id}', [AObjectController::class, 'loadSingleObj']);
+        Route::post('/new', [AObjectController::class, 'addNewObject']);
+        Route::post('/update', [AObjectController::class, 'updateObj']);
+        Route::delete('/{id}', [AObjectController::class, 'deleteObj']);
+    });
+
+    Route::get('/notices', [NoticeController::class, 'getNotice']);
 });

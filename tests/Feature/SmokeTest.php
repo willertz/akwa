@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class SmokeTest extends TestCase
@@ -18,10 +20,8 @@ class SmokeTest extends TestCase
         $this->seed();
     }
 
-    /**
-     * @test
-     * @dataProvider publicUrls
-     */
+    #[Test]
+    #[DataProvider('publicUrls')]
     public function test_public_urls_are_accessible(string $url, int $expectedStatus = 200): void
     {
         $testResponse = $this->get($url);
@@ -45,7 +45,7 @@ class SmokeTest extends TestCase
         ];
     }
 
-    /** @test */
+    #[Test]
     public function test_api_articles_endpoint_is_accessible(): void
     {
         $testResponse = $this->get('/api/articles');

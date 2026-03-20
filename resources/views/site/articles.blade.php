@@ -16,7 +16,7 @@
                             <p class="card-text" style="text-align: justify;">
                                <?= mb_strimwidth(strip_tags($article->content),0,500,'...'); ?>
                             </p>
-                            <a href="{{route('showArticlePage',[$article->slug])}}">Читать далее...</a>
+                            <a href="{{route('showArticlePage', $article)}}">Читать далее...</a>
                         </div>
                     </div>
                 </div>

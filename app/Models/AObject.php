@@ -7,7 +7,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 
 class AObject extends Model
 {
@@ -16,11 +15,13 @@ class AObject extends Model
     protected $fillable = ['name', 'title', 'preview_pict', 'description', 'slider_hash', 'content'];
 
     /**
-     * @return Collection<int, AObject>
+     * @param  Builder<AObject>  $query
+     * @return Builder<AObject>
      */
-    public static function getLatest4(): Collection
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function getLatest4(Builder $query): Builder
     {
-        return self::where(static function (Builder $builder): void {
+        return $query->where(static function (Builder $builder): void {
             $builder->whereNotIn('id', [100, 98])
                 ->orderBy('id', 'desc')
                 ->limit(4);
@@ -33,8 +34,7 @@ class AObject extends Model
                 END,
                 id DESC
             ')
-            ->limit(4)
-            ->get();
+            ->limit(4);
     }
 
     /**

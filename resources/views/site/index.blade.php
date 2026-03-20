@@ -171,7 +171,7 @@
 
             <div class="placeholder-obj">
             @foreach($objects as $object)
-                    <a href="{{route('showObjectPage',[$object->id])}}" class="disDecor">
+                    <a href="{{route('showObjectPage', $object)}}" class="disDecor">
                     <div class="square-object" style="background-image: url({{$object->preview_pict}})">
                         {{$object->name}}
                     </div>
@@ -191,7 +191,7 @@
         <div class="row">
              <div class="col-md-6 col-xs-12">
               <iframe width="100%" height="315" src="https://www.youtube.com/embed/5wkNP9d5pVM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>  
+          </div>
             <div class="col-md-6">
                 <iframe width="100%" height="315" src="https://www.youtube.com/embed/NDNU9JrKKeU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
