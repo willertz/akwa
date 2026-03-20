@@ -10,17 +10,20 @@ class Article extends Model
 {
     use HasSlug;
 
+    protected $fillable = ['name', 'title', 'description', 'content', 'slug'];
+
     /**
      * Get the options for generating the slug.
      */
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
 
-    public function getRouteKeyName() {
+    public function getRouteKeyName()
+    {
         return 'slug';
     }
 }

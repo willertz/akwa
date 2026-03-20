@@ -2,35 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class MessageController extends Controller
 {
-    public static function sendMessage($name,$phone,$mail) {
+    public static function sendMessage($name, $phone, $mail): void
+    {
         $data = [
             'phone' => $phone,
             'name' => $name,
             'mail' => $mail,
         ];
-        Mail::send(['html' => 'mail'], $data, function($message)
-        {
+        Mail::send(['html' => 'mail'], $data, static function ($message) {
             $message->to('timofeev@akwagarant.ru', 'Аквагарант')->subject('Новая заявка на сайте Аквагарант!');
-            $message->from('admin@vipseptic.ru','Support Akwagarant');
+            $message->from('admin@vipseptic.ru', 'Support Akwagarant');
         });
     }
 
-    public static function sendOrder($name,$phone, $mail,$order) {
+    public static function sendOrder($name, $phone, $mail, $order)
+    {
         $data = [
             'phone' => $phone,
             'name' => $name,
             'mail' => $mail,
-            'order' => $order
+            'order' => $order,
         ];
-        Mail::send(['html' => 'order'], $data, function($message)
-        {
+        Mail::send(['html' => 'order'], $data, static function ($message) {
             $message->to('timofeev@akwagarant.ru', 'Аквагарант')->subject('Новый заказ на сайте Аквагарант!');
-            $message->from('rsitnikov75@gmail.com','Support Akwagarant');
+            $message->from('rsitnikov75@gmail.com', 'Support Akwagarant');
         });
     }
 }

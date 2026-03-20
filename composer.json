@@ -13,10 +13,13 @@
         "guzzlehttp/guzzle": "^7.8",
         "laravel/framework": "13.1.1 as 12.0",
         "laravel/ui": "^4.6",
-        "spatie/laravel-sluggable": "^3.6"
+        "spatie/laravel-sluggable": "^3.6",
+        "ext-mbstring": "*"
     },
     "require-dev": {
+        "driftingly/rector-laravel": "^2.2",
         "fakerphp/faker": "^1.23",
+        "laravel/pint": "^1.29",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
         "phpunit/phpunit": "^11.0"
