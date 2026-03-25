@@ -1,0 +1,23 @@
+{
+  "resources/img/delete.png": {
+    "file": "assets/delete-kgLUs_AO.png",
+    "src": "resources/img/delete.png"
+  },
+  "resources/img/favicon3.png": {
+    "file": "assets/favicon3-D1-StSL6.png",
+    "src": "resources/img/favicon3.png"
+  },
+  "resources/img/favicon4.png": {
+    "file": "assets/favicon4-BwMWh8bx.png",
+    "src": "resources/img/favicon4.png"
+  },
+  "resources/img/favicon5.png": {
+    "file": "assets/favicon5-CcqGAP-M.png",
+    "src": "resources/img/favicon5.png"
+  },
+  "resources/sass/main.scss": {
+    "file": "assets/main-BxQw2BeX.css",
+    "src": "resources/sass/main.scss",
+    "isEntry": true
+  }
+}

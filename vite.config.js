@@ -7,7 +7,9 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/sass/app.scss',
+                'resources/sass/main.scss',
                 'resources/js/app.js',
+                'resources/js/site.js',
                 'resources/js/calc.js',
             ],
             refresh: true,
@@ -21,6 +23,13 @@ export default defineConfig({
             },
         }),
     ],
+    css: {
+        preprocessorOptions: {
+            scss: {
+                api: 'modern-compiler',
+            },
+        },
+    },
     resolve: {
         alias: {
             'vue': 'vue/dist/vue.esm-bundler.js',

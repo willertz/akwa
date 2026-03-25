@@ -1,37 +1,51 @@
 @extends('layouts.site')
 
 @section('content')
-    <div class="objects-list-wrapper">
+    <!-- Portfolio section -->
+    <section class="portfolio page">
+        <!-- container -->
         <div class="container">
-            <div class="topText">
-                {{$topText}}
+            <!-- Little section title -->
+            <div class="page_title">
+                НАШИ СТАТЬИ
             </div>
-            <div class="row">
-
-                @foreach($articles as $article)
-                <div class="col-sm-6 ">
-                    <div class="card border-primary mb-3" >
-                        <div class="card-header bg-primary text-white"><b>{{$article->name}}</b></div>
-                        <div class="card-body text-dark" style="height: auto">
-                            <p class="card-text" style="text-align: justify;">
-                               <?= mb_strimwidth(strip_tags($article->content),0,500,'...'); ?>
-                            </p>
-                            <a href="{{route('showArticlePage', $article)}}">Читать далее...</a>
-                        </div>
-                    </div>
-                </div>
-                 @endforeach
+            <!-- Section title -->
+            <div class="section_title">
+                AKWAGARANT
             </div>
         </div>
-    </div>
-    <style>
-        .topText {
-            background: #e6e6e6;
-            padding: 20px;
-            margin: 20px 0 40px 0;
-            text-align: initial;
-            font-weight: bold;
-            font-size: 19px;
-        }
-    </style>
+        <!-- row -->
+        <div class="row">
+            @foreach($articles as $index => $article)
+                <!-- Portfolio -->
+                <a href="{{route('showArticlePage', $article)}}" class="portfolio_item {{ ($index % 6 == 0) ? 'half' : '' }}">
+                    <!-- Item img -->
+                    @if($article->img)
+                        <img src="{{asset('img/' . $article->img)}}" alt="{{$article->name}}">
+                    @else
+                        <img src="{{asset('img/portfolio_item.jpg')}}" alt="{{$article->name}}">
+                    @endif
+                    <!-- Item top hover -->
+                    <div class="item_top_hover">
+                        <!-- Item title -->
+                        <div class="item_title">{{$article->name}}</div>
+                        <!-- Item description -->
+                        <div class="description">
+                            <?= mb_strimwidth(strip_tags($article->content), 0, 500, '...'); ?>
+                        </div>
+                    </div>
+                    <!-- Item hover -->
+                    <div class="hover_bottom">
+                        <!-- Left side -->
+                        <div class="left_side">
+                            <!-- Item title -->
+                            <div class="item_title">
+                                {{$article->name}}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+    </section>
 @endsection

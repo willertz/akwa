@@ -1,55 +1,100 @@
 <template>
-    <div class="container-fluid p-5">
-        <div class="row">
-            <div class="col-md-12" style="text-align: center">
-                <div class="alert alert-primary" role="alert">
-                    Если для товара указана цена 0 - стоимость необходимо уточнять у менеджера.
+    <div class="container">
+        <!-- section title -->
+        <div class="section_title">
+            Корзина
+        </div>
+        <!-- row -->
+        <div class="row" v-if="items.length > 0">
+            <!-- Left side -->
+            <div class="left_side">
+                <!-- row -->
+                <div class="row none">
+                    <!-- basket item -->
+                    <div class="basket_item active" v-for="item in items" :key="item.id">
+                        <div class="item_img">
+                            <img src="/img/shop.jpg" alt="">
+                        </div>
+                        <!-- item information -->
+                        <div class="item_information">
+                            <!-- item title -->
+                            <a href="#" class="item_title">
+                                {{item.name}}
+                            </a>
+                            <!-- item inputs and plus -->
+                            <div class="input_row">
+                                <!-- calculate -->
+                                <div class="calculate">
+                                    <!-- minus -->
+                                    <div class="minus" @click="minusItem(item)">
+                                        -
+                                    </div>
+                                    <input type="number" name="numb" class="number_inp" v-model="item.count" :min="1">
+                                    <!-- Plus -->
+                                    <div class="plus" @click="plusItem(item)">
+                                        +
+                                    </div>
+                                </div>
+                                <!-- heart -->
+                                <div class="right_info">
+                                    <!-- Price -->
+                                    <div class="price">
+                                        {{getFloorNumber(item.price * item.count)}} ₽
+                                    </div>
+                                    <!-- delete btn -->
+                                    <div class="delete_btn" @click="deleteItem(item.id)"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- All of this price -->
+                <div class="all_price active">
+                    Итого:<span> {{sum}} ₽</span>
+                </div>
+                <!-- form inputs -->
+                <div class="form_inputs">
+                    <!-- Left input -->
+                    <div class="left_input">
+                        <!-- title -->
+                        <div class="title">
+                            Данные покупателя
+                        </div>
+                        <!-- inputs -->
+                        <div class="inputs">
+                            <input type="text" placeholder="ФИО" v-model="name">
+                            <input type="text" placeholder="E-mail" v-model="mail">
+                            <input type="text" placeholder="Телефон" v-model="phone">
+                            <!-- check -->
+                            <div class="check">
+                                <input type="checkbox" checked>
+                                <span>Я даю согласие на обработку персональных данных</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right input -->
+                    <div class="right_input">
+                        <!-- title -->
+                        <div class="title">
+                            Доставка
+                        </div>
+                        <!-- inputs -->
+                        <div class="inputs">
+                            <input type="text" placeholder="Город" v-model="city">
+                            <input type="text" placeholder="Адрес" v-model="address">
+                            <input type="text" placeholder="Примечание" v-model="note">
+                        </div>
+                    </div>
+                </div>
+                <!-- order btn -->
+                <div class="order_buttons">
+                    <button class="order_btn" @click="sendCart()">Оформить заказ</button>
+                    <a href="/shop" class="basket_btn">Продолжить покупки</a>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <table class="table" v-if="items.length > 0">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Удалить</th>
-                        <th scope="col">Название</th>
-                        <th scope="col">Количество</th>
-                        <th scope="col">Цена</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="item in items" :key="item.id">
-                        <td> <i class="material-icons" style="cursor: pointer" @click="deleteItem(item.id)">
-                            clear
-                        </i></td>
-                        <td>{{item.name}}</td>
-                        <td><VueNumberInput inline controls v-model="item.count" :min="1"></VueNumberInput></td>
-                        <td>{{getFloorNumber(item.price)}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
-            <div class="col-md-6">
-                <h3><b>Общая сумма заказа:</b></h3>
-                <h4>{{sum}} руб.</h4>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Email</label>
-                        <input type="email" class="form-control"  id="exampleInputEmail1" placeholder="Введите email" v-model="mail">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPHONE">Телефон</label>
-                        <input type="email" class="form-control" id="exampleInputPHONE" placeholder="Введите телефон" v-model="phone">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputFIO">Фио</label>
-                        <input type="email" class="form-control" id="exampleInputFIO"  placeholder="Введите ФИО" v-model="name">
-                    </div>
-
-                    <button type="button" class="btn btn-primary" @click="sendCart()">Отправить заказ менеджеру</button>
-            </div>
+        <div v-else class="non_product" style="display: block;">
+            Невозможно оформить заказ, поскольку корзина пуста
         </div>
     </div>
 </template>
@@ -62,6 +107,9 @@ const items = ref([]);
 const name = ref("");
 const phone = ref("");
 const mail = ref("");
+const city = ref("Воронеж");
+const address = ref("");
+const note = ref("");
 
 const sum = computed(() => {
     let s = 0;
@@ -95,6 +143,26 @@ const getFloorNumber = (n) => {
     return Math.floor(n * 100) / 100;
 };
 
+const plusItem = (item) => {
+    item.count++;
+    updateLocalStorage();
+};
+
+const minusItem = (item) => {
+    if (item.count > 1) {
+        item.count--;
+        updateLocalStorage();
+    }
+};
+
+const updateLocalStorage = () => {
+    const cartData = {};
+    items.value.forEach(item => {
+        cartData[item.id] = [item.name, item.price, item.count];
+    });
+    localStorage.setItem('cart', JSON.stringify(cartData));
+};
+
 const deleteItem = (id) => {
     const cartData = getCartData();
     if (cartData.hasOwnProperty(id)) {
@@ -113,6 +181,9 @@ const sendCart = () => {
         name: name.value,
         phone: phone.value,
         mail: mail.value,
+        city: city.value,
+        address: address.value,
+        note: note.value,
         items: items.value
     })
     .then(response => {

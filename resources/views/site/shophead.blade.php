@@ -1,46 +1,51 @@
 @extends('layouts.site')
 
+@section('breadcrumbs')
+    <ul class="old_page">
+        <li><a href="{{route('showIndexPage')}}">Главная</a></li>
+        <li>></li>
+        <li><a href="{{route('showShopHeadPage')}}" class="active">Каталог</a></li>
+    </ul>
+@endsection
+
 @section('content')
-    <div class="container p-5">
-        <div class="topText">
-            {{$topText}}
+    <section class="articles new_shop">
+        <div class="container">
+            <div class="section_info">
+                {{$topText}}
+            </div>
         </div>
-        <div class="row">
-            @foreach($categories as $category)
-            <div class="col-md-3">
-                <div class="card cat-card-shop" style="width: 18rem;">
-                    <a href="/catalog/{{$category->slug}}">
-                    <h5 class="card-title shop-cat-title">{{$category->name}}</h5>
-                    </a>
-                    <a href="/catalog/{{$category->slug}}">
-                        <?php
-                        if ($category->preview):
-                        ?>
-                        <img class="card-img-top" style="width: 60% !important;"
-                             src="{{$category->preview}}">
-<?php
-                                else:
-?>
-                            <img class="card-img-top"
-                                 src="/userfiles/system/no_product.png" style="width: 70% !important;">
-                        <?php
-                                endif;
-                        ?>
-                    </a>
+    </section>
+
+    <section class="shop">
+        <div class="container">
+            <div class="row">
+                <div class="left_side">
+                    <ul class="menu">
+                        @foreach($categories as $category)
+                        <li>
+                            <a href="/catalog/{{$category->slug}}" class="link">{{$category->name}}</a>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="right_side">
+                    <div class="right_row">
+                        @foreach($categories as $category)
+                        <a href="/catalog/{{$category->slug}}" class="shop_item">
+                            <div class="item_img">
+                                @if($category->preview)
+                                    <img src="{{asset($category->preview)}}" alt="{{$category->name}}">
+                                @else
+                                    <img src="{{asset('userfiles/system/no_product.png')}}" alt="{{$category->name}}">
+                                @endif
+                            </div>
+                            <div class="item_title">{{$category->name}}</div>
+                        </a>
+                        @endforeach
+                    </div>
                 </div>
             </div>
-                @endforeach
-            </div>
-
-    </div>
-    <style>
-        .topText {
-            background: #e6e6e6;
-            padding: 20px;
-            margin: 20px 0 40px 0;
-            text-align: initial;
-            font-weight: bold;
-            font-size: 19px;
-        }
-    </style>
+        </div>
+    </section>
 @endsection
