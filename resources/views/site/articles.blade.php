@@ -1,5 +1,4 @@
 @extends('layouts.site')
-
 @section('content')
     <!-- Portfolio section -->
     <section class="portfolio page">
@@ -20,8 +19,8 @@
                 <!-- Portfolio -->
                 <a href="{{route('showArticlePage', $article)}}" class="portfolio_item {{ ($index % 6 == 0) ? 'half' : '' }}">
                     <!-- Item img -->
-                    @if($article->img)
-                        <img src="{{asset('img/' . $article->img)}}" alt="{{$article->name}}">
+                    @if($article->preview)
+                        <img src="{{ $article->preview }}" alt="{{ $article->preview_alt ?: $article->name }}" loading="lazy">
                     @else
                         <img src="{{asset('img/portfolio_item.jpg')}}" alt="{{$article->name}}">
                     @endif

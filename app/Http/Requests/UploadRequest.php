@@ -16,7 +16,8 @@ class UploadRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|image|max:10240', // Max 10MB
+            'file'   => 'nullable|image|max:10240', // Max 10MB (TinyMCE)
+            'upload' => 'nullable|image|max:10240', // Max 10MB (CKEditor)
         ];
     }
 }

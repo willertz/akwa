@@ -12,7 +12,11 @@ class AObject extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'title', 'preview_pict', 'description', 'slider_hash', 'content'];
+    protected $fillable = ['name', 'title', 'preview_pict', 'description', 'slider_hash', 'content', 'floors', 'price_per_sqm', 'area', 'detail_description', 'left_image', 'features', 'big_description'];
+
+    protected $casts = [
+        'features' => 'array',
+    ];
 
     /**
      * @param  Builder<AObject>  $query

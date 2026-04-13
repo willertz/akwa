@@ -22,6 +22,8 @@
 
 $config = [];
 
+$config['loadRoutes'] = true;
+
 $config['authentication'] = function () {
     return true;
 };

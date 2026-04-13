@@ -9,12 +9,14 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "ext-mbstring": "*",
         "ckfinder/ckfinder-laravel-package": "^5.0",
         "guzzlehttp/guzzle": "^7.8",
+        "intervention/image": "^4.0",
         "laravel/framework": "13.1.1 as 12.0",
+        "laravel/tinker": "^3.0",
         "laravel/ui": "^4.6",
-        "spatie/laravel-sluggable": "^3.6",
-        "ext-mbstring": "*"
+        "spatie/laravel-sluggable": "^3.6"
     },
     "require-dev": {
         "driftingly/rector-laravel": "^2.2",

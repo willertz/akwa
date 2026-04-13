@@ -14,7 +14,7 @@ class Article extends Model
 {
     use HasFactory, HasSlug;
 
-    protected $fillable = ['name', 'title', 'description', 'content', 'slug'];
+    protected $fillable = ['name', 'title', 'description', 'content', 'slug', 'preview', 'preview_alt'];
 
     /**
      * Get the options for generating the slug.

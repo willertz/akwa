@@ -23,6 +23,16 @@ class AObjectRequest extends FormRequest
             'description' => 'nullable|string',
             'slider' => 'sometimes|array',
             'content' => 'nullable|string',
+            'floors' => 'nullable|integer',
+            'price_per_sqm' => 'nullable|integer',
+            'area' => 'nullable|integer',
+            'detail_description' => 'nullable|string',
+            'left_image' => 'nullable|string',
+            'features' => 'nullable|array',
+            'features.*.number' => 'nullable|string',
+            'features.*.title' => 'nullable|string',
+            'features.*.description' => 'nullable|string',
+            'big_description' => 'nullable|string',
         ];
     }
 }

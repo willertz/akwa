@@ -50,15 +50,15 @@ class PageController extends Controller
     }
 
     /** Метод для отображения страницы объекта */
-    public function showObjectPage(AObject $aObject): View
+    public function showObjectPage(AObject $object): View
     {
         return view('site.object', [
-            'h1' => $aObject->name,
-            'title' => 'Выполнен монтаж отопления на объекте "'.$aObject->name.'" – компания Аквагарант',
-            'description' => mb_strimwidth(strip_tags((string) $aObject->content), 0, 160, '...'),
-            'object' => $aObject,
-            'slider' => $aObject->getSliderUrls(),
-            'topText' => 'Если вы хотели бы заказать монтаж отопления в коттедже, частном доме или квартире как на объекте "'.$aObject->name.'", '.self::CONTACT_CTA,
+            'h1' => $object->name,
+            'title' => 'Выполнен монтаж отопления на объекте "'.$object->name.'" – компания Аквагарант',
+            'description' => mb_strimwidth(strip_tags((string) $object->content), 0, 160, '...'),
+            'object' => $object,
+            'slider' => $object->getSliderUrls(),
+            'topText' => 'Если вы хотели бы заказать монтаж отопления в коттедже, частном доме или квартире как на объекте "'.$object->name.'", '.self::CONTACT_CTA,
         ]);
     }
 

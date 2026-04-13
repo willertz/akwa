@@ -43,13 +43,15 @@
                         v-model="description"
                 ></v-textarea>
             </v-col>
+
+            <v-col cols="12">
+                <div class="field-label">Превью изображение</div>
+                <ImagePicker v-model="preview" v-model:alt-value="previewAlt" preview-height="200px" />
+            </v-col>
         </v-row>
 
         <h3>Содержание</h3>
-        <tinymce id="d1"
-                 :other_options="tinyOptions"
-                 v-model="content"
-        ></tinymce>
+        <TipTapEditor v-model="content" />
         <br>
         <v-btn color="success" block size="small" @click="updateArticle()">Сохранить</v-btn>
     </div>
@@ -59,6 +61,8 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
+import TipTapEditor from './media/TipTapEditor.vue';
+import ImagePicker from './media/ImagePicker.vue';
 
 const route = useRoute();
 const id = route.params.id;
@@ -69,30 +73,20 @@ const text = ref('Статья успешно изменена!');
 const name = ref("");
 const title = ref("");
 const description = ref("");
+const preview = ref("");
+const previewAlt = ref("");
 const content = ref("");
-
-const tinyOptions = {
-    'height': 500,
-    language_url: '/langs/ru.js',
-    plugins: [
-        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-        "searchreplace wordcount visualblocks visualchars code fullscreen",
-        "insertdatetime media nonbreaking save table contextmenu directionality",
-        "emoticons template paste textcolor colorpicker textpattern"
-    ],
-    toolbar: ' undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media',
-    images_upload_url: '/upload-image',
-};
 
 const updateArticle = async () => {
     try {
-        await axios.post('/api', {
-            apiMethod: 'updateArticle',
+        await axios.post('/api/articles/update', {
             id: id,
             name: name.value,
             title: title.value,
             description: description.value,
-            content: content.value
+            content: content.value,
+            preview: preview.value,
+            preview_alt: previewAlt.value
         });
         snackbar.value = true;
     } catch (error) {
@@ -102,15 +96,14 @@ const updateArticle = async () => {
 
 const loadArticle = async () => {
     try {
-        const response = await axios.post('/api', {
-            apiMethod: 'loadSingleArt',
-            id: id,
-        });
+        const response = await axios.get('/api/articles/' + id);
         if (response.data && response.data[0]) {
             name.value = response.data[0].name;
             title.value = response.data[0].title;
             description.value = response.data[0].description;
             content.value = response.data[0].content;
+            preview.value = response.data[0].preview || '';
+            previewAlt.value = response.data[0].preview_alt || '';
         }
     } catch (error) {
         console.error(error);
@@ -123,5 +116,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
+.field-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 8px;
+}
 </style>

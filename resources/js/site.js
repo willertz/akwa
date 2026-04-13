@@ -1,6 +1,21 @@
 // Optimized and modular JavaScript code
+import 'swiper/swiper-bundle.css';
+import 'lightgallery/css/lightgallery-bundle.min.css';
+import 'intl-tel-input/build/css/intlTelInput.min.css';
+import Swiper from 'swiper/bundle';
+import lightGallery from 'lightgallery';
+import lgZoom from 'lightgallery/plugins/zoom';
+import lgThumbnail from 'lightgallery/plugins/thumbnail';
+import intlTelInput from 'intl-tel-input';
+
+window.Swiper = Swiper;
+window.lightGallery = lightGallery;
+window.lgZoom = lgZoom;
+window.lgThumbnail = lgThumbnail;
+window.intlTelInput = intlTelInput;
+
 $(document).ready(function() {
-    
+
     // ==== SAHIFA YUKLASH ANIMATSIYASI ====
     if ($('.loading').length) {
         window.addEventListener('load', () => {
@@ -37,7 +52,7 @@ $(document).ready(function() {
     // ==== SVG ANIMATSIYA SISTEMA ====
     if ($('.letter').length) {
         let animationPaused = false;
-        
+
         // CSS animatsiya uslublari
         const animationCSS = `
             .letter { animation: drawLetter 2s ease-in-out forwards; }
@@ -51,13 +66,13 @@ $(document).ready(function() {
             .letter.restart { animation: none; }
             .glow { filter: drop-shadow(0 0 10px #000) drop-shadow(0 0 20px #000) drop-shadow(0 0 30px #000); }
         `;
-        
+
         $('<style>').text(animationCSS).appendTo('head');
 
         function restartAnimation() {
             const letters = $('.letter');
             letters.addClass('restart').css('stroke-dashoffset', '200');
-            
+
             setTimeout(() => {
                 letters.removeClass('restart paused').css('animation', 'none');
                 letters[0].offsetHeight; // reflow
@@ -117,13 +132,13 @@ $(document).ready(function() {
         if ($(`.${buttonClass}`).length) {
             $(`.${buttonClass}`).on('click', function(e) {
                 e.preventDefault();
-                
+
                 const swiper = $(this).closest('.item_swiper');
                 const galleryItems = swiper.find('.photo');
-                
+
                 if (galleryItems.length && typeof lightGallery !== 'undefined') {
                     const tempGallery = $('<div>').hide().appendTo('body');
-                    
+
                     const lg = lightGallery(tempGallery[0], {
                         dynamic: true,
                         dynamicEl: galleryItems.map((i, el) => ({
@@ -134,7 +149,7 @@ $(document).ready(function() {
                         thumbnail: true,
                         zoom: true
                     });
-                    
+
                     lg.openGallery(0);
                 }
             });
@@ -146,7 +161,7 @@ $(document).ready(function() {
 
     // ==== TELEFON INPUT ====
     if (typeof intlTelInput !== 'undefined') {
-        ['#phone', '#phone_mobile'].forEach(selector => {
+        ['#phone', '#phone_mobile', '#objectFormPhone'].forEach(selector => {
             const input = document.querySelector(selector);
             if (input) {
                 intlTelInput(input, {
@@ -186,10 +201,10 @@ $(document).ready(function() {
         const $hamburger = $('#hamburger');
         const $nav = $('#nav');
         const $helpItem = $('#help_item');
-        
+
         $hamburger.on('click', () => {
             isOpen = !isOpen;
-            [$hamburger, $nav, $helpItem].forEach($el => 
+            [$hamburger, $nav, $helpItem].forEach($el =>
                 $el.toggleClass('active', isOpen)
             );
         });
@@ -202,7 +217,7 @@ $(document).ready(function() {
                 entry.isIntersecting && entry.target.classList.add('animate');
             });
         });
-        
+
         $('.step').each((i, el) => observer.observe(el));
     }
 
@@ -211,7 +226,7 @@ $(document).ready(function() {
         $('.service a').on('click', function(e) {
             e.preventDefault();
             const $service = $(this).closest('.service');
-            
+
             if ($service.hasClass('active')) {
                 $service.removeClass('active');
             } else {
@@ -252,7 +267,7 @@ $(document).ready(function() {
     $('.select').removeClass('open');
   });
 
-  if ($('.swiper_images .swiper-slide').length > 1) {
+  if ($('.swiper_images .swiper-slide').length > 0) {
     new Swiper('.swiper_images', {
       effect: 'fade',
       fadeEffect: {
@@ -287,15 +302,15 @@ $(document).ready(function() {
     }
     $('.more_btn').on('click', function(e) {
         e.preventDefault();
-    
+
         $(this).addClass('hid');
-    
+
         var catalogItem = $(this).closest('.catalog_item');
-    
+
         var hiddenItems = catalogItem.find('li.none');
-    
+
         if (hiddenItems.length > 0) {
-            hiddenItems.removeClass('none'); 
+            hiddenItems.removeClass('none');
         }
     });
 
@@ -357,14 +372,14 @@ $(document).ready(function() {
     $('.plus').on('click', function () {
         let $input = $(this).siblings('.number_inp');
         let current = parseInt($input.val());
-  
+
         if (isNaN(current)) {
           current = 1;
         }
-  
+
         $input.val(current + 1);
       });
-  
+
     $('.minus').on('click', function () {
         let $input = $(this).siblings('.number_inp');
         let current = parseInt($input.val());
@@ -388,10 +403,10 @@ $(document).ready(function() {
     $('.delete_btn').on('click', function () {
         // Tegishli basket_item dan active'ni olib tashlaymiz
         $(this).closest('.basket_item').removeClass('active');
-  
+
         // Endi qolgan basket_item.active larni tekshiramiz
         const hasAnyActive = $('.left_side .row .basket_item.active').length > 0;
-  
+
         if (!hasAnyActive) {
           $('.non_product').addClass('active');
           $('.all_price').removeClass('active');
@@ -406,39 +421,39 @@ $(document).ready(function() {
 
       function calculateTotalPrice() {
         let total = 0;
-  
+
         $('.basket_item.active').each(function () {
           const $item = $(this);
-  
+
           // Narxni olish (matndan raqamni ajratib)
           const priceText = $item.find('.price').text();
           const price = parseInt(priceText.replace(/\D/g, ''));
-  
+
           // Soni (inputdagi qiymat)
           const count = parseInt($item.find('.number_inp').val());
-  
+
           // Tekshirish (NaN bo‘lsa, 0)
           if (!isNaN(price) && !isNaN(count)) {
             total += price * count;
           }
         });
-  
+
         // Jami narxni ko‘rsatish
         $('.all_price span').text(total.toLocaleString('ru-RU') + ' ₽');
       }
-  
+
       // Sahifa yuklanganda hisobla
       calculateTotalPrice();
-  
+
       // Har safar input o‘zgarishida yoki + / – bosilganda qayta hisobla
       $(document).on('click', '.plus, .minus, .delete_btn', function () {
         setTimeout(calculateTotalPrice, 50); // ozgina kechikish: DOM yangilanishi uchun
       });
-  
+
       $(document).on('input', '.number_inp', function () {
         calculateTotalPrice();
       });
-    
+
     if ($('.delivery_item').length) {
         $('.delivery_item').on('click', function (e) {
             e.preventDefault();
@@ -448,25 +463,25 @@ $(document).ready(function() {
         });
     }
 
-    
+
     if ($('.delivery_item.last').length) {
         $('.delivery_item.last').on('click', function (e) {
             e.preventDefault();
             $('.right_input').addClass('active');
         });
     }
-    
+
 
     $('.item_favourito').on('click', function (e) {
         e.preventDefault();
-  
+
         // O‘zi tegishli bo‘lgan .shop_item dan active'ni olib tashlaymiz
         $(this).closest('.shop_item').removeClass('active');
         // $(this).removeClass('active');
-  
+
         // .right_row ichidagi faolligini tekshiramiz
         const hasAnyActive = $('.right_row .shop_item.active').length > 0;
-  
+
         if (!hasAnyActive) {
           $('.no_favourite_item').addClass('active');
         } else {
@@ -474,24 +489,51 @@ $(document).ready(function() {
         }
     });
 
+    // ==== OBJECT PAGE FORM ====
+    if ($('#objectFormSubmit').length) {
+        $('#objectFormSubmit').on('click', function(e) {
+            e.preventDefault();
+            var name = $('#objectFormName').val();
+            var phoneInput = document.querySelector('#objectFormPhone');
+            var phone = phoneInput ? phoneInput.value : '';
+            if (!name && !phone) {
+                return;
+            }
+            $.ajax({
+                url: '/api/send-mail',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ name: name, phone: phone, message: 'Запрос с страницы объекта: запись на встречу' }),
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                success: function() {
+                    $('#objectFormMessage').text('Ваша заявка отправлена! Мы свяжемся с вами.').show();
+                    $('#objectFormName').val('');
+                    if (phoneInput) phoneInput.value = '';
+                },
+                error: function() {
+                    $('#objectFormMessage').css('color', '#f44336').text('Произошла ошибка. Попробуйте позже.').show();
+                }
+            });
+        });
+    }
     if ($('.top_item.swiper').length > 0) {
         const mySwiper = new Swiper('.top_item.swiper:not(.item_bottom)', {
           loop: true,
           slidesPerView: 1,
         });
-    
+
         const bottomSwiper = new Swiper('.top_item.swiper.item_bottom', {
           loop: true,
           slidesPerView: 6,
           spaceBetween: 10,
         });
-    
+
         // Tugmalarni sinxron ishlashga ulaymiz
         $('.right_btn').on('click', function () {
           mySwiper.slideNext();
           bottomSwiper.slideNext();
         });
-    
+
         $('.left_btn').on('click', function () {
           mySwiper.slidePrev();
           bottomSwiper.slidePrev();

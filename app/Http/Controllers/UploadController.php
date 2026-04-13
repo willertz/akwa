@@ -11,8 +11,9 @@ class UploadController extends Controller
 {
     public function upload(UploadRequest $uploadRequest): JsonResponse
     {
-        $path = url('/').'/'.$uploadRequest->file('file')->store('uploads', 'public_uploads');
+        $file = $uploadRequest->file('upload') ?? $uploadRequest->file('file');
+        $path = url('/').'/'.$file->store('uploads', 'public_uploads');
 
-        return response()->json(['location' => $path]);
+        return response()->json(['url' => $path, 'location' => $path]);
     }
 }

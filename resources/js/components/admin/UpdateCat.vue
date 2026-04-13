@@ -27,17 +27,6 @@
                     ></v-text-field>
                 </v-col>
 
-
-                <v-col cols="12">
-                    <v-text-field
-                            v-model="preview"
-                            label="URL фотографии"
-                            variant="outlined"
-                            readonly
-                    ></v-text-field>
-                    <v-btn color="info" block size="small" @click="openPopupImage()">Загрузить изображение</v-btn>
-                </v-col>
-
                 <v-col cols="12">
                     <v-text-field
                             label="Title"
@@ -54,6 +43,11 @@
                             v-model="category.description"
                     ></v-textarea>
                 </v-col>
+
+                <v-col cols="12">
+                    <div class="field-label">Превью изображение</div>
+                    <ImagePicker v-model="preview" v-model:alt-value="previewAlt" preview-height="200px" />
+                </v-col>
             </v-row>
 
             <v-btn color="success" block size="small" @click="updateCat()">Сохранить</v-btn>
@@ -65,6 +59,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
+import ImagePicker from './media/ImagePicker.vue';
 
 const route = useRoute();
 const id = route.params.id;
@@ -75,19 +70,20 @@ const category = ref({
     description: ""
 });
 const preview = ref("");
+const previewAlt = ref("");
 const snackbar = ref(false);
 const timeout = ref(6000);
 const text = ref('Категория успешно отредактирована!');
 
 const updateCat = async () => {
     try {
-        await axios.post('/api', {
+        await axios.post('/api/categories/update', {
             id: id,
-            apiMethod: 'updateCat',
             name: category.value.name,
             title: category.value.title,
             description: category.value.description,
             preview: preview.value,
+            preview_alt: previewAlt.value,
         });
         console.log('Success');
         snackbar.value = true;
@@ -98,33 +94,13 @@ const updateCat = async () => {
 
 const loadCat = async () => {
     try {
-        const response = await axios.post('/api', {
-            apiMethod: 'loadSingleCat',
-            id: id,
-        });
+        const response = await axios.get('/api/categories/' + id);
         category.value = response.data;
-        preview.value = response.data.preview;
+        preview.value = response.data.preview || '';
+        previewAlt.value = response.data.preview_alt || '';
     } catch (error) {
         console.error(error);
     }
-};
-
-const openPopupImage = () => {
-    CKFinder.popup({
-        chooseFiles: true,
-        width: 800,
-        height: 600,
-        onInit: function (finder) {
-            finder.on('files:choose', function (evt) {
-                var file = evt.data.files.first();
-                preview.value = file.getUrl();
-            });
-
-            finder.on('file:choose:resizedImage', function (evt) {
-                preview.value = evt.data.resizedUrl;
-            });
-        }
-    });
 };
 
 onMounted(() => {
@@ -133,5 +109,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
+.field-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 8px;
+}
 </style>

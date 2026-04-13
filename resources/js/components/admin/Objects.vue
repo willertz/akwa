@@ -97,10 +97,7 @@ const getUpdateLink = (id) => {
 
 const deleteArticle = async (id) => {
     try {
-        await axios.post('/api', {
-            apiMethod: 'deleteObj',
-            id: id
-        });
+        await axios.delete('/api/objects/' + id);
         snackbar.value = true;
         loadArticles();
     } catch (error) {
@@ -110,9 +107,7 @@ const deleteArticle = async (id) => {
 
 const loadArticles = async () => {
     try {
-        const response = await axios.post('/api', {
-            apiMethod: 'loadAllObj',
-        });
+        const response = await axios.get('/api/objects');
         articles.value = response.data;
     } catch (error) {
         console.error(error);

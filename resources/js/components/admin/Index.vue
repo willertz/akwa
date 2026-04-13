@@ -18,9 +18,7 @@ const notice = ref([]);
 
 const loadNotice = async () => {
     try {
-        const response = await axios.post('/api', {
-            apiMethod: 'loadNotice',
-        });
+        const response = await axios.get('/api/notices');
         notice.value = response.data;
     } catch (error) {
         console.error(error);

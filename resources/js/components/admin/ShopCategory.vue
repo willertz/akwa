@@ -93,10 +93,7 @@ const headers = [
 
 const deleteCategory = async (id) => {
     try {
-        await axios.post('/api', {
-            apiMethod: 'deleteCat',
-            id: id
-        });
+        await axios.delete('/api/categories/' + id);
         snackbar.value = true;
         await loadCategory();
     } catch (error) {
@@ -114,9 +111,7 @@ const getUpdateLink = (id) => {
 
 const loadCategory = async () => {
     try {
-        const response = await axios.post('/api', {
-            apiMethod: 'loadCat',
-        });
+        const response = await axios.get('/api/categories');
         categories.value = response.data;
     } catch (error) {
         console.error(error);

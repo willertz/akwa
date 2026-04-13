@@ -23,16 +23,6 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    @vite(['resources/sass/main.scss', 'resources/js/site.js'])
-    <!-- Optional JavaScript -->
-    <!-- Swiper js -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
-    <!-- Light nanogallery2 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery-bundle.min.css" />
-
-    <!-- Tel -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css"/>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
@@ -175,52 +165,95 @@
 @yield('content')
 
         <footer>
+            <!-- container -->
             <div class="container">
-                <div class="footer_row">
-                    <div class="footer_logo">
-                        <img src="{{asset('img/header_logo.png')}}" alt="">
+                <!-- row -->
+                <div class="row top">
+                    <!-- Header logo -->
+                    <a href="{{route('showIndexPage')}}" class="header_logo">
+                        <img src="{{asset('img/half_logo.png')}}" alt="Инженерный центр Аквагарант">
+                        Инженерный центр Аквагарант
+                    </a>
+                    <!-- phone  -->
+                    <div class="work_phone">
+                        <a href="tel:+79036516410" class="phone">+7 903 651 64 10</a>
+                        <a href="tel:+79202136645" class="phone">+7 920 213 66 45</a>
+                        <div class="work_day">
+                            пн-пт 10:00 - 20:00&nbsp;&nbsp; сб-вс 11:00 - 18:00
+                        </div>
                     </div>
-                    <ul class="footer_links">
+                </div>
+                <!-- row bottom -->
+                <div class="row bottom">
+                    <!-- Map -->
+                    <div class="map">
+                        <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A50586e7cba09cfae1a9b567d1b4a82886fc17a59ff70c5d3e8229adfe0c001b5&amp;source=constructor" width="100%" height="100%" frameborder="0"></iframe>
+                    </div>
+                    <!-- Location -->
+                    <ul class="location">
                         <li>
-                            <a href="{{route('showIndexPage')}}">О нас</a>
+                            г. Москва,<br>
+                            м. Автозаводская,<br>
+                            ул. Ленинская Слобода,<br>
+                            дом 26, офис 219<br>
                         </li>
                         <li>
-                            <a href="{{route('showObjectsListPage')}}">Объекты</a>
-                        </li>
-                        <li>
-                            <a href="{{route('showArticlesListPage')}}">Статьи</a>
-                        </li>
-                        <li>
-                            <a href="{{route('showPricePage')}}">Цены</a>
-                        </li>
-                        <li>
-                            <a href="{{route('showContactPage')}}">Контакты</a>
-                        </li>
-                        <li>
-                            <a href="{{route('showShopHeadPage')}}">Магазин</a>
+                            ООО «ГУД-СТОУН» <br>
+                            ИНН/КПП 9725012747/772501001 <br>
+                            ОГРН 1197746370524 <br>
                         </li>
                     </ul>
-                    <div class="footer_contacts">
-                        <a href="tel:+79036516410">+7 903 651 64 10</a>
-                        <a href="mailto:info@akwagarant.ru">info@akwagarant.ru</a>
-                    </div>
-                    <div class="footer_social">
-                        <a href="https://www.instagram.com/akwagarant.ru/">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="48" height="48" rx="12" fill="#2196F3"/>
-                                <defs>
-                                  <linearGradient id="instagram-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#FF5722"/>
-                                    <stop offset="50%" style="stop-color:#E91E63"/>
-                                    <stop offset="100%" style="stop-color:#9C27B0"/>
-                                  </linearGradient>
-                                </defs>
-                                <rect x="12" y="12" width="24" height="24" rx="6" stroke="white" stroke-width="2" fill="none"/>
-                                <circle cx="24" cy="24" r="6" stroke="white" stroke-width="2" fill="none"/>
-                                <circle cx="32" cy="16" r="2" fill="white"/>
-                            </svg>
-                        </a>
-                    </div>
+                    <!-- Social networks -->
+                    <ul class="social_networks">
+                        <li>
+                            Напишите нам, если у вас есть вопросы или предложения <br>
+                            <a href="mailto:info@akwagarant.ru">info@akwagarant.ru</a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/@akwagarant" target="_blank" rel="noopener">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="none">
+                                    <rect width="24" height="24" rx="6" fill="#2196F3"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.0224 6.35806C18.6886 6.5613 19.2145 7.14194 19.3898 7.87742C19.7142 9.2129 19.7142 12 19.7142 12C19.7142 12 19.7142 14.7871 19.3986 16.1226C19.2145 16.8677 18.6973 17.4484 18.0311 17.6419C16.8214 18 11.9999 18 11.9999 18C11.9999 18 7.1785 18 5.97751 17.6419C5.31131 17.4387 4.78534 16.8581 4.61001 16.1226C4.28564 14.7871 4.28564 12 4.28564 12C4.28564 12 4.28564 9.2129 4.60124 7.87742C4.78564 7.13225 5.30254 6.55161 5.96878 6.35806C7.1785 6 11.9999 6 11.9999 6C11.9999 6 16.8214 6 18.0224 6.35806Z" fill="white"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.5714 12L10.2856 13.7143V10.2857L14.5714 12Z" fill="#2196F3"/>
+                                </svg>
+                            </a>
+                            <a href="https://vk.com/akwagarant" target="_blank" rel="noopener">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="#2196F3" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_footer)">
+                                    <path d="M0 11.5C0 6.07885 0 3.36827 1.68413 1.68413C3.36827 0 6.07885 0 11.5 0H12.5C17.9212 0 20.6318 0 22.3158 1.68413C24 3.36827 24 6.07885 24 11.5V12.5C24 17.9212 24 20.6318 22.3158 22.3158C20.6318 24 17.9212 24 12.5 24H11.5C6.07885 24 3.36827 24 1.68413 22.3158C0 20.6318 0 17.9212 0 12.5L0 11.5Z" fill="#2196F3"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50045 7.5H4.75005C4.24993 7.5 4.1499 7.7354 4.1499 7.9949C4.1499 8.45845 4.74333 10.7574 6.913 13.798C8.35945 15.8744 10.3974 17 12.2518 17C13.3645 17 13.5021 16.75 13.5021 16.3194V14.75C13.5021 14.25 13.6075 14.1502 13.9598 14.1502C14.2195 14.1502 14.6645 14.28 15.703 15.2812C16.8899 16.4677 17.0855 17 17.7531 17H19.5035C20.0036 17 20.2537 16.75 20.1094 16.2567C19.9516 15.765 19.3849 15.0515 18.633 14.2059C18.225 13.7238 17.6131 13.2047 17.4276 12.9451C17.168 12.6114 17.2422 12.4631 17.4276 12.1665C17.4276 12.1665 19.5602 9.16295 19.7828 8.1433C19.894 7.77245 19.7828 7.5 19.2534 7.5H17.503C17.058 7.5 16.8528 7.7354 16.7415 7.9949C16.7415 7.9949 15.8514 10.1641 14.5904 11.5732C14.1824 11.981 13.9969 12.1108 13.7744 12.1108C13.6631 12.1108 13.5021 11.981 13.5021 11.6103V8.1433C13.5021 7.6983 13.3729 7.5 13.002 7.5H10.2513C9.9732 7.5 9.8059 7.7065 9.8059 7.90225C9.8059 8.32405 10.4364 8.42135 10.5014 9.6079V12.185C10.5014 12.75 10.3993 12.8525 10.1768 12.8525C9.5834 12.8525 8.13995 10.6736 7.28385 8.18035C7.1161 7.69575 6.9478 7.5 6.50045 7.5Z" fill="white"/>
+                                    </g>
+                                    <defs>
+                                    <clipPath id="clip0_footer">
+                                    <rect width="24" height="24" fill="white"/>
+                                    </clipPath>
+                                    </defs>
+                                </svg>
+                            </a>
+                            <a href="https://t.me/akwagarant" target="_blank" rel="noopener">
+                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="48" height="48" rx="12" fill="#2196F3"/>
+                                    <path d="M16 14v20l16-10-16-10z" fill="white"/>
+                                    <circle cx="32" cy="16" r="2" fill="white"/>
+                                </svg>
+                            </a>
+                            <a href="https://www.instagram.com/akwagarant.ru/" target="_blank" rel="noopener">
+                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="48" height="48" rx="12" fill="#2196F3"/>
+                                    <defs>
+                                      <linearGradient id="instagram-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#FF5722"/>
+                                        <stop offset="50%" style="stop-color:#E91E63"/>
+                                        <stop offset="100%" style="stop-color:#9C27B0"/>
+                                      </linearGradient>
+                                    </defs>
+                                    <rect x="12" y="12" width="24" height="24" rx="6" stroke="white" stroke-width="2" fill="none"/>
+                                    <circle cx="24" cy="24" r="6" stroke="white" stroke-width="2" fill="none"/>
+                                    <circle cx="32" cy="16" r="2" fill="white"/>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </footer>
@@ -251,11 +284,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/lightgallery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    @vite(['resources/sass/main.scss', 'resources/js/site.js'])
     <script src="{{asset('js/script.js')}}"></script>
 </body>
 </html>

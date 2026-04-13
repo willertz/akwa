@@ -112,7 +112,7 @@
 
                 <v-col cols="12">
                     <v-text-field
-                        label="Еденица измерения"
+                        label="Единица измерения"
                         variant="outlined"
                         v-model="editItem.unit"
                     ></v-text-field>
@@ -121,20 +121,14 @@
                 <v-col cols="12">
                     <div class="editblock">
                         <h4>Короткое описание</h4>
-                        <tinymce id="d1"
-                                 :other_options="tinyOptions"
-                                 v-model="editItem.description"
-                        ></tinymce>
+                        <TipTapEditor v-model="editItem.description" />
                     </div>
                 </v-col>
 
                 <v-col cols="12">
                     <div class="editblock">
                         <h4>Описание</h4>
-                        <tinymce id="d2"
-                                 :other_options="tinyOptions"
-                                 v-model="editItem.full_description"
-                        ></tinymce>
+                        <TipTapEditor v-model="editItem.full_description" />
                     </div>
                 </v-col>
 
@@ -147,13 +141,8 @@
                 </v-col>
 
                 <v-col cols="12">
-                    <v-text-field
-                            v-model="preview"
-                            label="URL фотографии"
-                            variant="outlined"
-                            readonly
-                    ></v-text-field>
-                    <v-btn color="info" block size="small" @click="openPopupImage()">Загрузить изображение</v-btn>
+                    <div class="field-label">Превью изображение</div>
+                    <ImagePicker v-model="preview" v-model:alt-value="previewAlt" preview-height="200px" />
                 </v-col>
 
                 <v-col cols="12">
@@ -181,6 +170,8 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import TipTapEditor from './media/TipTapEditor.vue';
+import ImagePicker from './media/ImagePicker.vue';
 
 const addItemLink = '/home/create-item/';
 const enableEditor = ref(false);
@@ -190,24 +181,11 @@ const editorItemId = ref(0);
 const deleteItemId = ref(0);
 const editItem = ref(null);
 const preview = ref("");
-
-const tinyOptions = {
-    'height': 500,
-    language_url: '/langs/ru.js',
-    plugins: [
-        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-        "searchreplace wordcount visualblocks visualchars code fullscreen",
-        "insertdatetime media nonbreaking save table contextmenu directionality",
-        "emoticons template paste textcolor colorpicker textpattern"
-    ],
-    toolbar: ' undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media',
-    images_upload_url: '/upload-image',
-};
+const previewAlt = ref("");
 
 const saveItem = async () => {
     try {
-        await axios.post('/api', {
-            apiMethod: 'saveItem',
+        await axios.post('/api/items/save', {
             id: editItem.value.id,
             art: editItem.value.art,
             name: editItem.value.name,
@@ -218,6 +196,7 @@ const saveItem = async () => {
             full_description: editItem.value.full_description,
             country: editItem.value.country,
             preview: preview.value,
+            preview_alt: previewAlt.value,
             meta_title: editItem.value.meta_title,
             meta_description: editItem.value.meta_description,
             priority: editItem.value.priority,
@@ -231,32 +210,12 @@ const saveItem = async () => {
     }
 };
 
-const openPopupImage = () => {
-    CKFinder.popup({
-        chooseFiles: true,
-        width: 800,
-        height: 600,
-        onInit: function (finder) {
-            finder.on('files:choose', function (evt) {
-                var file = evt.data.files.first();
-                preview.value = file.getUrl();
-            });
-
-            finder.on('file:choose:resizedImage', function (evt) {
-                preview.value = evt.data.resizedUrl;
-            });
-        }
-    });
-};
-
 const openEditor = async () => {
     try {
-        const response = await axios.post('/api', {
-            apiMethod: 'loadItem',
-            id: editorItemId.value
-        });
+        const response = await axios.get('/api/items/' + editorItemId.value);
         editItem.value = response.data;
-        preview.value = response.data.preview;
+        preview.value = response.data.preview || '';
+        previewAlt.value = response.data.preview_alt || '';
         enableEditor.value = true;
     } catch (error) {
         console.error(error);
@@ -265,10 +224,7 @@ const openEditor = async () => {
 
 const deleteItem = async () => {
     try {
-        await axios.post('/api', {
-            apiMethod: 'deleteItem',
-            id: deleteItemId.value
-        });
+        await axios.delete('/api/items/' + deleteItemId.value);
         snackbar.value = true;
         deleteItemId.value = 0;
     } catch (error) {
@@ -284,10 +240,19 @@ const deleteItem = async () => {
     grid-template-columns: 1fr 1fr;
     align-items: center;
 }
-    .top-line-btn-group {
-        text-align: right;
-    }
-    .editblock {
-        margin-bottom: 25px;
-    }
+
+.top-line-btn-group {
+    text-align: right;
+}
+
+.editblock {
+    margin-bottom: 25px;
+}
+
+.field-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 8px;
+}
 </style>

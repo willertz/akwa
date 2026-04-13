@@ -337,8 +337,7 @@ const nextActive = computed(() => {
 
 const send = async () => {
     try {
-        await axios.post('/api', {
-            apiMethod: 'sendMail',
+        await axios.post('/api/send-mail', {
             name: name.value,
             phone: phone.value,
             mail: mail.value,

@@ -28,6 +28,13 @@ readonly class CreateAObjectAction
                 'description' => $data['description'] ?? '',
                 'slider_hash' => $hash,
                 'content' => $data['content'] ?? '',
+                'floors' => $data['floors'] ?? null,
+                'price_per_sqm' => $data['price_per_sqm'] ?? null,
+                'area' => $data['area'] ?? null,
+                'detail_description' => $data['detail_description'] ?? null,
+                'left_image' => $data['left_image'] ?? null,
+                'features' => $data['features'] ?? null,
+                'big_description' => $data['big_description'] ?? null,
             ]);
         });
     }

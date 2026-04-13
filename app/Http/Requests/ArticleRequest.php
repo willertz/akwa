@@ -30,6 +30,8 @@ class ArticleRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'content' => 'required|string',
+            'preview' => 'nullable|string|max:500',
+            'preview_alt' => 'nullable|string|max:255',
         ];
     }
 }

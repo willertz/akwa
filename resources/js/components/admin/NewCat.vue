@@ -27,17 +27,6 @@
                 ></v-text-field>
             </v-col>
 
-
-            <v-col cols="12">
-                <v-text-field
-                        v-model="preview"
-                        label="URL фотографии"
-                        variant="outlined"
-                        readonly
-                ></v-text-field>
-                <v-btn color="info" block size="small" @click="openPopupImage()">Загрузить изображение</v-btn>
-            </v-col>
-
             <v-col cols="12">
                 <v-text-field
                         label="Title"
@@ -54,6 +43,11 @@
                         v-model="description"
                 ></v-textarea>
             </v-col>
+
+            <v-col cols="12">
+                <div class="field-label">Превью изображение</div>
+                <ImagePicker v-model="preview" v-model:alt-value="previewAlt" preview-height="200px" />
+            </v-col>
         </v-row>
 
         <v-btn color="success" block size="small" @click="addNewCat()">Сохранить</v-btn>
@@ -64,6 +58,7 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
+import ImagePicker from './media/ImagePicker.vue';
 
 const route = useRoute();
 const parentId = route.params.parent;
@@ -72,23 +67,25 @@ const name = ref("");
 const title = ref("");
 const description = ref("");
 const preview = ref("");
+const previewAlt = ref("");
 const snackbar = ref(false);
 const timeout = ref(6000);
 const text = ref('Категория успешно добавлена!');
 
 const addNewCat = async () => {
     try {
-        await axios.post('/api', {
-            apiMethod: 'addNewCat',
+        await axios.post('/api/categories/new', {
             name: name.value,
             title: title.value,
             description: description.value,
             preview: preview.value,
+            preview_alt: previewAlt.value,
             parent_id: parentId,
         });
         console.log('Success');
         name.value = "";
         preview.value = "";
+        previewAlt.value = "";
         description.value = "";
         title.value = "";
         snackbar.value = true;
@@ -96,29 +93,13 @@ const addNewCat = async () => {
         console.error(error);
     }
 };
-
-const openPopupImage = () => {
-    CKFinder.popup({
-        chooseFiles: true,
-        width: 800,
-        height: 600,
-        onInit: function (finder) {
-            finder.on('files:choose', function (evt) {
-                var file = evt.data.files.first();
-                preview.value = file.getUrl();
-            });
-
-            finder.on('file:choose:resizedImage', function (evt) {
-                preview.value = evt.data.resizedUrl;
-            });
-        }
-    });
-};
 </script>
 
 <style scoped>
-    #previewEditItem {
-        width: 100%;
-        height: 40px;
-    }
+.field-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 8px;
+}
 </style>

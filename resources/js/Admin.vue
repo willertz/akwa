@@ -55,9 +55,9 @@ const items = [
         link: '/home/shop-item'
     },
     {
-        title: 'Файлы',
-        icon: 'mdi-image-multiple',
-        link: '/home/file'
+        title: 'Медиа',
+        icon: 'mdi-folder-multiple-image',
+        link: '/home/media'
     },
 ];
 </script>

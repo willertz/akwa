@@ -176,8 +176,7 @@ const deleteItem = (id) => {
 };
 
 const sendCart = () => {
-    axios.post('/api', {
-        apiMethod: 'sendCart',
+    axios.post('/api/send-cart', {
         name: name.value,
         phone: phone.value,
         mail: mail.value,

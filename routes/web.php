@@ -21,6 +21,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ShopCategoryController;
@@ -106,4 +107,12 @@ Route::prefix('api')->group(function () {
     });
 
     Route::get('/notices', [NoticeController::class, 'getNotice']);
+
+    Route::prefix('media')->group(function () {
+        Route::get('/', [MediaController::class, 'index']);
+        Route::post('/upload', [MediaController::class, 'upload']);
+        Route::patch('/{id}', [MediaController::class, 'update']);
+        Route::delete('/{id}', [MediaController::class, 'destroy']);
+        Route::get('/folders/list', [MediaController::class, 'folders']);
+    });
 });

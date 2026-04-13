@@ -82,7 +82,7 @@
 
             <v-col cols="12">
                 <v-text-field
-                    label="Еденица измерения"
+                    label="Единица измерения"
                     variant="outlined"
                     v-model="unit"
                 ></v-text-field>
@@ -91,20 +91,14 @@
             <v-col cols="12">
                 <div class="editblock">
                     <h4>Короткое описание</h4>
-                    <tinymce id="d1"
-                             :other_options="tinyOptions"
-                             v-model="description"
-                    ></tinymce>
+                    <TipTapEditor v-model="description" />
                 </div>
             </v-col>
 
             <v-col cols="12">
                 <div class="editblock">
                     <h4>Описание</h4>
-                    <tinymce id="d2"
-                             :other_options="tinyOptions"
-                             v-model="full_description"
-                    ></tinymce>
+                    <TipTapEditor v-model="full_description" />
                 </div>
             </v-col>
 
@@ -117,13 +111,8 @@
             </v-col>
 
             <v-col cols="12">
-                <v-text-field
-                        v-model="preview"
-                        label="URL фотографии"
-                        variant="outlined"
-                        readonly
-                ></v-text-field>
-                <v-btn color="info" block size="small" @click="openPopupImage()">Загрузить изображение</v-btn>
+                <div class="field-label">Превью изображение</div>
+                <ImagePicker v-model="preview" v-model:alt-value="previewAlt" preview-height="200px" />
             </v-col>
 
             <v-col cols="12">
@@ -151,6 +140,8 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import TipTapEditor from './media/TipTapEditor.vue';
+import ImagePicker from './media/ImagePicker.vue';
 
 const snackbar = ref(false);
 const timeout = ref(6000);
@@ -166,27 +157,14 @@ const description = ref("");
 const full_description = ref("");
 const country = ref("");
 const preview = ref("");
+const previewAlt = ref("");
 const meta_title = ref("");
 const meta_description = ref("");
 const majorId = ref("");
 
-const tinyOptions = {
-    'height': 500,
-    language_url: '/langs/ru.js',
-    plugins: [
-        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-        "searchreplace wordcount visualblocks visualchars code fullscreen",
-        "insertdatetime media nonbreaking save table contextmenu directionality",
-        "emoticons template paste textcolor colorpicker textpattern"
-    ],
-    toolbar: ' undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media',
-    images_upload_url: '/upload-image',
-};
-
 const saveItem = async () => {
     try {
-        await axios.post('/api', {
-            apiMethod: 'saveNewItem',
+        await axios.post('/api/items/new', {
             art: art.value,
             category: category.value,
             priority: priority.value,
@@ -199,6 +177,7 @@ const saveItem = async () => {
             full_description: full_description.value,
             country: country.value,
             preview: preview.value,
+            preview_alt: previewAlt.value,
             meta_title: meta_title.value,
             meta_description: meta_description.value,
             majorId: majorId.value
@@ -208,30 +187,17 @@ const saveItem = async () => {
         console.error(error);
     }
 };
-
-const openPopupImage = () => {
-    CKFinder.popup({
-        chooseFiles: true,
-        width: 800,
-        height: 600,
-        onInit: function (finder) {
-            finder.on('files:choose', function (evt) {
-                var file = evt.data.files.first();
-                preview.value = file.getUrl();
-            });
-
-            finder.on('file:choose:resizedImage', function (evt) {
-                preview.value = evt.data.resizedUrl;
-            });
-        }
-    });
-};
 </script>
 
 <style scoped>
+.editblock {
+    margin-bottom: 25px;
+}
 
-    .editblock {
-        margin-bottom: 25px;
-    }
+.field-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 8px;
+}
 </style>
-

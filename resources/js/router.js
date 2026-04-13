@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 console.log('I am router');
 import ShopCategory from './components/admin/ShopCategory.vue'
 import ShopItem from './components/admin/ShopItem.vue'
-import File from './components/admin/File.vue'
 import NewCat from './components/admin/NewCat.vue'
 import UpdateCat from './components/admin/UpdateCat.vue'
 import CreateItem from './components/admin/CreateItem.vue'
@@ -13,6 +12,7 @@ import CreateArticle from './components/admin/CreateArticle.vue'
 import UpdateArticle from './components/admin/UpdateArticle.vue'
 import UpdateObj from './components/admin/UpdateObject.vue'
 import NewObj from './components/admin/NewObject.vue'
+import MediaManager from './components/admin/media/MediaManager.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,11 +25,6 @@ const router = createRouter({
             path: "/home/index",
             name: "index",
             component: Index
-        },
-        {
-            path: "/home/file",
-            name: "file",
-            component: File
         },
         {
             path: "/home/shop-category",
@@ -86,6 +81,11 @@ const router = createRouter({
             path: "/home/new-obj/",
             name: "articlfgfdgs-crt",
             component: NewObj
+        },
+        {
+            path: "/home/media",
+            name: "media",
+            component: MediaManager
         },
     ]
 })

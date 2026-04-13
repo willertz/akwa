@@ -29,7 +29,7 @@ const vuetify = createVuetify({
 });
 
 import VueNumberInput from '@chenfengyuan/vue-number-input';
-import CKEditor from '@ckeditor/ckeditor5-vue';
+import { CkeditorPlugin } from '@ckeditor/ckeditor5-vue';
 import Editor from '@tinymce/tinymce-vue';
 
 import AdminComponent from './Admin.vue';
@@ -39,7 +39,7 @@ const app = createApp({});
 
 app.use(router);
 app.use(vuetify);
-app.use(CKEditor);
+app.use(CkeditorPlugin);
 
 app.component('admin-component', AdminComponent);
 app.component('cart-component', CartComponent);

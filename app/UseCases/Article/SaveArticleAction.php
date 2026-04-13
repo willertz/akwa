@@ -17,6 +17,8 @@ class SaveArticleAction
             'title' => $data['title'],
             'description' => $data['description'] ?? '',
             'content' => $data['content'] ?? '',
+            'preview' => $data['preview'] ?? null,
+            'preview_alt' => $data['preview_alt'] ?? null,
         ]);
 
         $article->save();
