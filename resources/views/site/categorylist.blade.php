@@ -1,173 +1,120 @@
 @extends('layouts.site')
-
+@section('breadcrumbs')
+    <ul class="old_page">
+        <li><a href="{{route('showIndexPage')}}">Главная</a></li>
+        <li>></li>
+        <li><a href="{{route('showShopHeadPage')}}">Каталог</a></li>
+        <li>></li>
+        <li><a href="#" class="active">{{$h1}}</a></li>
+    </ul>
+@endsection
 @section('content')
-    <div class="container p-5">
-
-        <div class="topText">
-            {{$topText}}
+    <!-- Articles -->
+    <section class="articles new_shop">
+        <!-- container -->
+        <div class="container">
+            <!-- section info -->
+            <div class="section_info">
+                {{$topText}}
+            </div>
         </div>
-        <div class="row">
-            @foreach($categories as $category)
-                <div class="col-md-3">
-                    <div class="card cat-card-shop" style="width: 18rem;">
-                        <a href="{{$urls[$category->id]}}">
-                        <h5 class="card-title shop-cat-title">{{$category->name}}</h5>
-                        </a>
-                        <a href="{{$urls[$category->id]}}">
-                            <?php
-                            if ($category->preview):
-                            ?>
-                            <img class="card-img-top" style="width: 60% !important;"
-                                 src="{{$category->preview}}">
-                            <?php
-                            else:
-                            ?>
-                            <img class="card-img-top"
-                                 src="/userfiles/system/no_product.png" style="width: 70% !important;">
-                            <?php
-                            endif;
-                            ?>
-                        </a>
-                    </div>
+    </section>
+
+    <!-- Shop -->
+    <section class="shop">
+        <!-- container -->
+        <div class="container">
+            <!-- shop sort -->
+            <div class="custom_select">
+                <div class="selected">Сначала дешевые</div>
+                <div class="select_options">
+                    <div class="option active">Сначала дешевые</div>
+                    <div class="option">Сначала дорогие</div>
+                    <div class="option">Сначала новинки</div>
                 </div>
-            @endforeach
-        </div>
-        @foreach($items['main'] as $item )
-
+            </div>
+            <!-- row -->
             <div class="row">
-                <div class="main-items-wrapper">
-                    <div class="preview-photo">
-                        <?php
-                        if ($item->preview):
-                        ?>
-                        <img class="card-img-top"
-                             src="{{$item->preview}}">
-                        <?php
-                        else:
-                        ?>
-                        <img class="card-img-top"
-                             src="/userfiles/system/no_product.png" style="width: 70% !important;">
-                        <?php
-                        endif;
-                        ?>
-                    </div>
-                    <div class="main-items-content">
-                        <a href="{{route('showItemPage', $item)}}">
-                            <h3>{{$item->name}}</h3>
+                <!-- Right side -->
+                <div class="right_side">
+                    <!-- row -->
+                    <div class="right_row">
+                        @foreach($categories as $category)
+                        <!-- Shop item (subcategory) -->
+                        <a href="{{$urls[$category->id]}}" class="shop_item">
+                            <!-- Item img -->
+                            <div class="item_img">
+                                @if($category->preview)
+                                    <img src="{{asset($category->preview)}}" alt="{{$category->name}}">
+                                @else
+                                    <img src="{{asset('userfiles/system/no_product.png')}}" alt="{{$category->name}}">
+                                @endif
+                            </div>
+                            <!-- Item name -->
+                            <div class="item_name">
+                                {{$category->name}}
+                            </div>
+                            <!-- Item buttons -->
+                            <div class="item_buttons">
+                                <div class="price"></div>
+                                <div class="item_favourito"></div>
+                                <div class="item_basket"></div>
+                            </div>
                         </a>
-                        <?php
-                        if ($item->art):
-                        ?>
-                        <b>Артикул: </b> <span>{{$item->art}}</span><br>
-                        <?php
-                        endif;
-                        ?>
-                        <?php
-                        if ($item->country):
-                        ?>
-                        <b>Производитель: </b> <span>{{$item->country}}</span><br>
+                        @endforeach
 
-                        <?php
-                        endif;
-                        ?>
-                        <?php
-                        $price = null;
-                        $priceController = new \App\Http\Controllers\PriceController();
-                        if ($item->price) {
-                            $price = $item->price;
-                        } elseif ($item->price_usd) {
-                            $price = $priceController->getPrice('USD',$item->price_usd);
-                        } elseif ($item->price_eur) {
-                            $price = $priceController->getPrice('EUR',$item->price_eur);
-                        }
-                        ?>
-                        <?php
-                        if ($price):
-                        ?>
-                        <?php
-                        $price = (float)str_replace(' ','',$price);
-                        ?>
-                        <b>Цена:</b>
-                        <span  style="padding-left: 10px; font-size: 20px;"> <?= number_format($price, 0, '', ' ' ).' <strike>Р</strike>';?></span><br><br>
-                        <?php
-                        endif;
-                        ?>
-                        <?php
-                        if ($item->description):
-                        ?>
-                        <b>Описание:</b>
-                        <div style="text-align: justify;">{!!$item->description!!}</div>
-                        <?php
-                        endif;
-                        ?>
-
-
-                        <?php
-                        if(count($items['subitems']) > 0 && isset($items['subitems'][$item->id])):
-                        ?>
-
-                        <div class="subitems-list">
-                            <table class="table table-striped">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col" class="w-20">Артикул</th>
-                                    <th scope="col" class="w-40">Наименование</th>
-                                    <th scope="col" class="w-25">Цена</th>
-                                    <th scope="col" class="w-15">Заказ</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($items['subitems'][$item->id] as $subitem)
-                                    <tr>
-                                        <th scope="row">{{$subitem->art}}</th>
-                                        <td><a href="{{route('showItemPage', $subitem)}}">{{$subitem->name}}</a></td>
-                                        <?php
-                                        $price = null;
-                                        $priceController = new \App\Http\Controllers\PriceController();
-                                        if ($subitem->price) {
-                                            $price = $subitem->price;
-                                        } elseif ($subitem->price_usd) {
-                                            $price = $priceController->getPrice('USD',$subitem->price_usd);
-                                        } elseif ($subitem->price_eur) {
-                                            $price = $priceController->getPrice('EUR',$subitem->price_eur);
-                                        }
-                                        ?>
-                                        <?php
-                                        if ($price):
-                                        ?>
-                                        <?php
-                                        $price = (float)str_replace(' ','',$price);
-                                        ?>
-                                        <td><?= number_format($price, 0, '', ' ' ).' <strike>Р</strike>';?></td>
-                                        <?php
-                                        else:
-                                        ?>
-                                        <td>Уточнить у менеджера</td>
-                                        <?php
-                                        endif;
-                                        ?>
-                                        <td>
-                                            <button class="blue-btn table-btn add-to-cart" data-id="{{$subitem->id}}" data-name="{{$subitem->name}}" data-price="{{$price}}">Заказать</button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <?php
-                        else:
-                        ?>
-                        <div class="buttom-line">
-                            <button class="blue-btn add-to-cart" data-id="{{$item->id}}" data-name="{{$item->name}}" data-price="0">Заказать</button>
-                        </div>
-                        <?php
-                        endif;
-                        ?>
+                        @foreach($items['main'] as $item)
+                        @php
+                            $price = null;
+                            $currency = app(\App\Services\CurrencyService::class);
+                            if ($item->price) {
+                                $price = (float)$item->price;
+                            } elseif ($item->price_usd) {
+                                $price = $currency->convertToRub('USD', (float)$item->price_usd);
+                            } elseif ($item->price_eur) {
+                                $price = $currency->convertToRub('EUR', (float)$item->price_eur);
+                            }
+                        @endphp
+                        <!-- Shop item (product) -->
+                        <a href="{{route('showItemPage', $item)}}" class="shop_item">
+                            <!-- Item img -->
+                            <div class="item_img">
+                                @if($item->preview)
+                                    <img src="{{asset($item->preview)}}" alt="{{$item->name}}">
+                                @else
+                                    <img src="{{asset('userfiles/system/no_product.png')}}" alt="{{$item->name}}">
+                                @endif
+                            </div>
+                            <!-- Item name -->
+                            <div class="item_name">
+                                {{$item->name}}
+                            </div>
+                            @if($item->country)
+                            <!-- Mark -->
+                            <div class="mark_name">
+                                {{$item->country}}
+                            </div>
+                            @endif
+                            <!-- Item buttons -->
+                            <div class="item_buttons">
+                                <!-- Item price -->
+                                <div class="price">
+                                    @if($price)
+                                        {{number_format($price, 0, '.', ' ')}} ₽
+                                    @else
+                                        По запросу
+                                    @endif
+                                </div>
+                                <!-- Item favourite -->
+                                <div class="item_favourito"></div>
+                                <!-- Item basket -->
+                                <div class="item_basket"></div>
+                            </div>
+                        </a>
+                        @endforeach
                     </div>
                 </div>
             </div>
-
-        @endforeach
-    </div>
+        </div>
+    </section>
 @endsection

@@ -94,7 +94,7 @@
                     }
                 }
               }
-          
+
             .selected {
                 padding: 10px;
                 border: 1px solid #ccc;
@@ -113,7 +113,7 @@
                     background: #52b060 url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
                 }
             }
-          
+
             .options {
                 position: absolute;
                 top: 100%;
@@ -126,18 +126,18 @@
                 border-top: none;
                 text-transform: uppercase;
             }
-          
+
             .options div {
                 padding: 10px;
                 cursor: pointer;
                 text-transform: uppercase;
             }
-          
+
             .options div:hover {
                 background-color: #52b060;
                 color: #fff;
             }
-        
+
             .select-box.open .options {
                 display: block;
             }
@@ -328,7 +328,7 @@
                         }
                     }
                 }
-                
+
             }
         }
     }
@@ -373,7 +373,7 @@
         }
         @media #{media.$small_mobile}{
             gap: 20px 0;
-            flex-direction: column;   
+            flex-direction: column;
         }
         .left_side, .right_side{
             width: 50%;
@@ -413,8 +413,8 @@
                     font-size: 16px;
                     font-family: 'Sovest', Arial, sans-serif;
                     // line-height: 1.6;
-                    font-weight: 400;     
-                    list-style: disc;              
+                    font-weight: 400;
+                    list-style: disc;
                 }
             }
         }
@@ -492,6 +492,45 @@
                 background-position: center center;
                 border-color: transparent;
                 border-style: solid;
+
+                &.consent_row {
+                    opacity: 1;
+                    font-size: 13px;
+                    line-height: 1.4;
+
+                    .consent_label {
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 8px;
+                        cursor: pointer;
+                        color: #fff;
+
+                        .consent_checkbox {
+                            margin-top: 2px;
+                            flex-shrink: 0;
+                            width: 16px;
+                            height: 16px;
+                            cursor: pointer;
+                            accent-color: #fff;
+                        }
+
+                        span {
+                            color: #fff;
+                        }
+
+                        .consent_link {
+                            color: #fff;
+                            text-decoration: underline;
+                            &:hover { opacity: 0.8; }
+                        }
+                    }
+
+                    .consent_error {
+                        color: #ff8a80;
+                        font-size: 12px;
+                        margin-top: 4px;
+                    }
+                }
             }
         }
     }

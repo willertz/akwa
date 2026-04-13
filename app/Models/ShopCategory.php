@@ -50,7 +50,7 @@ class ShopCategory extends Model
      */
     public static function getRootCategories(): Collection
     {
-        return self::where('parent_id', -1)->get();
+        return self::where('parent_id', 0)->get();
     }
 
     /**
@@ -58,7 +58,7 @@ class ShopCategory extends Model
      */
     public static function resolveByPath(array $path): ?self
     {
-        $parentId = -1;
+        $parentId = 0;
         $category = null;
         foreach ($path as $slug) {
             $category = self::where('slug', $slug)->where('parent_id', $parentId)->first();
@@ -78,7 +78,7 @@ class ShopCategory extends Model
     {
         $chains = [$this->slug];
         $parent = $this;
-        while ($parent->parent_id != -1) {
+        while ($parent->parent_id != 0) {
             $parent = self::find($parent->parent_id);
             if (! $parent) {
                 break;
@@ -86,6 +86,6 @@ class ShopCategory extends Model
             $chains[] = $parent->slug;
         }
 
-        return url('/catalog/'.implode('/', array_reverse($chains)));
+        return url('/internet-magazin/'.implode('/', array_reverse($chains)));
     }
 }

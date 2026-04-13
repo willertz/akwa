@@ -59,6 +59,16 @@ const items = [
         icon: 'mdi-folder-multiple-image',
         link: '/home/media'
     },
+    {
+        title: 'Политика конфиденциальности',
+        icon: 'mdi-shield-lock-outline',
+        link: '/home/edit-policy'
+    },
+    {
+        title: 'Обработка персональных данных',
+        icon: 'mdi-account-lock-outline',
+        link: '/home/edit-personal-data'
+    },
 ];
 </script>
 

@@ -13,6 +13,8 @@ import UpdateArticle from './components/admin/UpdateArticle.vue'
 import UpdateObj from './components/admin/UpdateObject.vue'
 import NewObj from './components/admin/NewObject.vue'
 import MediaManager from './components/admin/media/MediaManager.vue'
+import EditPolicy from './components/admin/EditPolicy.vue'
+import EditPersonalData from './components/admin/EditPersonalData.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -86,6 +88,16 @@ const router = createRouter({
             path: "/home/media",
             name: "media",
             component: MediaManager
+        },
+        {
+            path: "/home/edit-policy",
+            name: "edit-policy",
+            component: EditPolicy
+        },
+        {
+            path: "/home/edit-personal-data",
+            name: "edit-personal-data",
+            component: EditPersonalData
         },
     ]
 })

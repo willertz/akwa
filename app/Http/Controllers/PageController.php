@@ -202,11 +202,30 @@ class PageController extends Controller
     public function showVideo(): View
     {
         $h1 = 'Видео о нас.';
-
         return view('site.video', [
             'h1' => $h1,
             'title' => $h1,
             'description' => self::DEFAULT_META_DESCRIPTION,
+        ]);
+    }
+
+    public function showPolicyPage(): View
+    {
+        $page = \App\Models\RulePage::where('slug', 'policy')->first();
+        return view('site.rule_page', [
+            'page' => $page,
+            'title' => $page?->seo_title ?: 'Политика конфиденциальности',
+            'description' => $page?->seo_description ?: self::DEFAULT_META_DESCRIPTION,
+        ]);
+    }
+
+    public function showPersonalDataPage(): View
+    {
+        $page = \App\Models\RulePage::where('slug', 'personal-data')->first();
+        return view('site.rule_page', [
+            'page' => $page,
+            'title' => $page?->seo_title ?: 'Обработка персональных данных',
+            'description' => $page?->seo_description ?: self::DEFAULT_META_DESCRIPTION,
         ]);
     }
 }

@@ -489,10 +489,50 @@ $(document).ready(function() {
         }
     });
 
+    // ==== CONTACT PAGE FORM (portfolio half on contact page) ====
+    if ($('#contactFormSubmit').length) {
+        $('#contactFormSubmit').on('click', function(e) {
+            e.preventDefault();
+            if (!$('#contactConsent').is(':checked')) {
+                $('#contactConsentError').show();
+                return;
+            }
+            $('#contactConsentError').hide();
+            var name = $('input[name="name"]', $(this).closest('form')).val();
+            var phoneInput = document.querySelector('#phone');
+            var phone = phoneInput ? phoneInput.value : '';
+            if (!name && !phone) {
+                return;
+            }
+            $.ajax({
+                url: '/api/send-mail',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ name: name, phone: phone, message: 'Запрос с страницы контактов: запись на встречу' }),
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                success: function() {
+                    alert('Ваша заявка отправлена! Мы свяжемся с вами.');
+                    $('input[name="name"]').val('');
+                    if (phoneInput) phoneInput.value = '';
+                    $('#contactConsent').prop('checked', false);
+                },
+                error: function() {
+                    alert('Произошла ошибка. Попробуйте позже.');
+                }
+            });
+        });
+    }
+
     // ==== OBJECT PAGE FORM ====
     if ($('#objectFormSubmit').length) {
         $('#objectFormSubmit').on('click', function(e) {
             e.preventDefault();
+            // Validate consent checkbox
+            if (!$('#objectConsent').is(':checked')) {
+                $('#objectConsentError').show();
+                return;
+            }
+            $('#objectConsentError').hide();
             var name = $('#objectFormName').val();
             var phoneInput = document.querySelector('#objectFormPhone');
             var phone = phoneInput ? phoneInput.value : '';

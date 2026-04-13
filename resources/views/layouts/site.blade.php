@@ -256,6 +256,11 @@
                     </ul>
                 </div>
             </div>
+            <!-- Footer bottom links -->
+            <div class="footer_bottom_links">
+                <a href="{{ route('showPolicyPage') }}">Политика конфиденциальности</a>
+                <a href="{{ route('showPersonalDataPage') }}">Обработка персональных данных</a>
+            </div>
         </footer>
     </div>
 

@@ -24,6 +24,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\RulePageController;
 use App\Http\Controllers\ShopCategoryController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
@@ -61,11 +62,13 @@ Route::get('/blog/{article}', [PageController::class, 'showArticlePage'])->name(
 Route::get('/price', [PageController::class, 'showPricePage'])->name('showPricePage');
 Route::get('/contacts', [PageController::class, 'showContactPage'])->name('showContactPage');
 Route::get('/internet-magazin', [PageController::class, 'showShopHeadPage'])->name('showShopHeadPage');
-Route::get('/catalog/{any}', [PageController::class, 'showCategoryPage'])->name('showCategoryPage')->where('any', '.*');
+Route::get('/internet-magazin/{any}', [PageController::class, 'showCategoryPage'])->name('showCategoryPage')->where('any', '.*');
 Route::get('/goods/{item}', [PageController::class, 'showItemPage'])->name('showItemPage');
 Route::get('/cart', [PageController::class, 'showCart'])->name('showCart');
 Route::get('/thanks', [PageController::class, 'showThanks'])->name('showThanks');
 Route::get('/video', [PageController::class, 'showVideo'])->name('showVideo');
+Route::get('/rules/policy', [PageController::class, 'showPolicyPage'])->name('showPolicyPage');
+Route::get('/rules/personal-data', [PageController::class, 'showPersonalDataPage'])->name('showPersonalDataPage');
 
 /**
  * Роуты для API
@@ -107,6 +110,11 @@ Route::prefix('api')->group(function () {
     });
 
     Route::get('/notices', [NoticeController::class, 'getNotice']);
+    Route::prefix('rule-pages')->group(function () {
+        Route::get('/', [RulePageController::class, 'getAll']);
+        Route::get('/{slug}', [RulePageController::class, 'getBySlug']);
+        Route::post('/save', [RulePageController::class, 'save']);
+    });
 
     Route::prefix('media')->group(function () {
         Route::get('/', [MediaController::class, 'index']);

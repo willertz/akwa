@@ -13,31 +13,31 @@
                         <!-- Swiper img -->
                         <div class="item_img">
                             <img src="{{asset('img/portfolio_item.jpg')}}" alt="">
-                        </div> 
-                    </div> 
+                        </div>
+                    </div>
                     <!-- Swiper-slide -->
                     <div class="swiper-slide">
                         <!-- Swiper img -->
                         <div class="item_img">
                             <img src="{{asset('img/portfolio_item2.jpg')}}" alt="">
-                        </div> 
-                    </div> 
+                        </div>
+                    </div>
                     <!-- Swiper-slide -->
                     <div class="swiper-slide">
                         <!-- Swiper img -->
                         <div class="item_img">
                             <img src="{{asset('img/portfolio_item.jpg')}}" alt="">
-                        </div> 
-                    </div> 
+                        </div>
+                    </div>
                     <!-- Swiper-slide -->
                     <div class="swiper-slide">
                         <!-- Swiper img -->
                         <div class="item_img">
                             <img src="{{asset('img/portfolio_item2.jpg')}}" alt="">
-                        </div> 
-                    </div>                                                             
-                </div> 
-            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- container -->
             <div class="container">
                 <!-- item title and description -->
@@ -45,15 +45,15 @@
                     <!-- item title -->
                     <div class="item_title">
                         Зеленый мыс <br> 540
-                    </div> 
+                    </div>
                     <!-- Item description -->
                     <div class="item_description">
                         дизайн и ремонт
-                    </div> 
+                    </div>
                     <a href="#" class="const_btn">Получить расчет</a>
-                </div> 
-            </div> 
-        </section> 
+                </div>
+            </div>
+        </section>
 
         <!-- Photo section -->
         <section class="info_photo">
@@ -62,71 +62,71 @@
                 <!-- Info item img -->
                 <a href="{{asset('img/portfolio_item.jpg')}}" class="item_img">
                     <!-- img -->
-                    <img src="{{asset('img/portfolio_item.jpg')}}" alt=""> 
+                    <img src="{{asset('img/portfolio_item.jpg')}}" alt="">
                 </a>
                 <!-- Info item img -->
                 <a href="{{asset('img/portfolio_item2.jpg')}}" class="item_img">
                     <!-- img -->
-                    <img src="{{asset('img/portfolio_item2.jpg')}}" alt=""> 
+                    <img src="{{asset('img/portfolio_item2.jpg')}}" alt="">
                 </a>
                 <!-- Info item img -->
                 <a href="{{asset('img/portfolio_item.jpg')}}" class="item_img">
                     <!-- img -->
-                    <img src="{{asset('img/portfolio_item.jpg')}}" alt=""> 
+                    <img src="{{asset('img/portfolio_item.jpg')}}" alt="">
                 </a>
                 <!-- Info item img -->
                 <a href="{{asset('img/portfolio_item2.jpg')}}" class="item_img">
                     <!-- img -->
-                    <img src="{{asset('img/portfolio_item2.jpg')}}" alt=""> 
+                    <img src="{{asset('img/portfolio_item2.jpg')}}" alt="">
                 </a>
                 <!-- Info item img -->
                 <a href="{{asset('img/portfolio_item.jpg')}}" class="item_img">
                     <!-- img -->
-                    <img src="{{asset('img/portfolio_item.jpg')}}" alt=""> 
+                    <img src="{{asset('img/portfolio_item.jpg')}}" alt="">
                 </a>
                 <!-- Info item img -->
                 <a href="{{asset('img/portfolio_item2.jpg')}}" class="item_img">
                     <!-- img -->
-                    <img src="{{asset('img/portfolio_item2.jpg')}}" alt=""> 
+                    <img src="{{asset('img/portfolio_item2.jpg')}}" alt="">
                 </a>
                 <!-- Info item img -->
                 <a href="{{asset('img/portfolio_item.jpg')}}" class="item_img">
                     <!-- img -->
-                    <img src="{{asset('img/portfolio_item.jpg')}}" alt=""> 
+                    <img src="{{asset('img/portfolio_item.jpg')}}" alt="">
                 </a>
                 <!-- Info item img -->
                 <a href="{{asset('img/portfolio_item2.jpg')}}" class="item_img">
                     <!-- img -->
-                    <img src="{{asset('img/portfolio_item2.jpg')}}" alt=""> 
+                    <img src="{{asset('img/portfolio_item2.jpg')}}" alt="">
                 </a>
                 <!-- Info item img -->
                 <a href="{{asset('img/portfolio_item.jpg')}}" class="item_img">
                     <!-- img -->
-                    <img src="{{asset('img/portfolio_item.jpg')}}" alt=""> 
+                    <img src="{{asset('img/portfolio_item.jpg')}}" alt="">
                 </a>
                 <!-- Info item img -->
                 <a href="{{asset('img/portfolio_item2.jpg')}}" class="item_img">
                     <!-- img -->
-                    <img src="{{asset('img/portfolio_item2.jpg')}}" alt=""> 
+                    <img src="{{asset('img/portfolio_item2.jpg')}}" alt="">
                 </a>
                 <!-- Info item img -->
                 <a href="{{asset('img/portfolio_item.jpg')}}" class="item_img">
                     <!-- img -->
-                    <img src="{{asset('img/portfolio_item.jpg')}}" alt=""> 
+                    <img src="{{asset('img/portfolio_item.jpg')}}" alt="">
                 </a>
                 <!-- Info item img -->
                 <a href="{{asset('img/portfolio_item.jpg')}}" class="item_img">
                     <!-- img -->
-                    <img src="{{asset('img/portfolio_item.jpg')}}" alt=""> 
+                    <img src="{{asset('img/portfolio_item.jpg')}}" alt="">
                 </a>
                 <!-- Info item img -->
                 <a href="{{asset('img/portfolio_item2.jpg')}}" class="item_img">
                     <!-- img -->
-                    <img src="{{asset('img/portfolio_item2.jpg')}}" alt=""> 
+                    <img src="{{asset('img/portfolio_item2.jpg')}}" alt="">
                 </a>
-            </div> 
+            </div>
             <!-- More items -->
-            <a href="portfolio.html" class="more_buttons const_btn">Посмотреть больше работ</a> 
+            <a href="{{route('showObjectsListPage')}}" class="more_buttons const_btn">Посмотреть больше работ</a>
 
             <!-- container -->
             <div class="container">
@@ -134,17 +134,17 @@
                     <!-- Logo -->
                     <a href="index.html" class="item_logo">
                         <img src="{{asset('img/header_logo.png')}}" alt="">
-                    </a> 
+                    </a>
                     <!-- Item description -->
                     <div class="item_description">
                         Этот проект – идеальное сочетание комфорта, индивидуальности и современного подхода к дизайну, где каждая деталь продумана до мелочей.
-                    </div> 
+                    </div>
                 </div>
                 <div class="item_bottom">
                     <!-- Left side -->
                     <div class="left_side">
                         <img src="{{asset('img/portfolio_item2.jpg')}}" alt="">
-                    </div> 
+                    </div>
                     <!-- Right side -->
                     <div class="right_side">
                         <!-- top side -->
@@ -158,7 +158,7 @@
                                 <div class="description">
                                     между библиотекой и игровой зоной, которое добавляет современности и функциональности
                                 </div>
-                            </li> 
+                            </li>
                             <!-- li -->
                             <li>
                                 <div class="item_title_desc">
@@ -168,8 +168,8 @@
                                 <div class="description">
                                     подчеркивающие экологичность и эстетику интерьера.
                                 </div>
-                            </li> 
-                        </ul> 
+                            </li>
+                        </ul>
                         <div class="border"></div>
                         <ul class="item_info">
                             <!-- li -->
@@ -181,7 +181,7 @@
                                 <div class="description">
                                     становится изюминкой дома, создавая атмосферу утонченного стиля и роскоши.
                                 </div>
-                            </li> 
+                            </li>
                             <!-- li -->
                             <li>
                                 <div class="item_title_desc">
@@ -191,8 +191,8 @@
                                 <div class="description">
                                     Полный спектр услуг от инженерных сетей до ландшафтного дизайна, от ремонта до клининга.
                                 </div>
-                            </li> 
-                        </ul> 
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <!-- Item big description -->
@@ -206,15 +206,15 @@
                     с латунными элементами ручной работы добавляет тепла и уюта в гостиную, а винная комната становится изюминкой дома, предлагая идеальные условия для хранения коллекции и создавая атмосферу утонченного стиля.
                     <br>
                     Этот проект – идеальное сочетание комфорта, индивидуальности и современного подхода к дизайну, где каждая деталь продумана до мелочей. Дом становится не просто местом для жизни, а пространством, где каждый уголок вдохновляет и радует глаз.
-                </div> 
-            </div> 
-        </section> 
-        
+                </div>
+            </div>
+        </section>
+
         <!-- Portfolio -->
         <section class="portfolio half">
             <!-- container -->
             <div class="container">
-                
+
                 <!-- form -->
                 <form class="free_design">
                     <!-- Left side -->
@@ -222,40 +222,44 @@
                         <!-- Item title -->
                         <div class="item_title">
                             Запишитесь на встречу с нами
-                        </div> 
+                        </div>
                         <!-- Item info -->
                         <ul class="item_desc">
                             <!-- description -->
                             <li>
                                 Проработаем для вас стиль интерьера с учетом индивидуальных условий
-                            </li> 
+                            </li>
                             <!-- description -->
                             <li>
                                 Разработаем планировочное решение с расстановкой мебели
-                            </li> 
+                            </li>
                             <!-- description -->
                             <li>
                                 Обсудим подробности и возможные особые условия сотрудничества
-                            </li> 
-                        </ul> 
-                    </div> 
+                            </li>
+                        </ul>
+                    </div>
                     <!-- right side -->
                     <div class="right_side">
                         <!-- Inputs -->
                         <div class="inputs">
                             <input type="text" name="name" placeholder="Имя">
                             <input id="phone" type="tel" />
-                        </div> 
+                        </div>
                         <!-- Button -->
-                        <a href="#" class="follow_btn">Записаться</a>
+                        <a href="#" class="follow_btn" id="contactFormSubmit">Записаться</a>
                         <!-- terms -->
-                        <div class="terms">
-                            Нажимая на кнопку "Записаться", я соглашаюсь с политикой конфиденциальности
-                        </div> 
-                    </div> 
+                        <div class="terms consent_row">
+                            <label class="consent_label">
+                                <input type="checkbox" id="contactConsent" class="consent_checkbox">
+                                <span>Даю согласие на обработку своих персональных данных в соответствии с <a href="{{ route('showPolicyPage') }}" target="_blank" class="consent_link">политикой конфиденциальности</a>.</span>
+                            </label>
+                            <div id="contactConsentError" class="consent_error" style="display:none;">Необходимо дать согласие на обработку персональных данных</div>
+                        </div>
+                    </div>
                 </form>
-            </div> 
-        </section> 
+            </div>
+        </section>
 
         <!-- Footer -->
 @endsection

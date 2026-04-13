@@ -40,7 +40,7 @@ class Item extends Model
         $all = self::where('category', $categoryId)->orderBy('priority', 'asc')->get();
 
         return [
-            'main' => $all->where('main_item', 1)->keyBy('id'),
+            'main' => $all->filter(fn ($item) => $item->main_item == 1 || $item->main_item === null || $item->main_item === '')->keyBy('id'),
             'subitems' => $all->where('main_item', 0)->groupBy('parent_id'),
         ];
     }

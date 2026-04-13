@@ -47,20 +47,7 @@
         <!-- container -->
         <div class="container">
             <div class="item_top">
-                <!-- Logo -->
-                <a href="/" class="item_logo">
-                    <img src="{{asset('img/header_logo.png')}}" alt="">
-                </a>
-                <!-- Item description -->
-                @if($object->detail_description)
-                <div class="item_description">
-                    {{$object->detail_description}}
-                </div>
-                @elseif($object->description)
-                <div class="item_description">
-                    {{$object->description}}
-                </div>
-                @endif
+                <div class="object_section_title">Задачи заказчика</div>
             </div>
             <div class="item_bottom">
                 <!-- Left side -->
@@ -147,8 +134,12 @@
                         <input id="objectFormPhone" type="tel" />
                     </div>
                     <a href="#" class="follow_btn" id="objectFormSubmit">Записаться</a>
-                    <div class="terms">
-                        Нажимая на кнопку "Записаться", я соглашаюсь с политикой конфиденциальности
+                    <div class="terms consent_row">
+                        <label class="consent_label">
+                            <input type="checkbox" id="objectConsent" class="consent_checkbox">
+                            <span>Даю согласие на обработку своих персональных данных в соответствии с <a href="{{ route('showPolicyPage') }}" target="_blank" class="consent_link">политикой конфиденциальности</a>.</span>
+                        </label>
+                        <div id="objectConsentError" class="consent_error" style="display:none;">Необходимо дать согласие на обработку персональных данных</div>
                     </div>
                     <div id="objectFormMessage" style="display:none; margin-top:10px; color: #4caf50; font-weight:500;"></div>
                 </div>
