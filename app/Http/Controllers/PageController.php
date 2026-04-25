@@ -127,6 +127,13 @@ class PageController extends Controller
         $category = ShopCategory::resolveByPath($path);
 
         if (! $category instanceof ShopCategory) {
+            $slug = end($path);
+            $item = Item::where('slug', $slug)->first();
+
+            if ($item instanceof Item) {
+                return $this->showItemPage($item);
+            }
+
             abort(404);
         }
 

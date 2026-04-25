@@ -8,15 +8,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Item extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSlug;
 
     public $url;
 
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
+    }
+
     protected $fillable = [
-        'category', 'priority', 'art', 'name', 'price', 'price_usd', 'price_eur',
+        'category', 'priority', 'art', 'name', 'slug', 'price', 'price_usd', 'price_eur',
         'description', 'full_description', 'country', 'main_item', 'parent_id',
         'preview', 'meta_title', 'meta_description',
         'unit',

@@ -73,6 +73,6 @@ class ItemController extends Controller
 
     public function loadAllItems(): JsonResponse
     {
-        return response()->json(Item::select('name', 'category', 'priority', 'art', 'price', 'price_usd', 'price_eur', 'description', 'country')->get());
+        return response()->json(Item::orderBy('category')->orderBy('priority')->get());
     }
 }

@@ -45,7 +45,32 @@
             </v-col>
         </v-row>
         <hr>
-        <div class="container" v-if="enableEditor && editItem">
+        <v-table v-if="items.length > 0" density="compact" class="mb-4">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Артикул</th>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.art }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>
+                        <v-btn size="x-small" color="info" class="mr-1" @click="loadItemForEdit(item.id)">Ред.</v-btn>
+                        <v-btn size="x-small" color="error" @click="deleteItemById(item.id)">Удал.</v-btn>
+                    </td>
+                </tr>
+            </tbody>
+        </v-table>
+        <div v-else-if="!loading" class="text-center mb-4">Товары не найдены</div>
+        <hr>
+        <div class="container" id="editor-form" v-if="enableEditor && editItem">
             <h5>Редактирование товара</h5>
             <br><br>
             <v-row>
@@ -168,7 +193,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import axios from 'axios';
 import TipTapEditor from './media/TipTapEditor.vue';
 import ImagePicker from './media/ImagePicker.vue';
@@ -182,6 +207,33 @@ const deleteItemId = ref(0);
 const editItem = ref(null);
 const preview = ref("");
 const previewAlt = ref("");
+const items = ref([]);
+const loading = ref(true);
+
+const loadItems = async () => {
+    try {
+        const response = await axios.get('/api/items');
+        items.value = response.data;
+    } catch (error) {
+        console.error(error);
+    } finally {
+        loading.value = false;
+    }
+};
+
+const loadItemForEdit = async (id) => {
+    editorItemId.value = id;
+    await openEditor();
+};
+
+const deleteItemById = async (id) => {
+    if (!confirm('Удалить товар #' + id + '?')) return;
+    deleteItemId.value = id;
+    await deleteItem();
+    await loadItems();
+};
+
+onMounted(loadItems);
 
 const saveItem = async () => {
     try {
@@ -217,6 +269,8 @@ const openEditor = async () => {
         preview.value = response.data.preview || '';
         previewAlt.value = response.data.preview_alt || '';
         enableEditor.value = true;
+        await nextTick();
+        document.getElementById('editor-form')?.scrollIntoView({ behavior: 'smooth' });
     } catch (error) {
         console.error(error);
     }
@@ -227,6 +281,7 @@ const deleteItem = async () => {
         await axios.delete('/api/items/' + deleteItemId.value);
         snackbar.value = true;
         deleteItemId.value = 0;
+        await loadItems();
     } catch (error) {
         console.error(error);
     }
