@@ -18,9 +18,15 @@ $(document).ready(function() {
 
     // ==== SAHIFA YUKLASH ANIMATSIYASI ====
     if ($('.loading').length) {
-        window.addEventListener('load', () => {
+        function hideLoader() {
             $('.loading').addClass('active');
-            $('body').removeClass('hidden')
+            $('body').removeClass('hidden');
+        }
+        // Скрываем лоадер по событию load, но не позже чем через 3 секунды
+        var loaderTimeout = setTimeout(hideLoader, 3000);
+        window.addEventListener('load', function() {
+            clearTimeout(loaderTimeout);
+            hideLoader();
         });
     }
 
@@ -160,15 +166,17 @@ $(document).ready(function() {
     ['more_one', 'more_two', 'more_three', 'more_four'].forEach(initGallery);
 
     // ==== TELEFON INPUT ====
+    window.itiInstances = {};
     if (typeof intlTelInput !== 'undefined') {
-        ['#phone', '#phone_mobile', '#objectFormPhone'].forEach(selector => {
+        ['#phone', '#phone_mobile', '#objectContactFormPhone', '#productMeetingFormPhone', '#cart_phone', '#basketMeetingFormPhone', '#consultationFormPhone', '#contactPageMeetingFormPhone'].forEach(selector => {
             const input = document.querySelector(selector);
             if (input) {
-                intlTelInput(input, {
+                const iti = intlTelInput(input, {
                     initialCountry: "ru",
                     separateDialCode: true,
                     utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"
                 });
+                window.itiInstances[selector] = iti;
             }
         });
     }
@@ -328,10 +336,18 @@ $(document).ready(function() {
     $options.on('click', function (e) {
       e.stopPropagation();
       const text = $(this).text();
+      const sortValue = $(this).data('sort');
+
       $selected.text(text);
       $options.removeClass('active');
       $(this).addClass('active');
       $optionsContainer.hide();
+
+      if (sortValue) {
+          const url = new URL(window.location.href);
+          url.searchParams.set('sort', sortValue);
+          window.location.href = url.toString();
+      }
     });
 
     // Tashqariga bosilganda yopish
@@ -523,35 +539,97 @@ $(document).ready(function() {
         });
     }
 
-    // ==== OBJECT PAGE FORM ====
-    if ($('#objectFormSubmit').length) {
-        $('#objectFormSubmit').on('click', function(e) {
+    // ==== MEETING FORM HANDLER (universal) ====
+    function initMeetingForm(formId, page) {
+        var submitId = '#' + formId + 'Submit';
+        if (!$(submitId).length) return;
+        $(submitId).on('click', function(e) {
             e.preventDefault();
-            // Validate consent checkbox
-            if (!$('#objectConsent').is(':checked')) {
-                $('#objectConsentError').show();
+            var consentId = '#' + formId + 'Consent';
+            var consentErrorId = '#' + formId + 'ConsentError';
+            if (!$(consentId).is(':checked')) {
+                $(consentErrorId).show();
                 return;
             }
-            $('#objectConsentError').hide();
-            var name = $('#objectFormName').val();
-            var phoneInput = document.querySelector('#objectFormPhone');
+            $(consentErrorId).hide();
+            var name = $('#' + formId + 'Name').val();
+            var phoneInput = document.querySelector('#' + formId + 'Phone');
             var phone = phoneInput ? phoneInput.value : '';
-            if (!name && !phone) {
+            if (!name || !phone) {
+                $('#' + formId + 'Message').css('color', '#f44336').text('Пожалуйста, заполните имя и телефон.').show();
                 return;
             }
+            $.ajax({
+                url: '/api/send-meeting',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ name: name, phone: phone, page: page }),
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                success: function() {
+                    $('#' + formId + 'Name').val('');
+                    if (phoneInput) phoneInput.value = '';
+                    $('#' + formId + 'Consent').prop('checked', false);
+                    $('#' + formId + 'Message').hide();
+                    var meetingPopupTimer = setTimeout(function() { $('#meeting-success-popup-overlay, #meeting-success-popup').fadeOut(); }, 5000);
+                    $('#meeting-success-popup-overlay, #meeting-success-popup').fadeIn();
+                    $('#meeting-success-popup-overlay').off('click.meetingpopup').on('click.meetingpopup', function() {
+                        clearTimeout(meetingPopupTimer);
+                        $('#meeting-success-popup-overlay, #meeting-success-popup').fadeOut();
+                    });
+                },
+                error: function() {
+                    $('#' + formId + 'Message').css('color', '#f44336').text('Произошла ошибка. Попробуйте позже.').show();
+                }
+            });
+        });
+    }
+    initMeetingForm('objectContactForm', window.location.href);
+    initMeetingForm('productMeetingForm', window.location.href);
+    initMeetingForm('basketMeetingForm', window.location.href);
+
+    // ==== CONSULTATION FORM HANDLER ====
+    if ($('#consultationFormSubmit').length) {
+        $('#consultationFormSubmit').on('click', function(e) {
+            e.preventDefault();
+            if (!$('#consultationFormConsent').is(':checked')) {
+                $('#consultationFormConsentError').show();
+                return;
+            }
+            $('#consultationFormConsentError').hide();
+            var name = $('#consultationFormName').val();
+            var phoneInput = document.querySelector('#consultationFormPhone');
+            var iti = window.itiInstances && window.itiInstances['#consultationFormPhone'];
+            var phone = iti ? iti.getNumber() : (phoneInput ? phoneInput.value : '');
+            if (!name || !phone) {
+                $('#consultationFormMessage').css('color', '#f44336').text('Пожалуйста, заполните имя и телефон.').show();
+                return;
+            }
+            var contactMethod = [];
+            if ($('#tel_modal').is(':checked')) contactMethod.push('Позвонить');
+            if ($('#max').is(':checked')) contactMethod.push('Max');
+            if ($('#telegram').is(':checked')) contactMethod.push('Telegram');
             $.ajax({
                 url: '/api/send-mail',
                 method: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ name: name, phone: phone, message: 'Запрос с страницы объекта: запись на встречу' }),
+                data: JSON.stringify({ name: name, phone: phone, message: 'Запрос консультации. Способ связи: ' + (contactMethod.join(', ') || 'не указан') }),
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 success: function() {
-                    $('#objectFormMessage').text('Ваша заявка отправлена! Мы свяжемся с вами.').show();
-                    $('#objectFormName').val('');
+                    $('#consultationFormName').val('');
                     if (phoneInput) phoneInput.value = '';
+                    $('#consultationFormConsent').prop('checked', false);
+                    $('#tel_modal, #max, #telegram').prop('checked', false);
+                    $('#consultationFormMessage').hide();
+                    $('#myModal').hide();
+                    var consultPopupTimer = setTimeout(function() { $('#meeting-success-popup-overlay, #meeting-success-popup').fadeOut(); }, 5000);
+                    $('#meeting-success-popup-overlay, #meeting-success-popup').fadeIn();
+                    $('#meeting-success-popup-overlay').off('click.consultpopup').on('click.consultpopup', function() {
+                        clearTimeout(consultPopupTimer);
+                        $('#meeting-success-popup-overlay, #meeting-success-popup').fadeOut();
+                    });
                 },
                 error: function() {
-                    $('#objectFormMessage').css('color', '#f44336').text('Произошла ошибка. Попробуйте позже.').show();
+                    $('#consultationFormMessage').css('color', '#f44336').text('Произошла ошибка. Попробуйте позже.').show();
                 }
             });
         });

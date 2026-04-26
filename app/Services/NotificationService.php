@@ -4,47 +4,58 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Mail\ConsultationMail;
+use App\Mail\MeetingMail;
 use App\Mail\OrderMail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class NotificationService
 {
-    private const string RECIPIENT = 'timofeev@akwagarant.ru';
+    private function getManagerEmail(): string
+    {
+        return (string) config('mail.manager_email', 'manager@akwagarant.ru');
+    }
 
+    public function sendOrderNotification(array $data): void
+    {
+        if (app()->environment('local')) {
+            Log::info('DEV: sendOrderNotification (mail skipped)', $data);
+
+            return;
+        }
+        Mail::to($this->getManagerEmail())->send(new OrderMail($data));
+    }
+
+    public function sendMeetingNotification(array $data): void
+    {
+        if (app()->environment('local')) {
+            Log::info('DEV: sendMeetingNotification (mail skipped)', $data);
+
+            return;
+        }
+        Mail::to($this->getManagerEmail())->send(new MeetingMail($data));
+    }
+
+    public function sendConsultationNotification(array $data): void
+    {
+        if (app()->environment('local')) {
+            Log::info('DEV: sendConsultationNotification (mail skipped)', $data);
+
+            return;
+        }
+        Mail::to($this->getManagerEmail())->send(new ConsultationMail($data));
+    }
+
+    /**
+     * @deprecated Используйте sendConsultationNotification()
+     */
     public function sendContactMessage(string $name, string $phone, string $mail): void
     {
-        $data = [
+        $this->sendConsultationNotification([
             'name' => $name,
             'phone' => $phone,
-            'mail' => $mail,
-        ];
-
-        Mail::to(self::RECIPIENT)->send(new OrderMail($data));
-    }
-
-    public function sendOrderNotification(string $name, string $phone, string $mail, array $items): void
-    {
-        $orderHtml = $this->formatOrderItems($items);
-
-        $data = [
-            'name' => $name,
-            'phone' => $phone,
-            'mail' => $mail,
-            'order' => $orderHtml,
-        ];
-
-        Mail::to(self::RECIPIENT)->send(new OrderMail($data));
-    }
-
-    private function formatOrderItems(array $items): string
-    {
-        $orderHtml = '';
-        foreach ($items as $item) {
-            $url = url('/goods/'.($item['id'] ?? ''));
-            $name = $item['name'] ?? 'Unknown Item';
-            $orderHtml .= "<a href=\"{$url}\">{$name}</a><br>";
-        }
-
-        return $orderHtml;
+            'email' => $mail,
+        ]);
     }
 }

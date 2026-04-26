@@ -24,6 +24,7 @@ class ShopCategoryRequest extends FormRequest
             'parent_id' => 'sometimes|required|integer',
             'papent_id' => 'sometimes|integer', // Исправляем опечатку в запросе если она есть
             'priority' => 'nullable|integer',
+            'slug' => 'nullable|string|max:255',
         ];
     }
 }

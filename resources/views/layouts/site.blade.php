@@ -5,29 +5,43 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="{{asset('favicon.ico')}}" type="image/x-icon">
+    <style>
+        @font-face {
+            font-family: 'Sovest';
+            src: url('{{asset('fonts/sovest/sovest.woff2')}}') format('woff2'),
+                 url('{{asset('fonts/sovest/sovest.woff')}}') format('woff'),
+                 url('{{asset('fonts/sovest/sovest.ttf')}}') format('truetype');
+        }
+    </style>
+    @if(config('app.env') !== 'local' && config('services.yandex_metrika.id'))
     <script type="text/javascript" >
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
             m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
         (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-        ym(52522438, "init", {
-            id:52522438,
+        ym({{ config('services.yandex_metrika.id') }}, "init", {
+            id:{{ config('services.yandex_metrika.id') }},
             clickmap:true,
             trackLinks:true,
             accurateTrackBounce:true,
             webvisor:true
         });
     </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/52522438" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <noscript><div><img src="https://mc.yandex.ru/watch/{{ config('services.yandex_metrika.id') }}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
+    @endif
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Content Security Policy -->
+    @if(config('app.env') !== 'local')
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://www.youtube.com https://s.ytimg.com https://mc.yandex.ru; font-src 'self' data:; frame-src 'self' https://www.youtube.com https://yandex.ru;">
+    @endif
 
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type='text/javascript' src='{{asset('js/jquery.min.js')}}'></script>
+    <script src="{{asset('js/popper.min.js')}}"></script>
+    <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/parallax.min.js')}}"></script>
 
 
@@ -149,6 +163,17 @@
                                 статьи
                             </a>
                         </li>
+                        <!-- Cart icon -->
+                        <li class="cart-link-wrapper" style="display:none;">
+                            <a href="{{route('showBasket')}}" class="cart-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="9" cy="21" r="1"></circle>
+                                    <circle cx="20" cy="21" r="1"></circle>
+                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                </svg>
+                                <span class="cart-count">0</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- Number and help button -->
@@ -187,21 +212,21 @@
                 <div class="row bottom">
                     <!-- Map -->
                     <div class="map">
-                        <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A50586e7cba09cfae1a9b567d1b4a82886fc17a59ff70c5d3e8229adfe0c001b5&amp;source=constructor" width="100%" height="100%" frameborder="0"></iframe>
+                        @if(app()->environment('production'))
+                            <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A50586e7cba09cfae1a9b567d1b4a82886fc17a59ff70c5d3e8229adfe0c001b5&amp;source=constructor" width="100%" height="100%" frameborder="0" loading="lazy"></iframe>
+                        @endif
                     </div>
                     <!-- Location -->
                     <ul class="location">
                         <li>
-                            г. Москва,<br>
-                            м. Автозаводская,<br>
-                            ул. Ленинская Слобода,<br>
-                            дом 26, офис 219<br>
+                            г. Воронеж,<br>
+                            п-т Патриотов 49Б/3<br>
                         </li>
-                        <li>
+                        {{--<li>
                             ООО «ГУД-СТОУН» <br>
                             ИНН/КПП 9725012747/772501001 <br>
                             ОГРН 1197746370524 <br>
-                        </li>
+                        </li>--}}
                     </ul>
                     <!-- Social networks -->
                     <ul class="social_networks">
@@ -237,7 +262,7 @@
                                     <circle cx="32" cy="16" r="2" fill="white"/>
                                 </svg>
                             </a>
-                            <a href="https://www.instagram.com/akwagarant.ru/" target="_blank" rel="noopener">
+                            <a href="https://rutube.ru/channel/43603810/" target="_blank" rel="noopener">
                                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="48" height="48" rx="12" fill="#2196F3"/>
                                     <defs>
@@ -269,25 +294,41 @@
         <div class="modal_close" id="closeModal">
             <svg role="presentation" class="t-popup__close-icon" width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <g stroke="none" stroke-width="1" fill="#cfa382" fill-rule="evenodd"> <rect transform="translate(11.313708, 11.313708) rotate(-45.000000) translate(-11.313708, -11.313708) " x="10.3137085" y="-3.6862915" width="2" height="30"></rect> <rect transform="translate(11.313708, 11.313708) rotate(-315.000000) translate(-11.313708, -11.313708) " x="10.3137085" y="-3.6862915" width="2" height="30"></rect> </g> </svg>
         </div>
-        <form class="modal_container">
+        <form class="modal_container" id="consultationForm">
             <div class="modal_title">Получить консультацию</div>
+            <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off">
             <div class="inputs">
-                <input type="text" name="name" placeholder="Имя">
-                <input id="phone_mobile" type="tel"/>
+                <input type="text" name="name" id="consultationFormName" placeholder="Имя">
+                <input id="consultationFormPhone" type="tel" placeholder="Телефон (например: 9851234567)"/>
             </div>
             <div class="options">
                 <div class="item_title">Предпочитаемый способ связи:</div>
                 <div class="inputs">
                     <label for="tel_modal"><input type="checkbox" id="tel_modal"><span>Позвонить</span></label>
-                    <label for="whatsapp"><input type="checkbox" id="whatsapp"><span>Написать WhatsApp</span></label>
+                    <label for="max"><input type="checkbox" id="max"><span>Написать Max</span></label>
                     <label for="telegram"><input type="checkbox" id="telegram"><span>Написать Telegram</span></label>
                 </div>
             </div>
-            <a href="#" class="order_btn">Получить консультацию</a>
-            <div class="terms">Нажимая на кнопку "Получить консультацию" вы даете свое согласие на обработку персональных данных</div>
+            <div class="terms consent_row" style="margin-bottom:10px;">
+                <label class="consent_label">
+                    <input type="checkbox" id="consultationFormConsent" class="consent_checkbox">
+                    <span>Даю согласие на обработку своих персональных данных в соответствии с <a href="{{ route('showPolicyPage') }}" target="_blank" class="consent_link">политикой конфиденциальности</a>.</span>
+                </label>
+                <div id="consultationFormConsentError" class="consent_error" style="display:none;">Необходимо дать согласие на обработку персональных данных</div>
+            </div>
+            <a href="#" class="order_btn" id="consultationFormSubmit">Получить консультацию</a>
+            <div id="consultationFormMessage" style="display:none; margin-top:10px; color:#4caf50; font-weight:500;"></div>
         </form>
     </div>
 
+    <!-- Cart notification -->
+    <div class="notice-add-item-in-cart" style="display:none;">Товар добавлен в корзину</div>
+    <!-- Meeting/Consultation success popup -->
+    <div id="meeting-success-popup-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:9998;"></div>
+    <div id="meeting-success-popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:9999; background:#fff; border-radius:12px; box-shadow:0 8px 40px rgba(0,0,0,0.18); padding:40px 48px; text-align:center; max-width:420px; width:90%;">
+        <div style="font-size:20px; font-weight:700; color:#222; margin-bottom:12px;">Заявка принята!</div>
+        <div style="font-size:15px; color:#555;">В ближайшее время менеджер свяжется с вами.</div>
+    </div>
     <!-- Scripts -->
     @vite(['resources/sass/main.scss', 'resources/js/site.js'])
     <script src="{{asset('js/script.js')}}"></script>

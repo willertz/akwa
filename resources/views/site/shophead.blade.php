@@ -24,11 +24,19 @@
         <div class="container">
             <!-- shop sort -->
             <div class="custom_select">
-                <div class="selected">Сначала дешевые</div>
+                <div class="selected">
+                    @if($currentSort == 'price_desc')
+                        Сначала дорогие
+                    @elseif($currentSort == 'newest')
+                        Сначала новинки
+                    @else
+                        Сначала дешевые
+                    @endif
+                </div>
                 <div class="select_options">
-                    <div class="option active">Сначала дешевые</div>
-                    <div class="option">Сначала дорогие</div>
-                    <div class="option">Сначала новинки</div>
+                    <div class="option {{ $currentSort == 'price_asc' || !$currentSort ? 'active' : '' }}" data-sort="price_asc">Сначала дешевые</div>
+                    <div class="option {{ $currentSort == 'price_desc' ? 'active' : '' }}" data-sort="price_desc">Сначала дорогие</div>
+                    <div class="option {{ $currentSort == 'newest' ? 'active' : '' }}" data-sort="newest">Сначала новинки</div>
                 </div>
             </div>
             <!-- row -->
@@ -62,29 +70,45 @@
                 <div class="right_side">
                     <!-- row -->
                     <div class="right_row">
-                        @foreach($categories as $category)
+                        @foreach($items['main'] as $item)
+                        @php $price = $item->price ? (float)$item->price : null; @endphp
                         <!-- Shop item -->
-                        <a href="{{$category->getUrl()}}" class="shop_item">
+                        <a href="{{route('showItemPage', $item)}}" class="shop_item">
                             <!-- Item img -->
                             <div class="item_img">
-                                @if($category->preview)
-                                    <img src="{{asset($category->preview)}}" alt="{{$category->name}}">
+                                @if($item->preview)
+                                    <img src="{{asset($item->preview)}}" alt="{{$item->name}}">
                                 @else
-                                    <img src="{{asset('userfiles/system/no_product.png')}}" alt="{{$category->name}}">
+                                    <img src="{{asset('assets/img/no_product.png')}}" alt="{{$item->name}}">
                                 @endif
                             </div>
                             <!-- Item name -->
                             <div class="item_name">
-                                {{$category->name}}
+                                {{$item->name}}
                             </div>
+                            @if($item->country)
+                            <!-- Mark -->
+                            <div class="mark_name">
+                                {{$item->country}}
+                            </div>
+                            @endif
                             <!-- Item buttons -->
                             <div class="item_buttons">
                                 <!-- Item price -->
-                                <div class="price"></div>
+                                <div class="price">
+                                    @if($price)
+                                        {{number_format($price, 0, '.', ' ')}} ₽
+                                    @else
+                                        По запросу
+                                    @endif
+                                </div>
                                 <!-- Item favourite -->
                                 <div class="item_favourito"></div>
                                 <!-- Item basket -->
-                                <div class="item_basket"></div>
+                                <div class="item_basket add-to-cart"
+                                     data-id="{{$item->id}}"
+                                     data-name="{{$item->name}}"
+                                     data-price="{{$price ?? 0}}"></div>
                             </div>
                         </a>
                         @endforeach

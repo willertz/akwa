@@ -42,7 +42,7 @@
                             <!-- swiper slide -->
                             <div class="swiper-slide">
                                 <!-- img -->
-                                <img src="{{asset('userfiles/system/no_product.png')}}" alt="{{$item->name}}">
+                                <img src="{{asset('assets/img/no_product.png')}}" alt="{{$item->name}}">
                             </div>
                             @endif
                         </div>
@@ -72,7 +72,7 @@
                             <!-- swiper slide -->
                             <div class="swiper-slide">
                                 <!-- img -->
-                                <img src="{{asset('userfiles/system/no_product.png')}}" alt="{{$item->name}}">
+                                <img src="{{asset('assets/img/no_product.png')}}" alt="{{$item->name}}">
                             </div>
                             @endif
                         </div>

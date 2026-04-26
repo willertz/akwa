@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\AObject;
 use App\Models\Article;
 use App\Models\Item;
+use App\Models\RulePage;
 use App\Models\ShopCategory;
 use Illuminate\Contracts\View\View;
 
@@ -102,7 +103,7 @@ class PageController extends Controller
     public function showContactPage(): View
     {
         return view('site.contact', [
-            'h1' => 'КОНТАКТЫ.',
+            'h1' => 'КОНТАКТЫ',
             'title' => 'Контакты и реквизиты – компания Аквагарант',
             'description' => 'Позвоните по номеру: '.self::CONTACT_PHONE.' и узнайте подробности о стоимости монтажа и установки систем отопления в компании Аквагарант',
         ]);
@@ -111,11 +112,30 @@ class PageController extends Controller
     /** Метод для отображения главной страницы магазина */
     public function showShopHeadPage(): View
     {
+        $sort = request()->get('sort');
+        $query = Item::query()->where(fn ($q) => $q->where('main_item', 1)->orWhereNull('main_item')->orWhere('main_item', ''));
+        if ($sort === 'newest') {
+            $query->orderBy('created_at', 'desc');
+        } else {
+            $query->orderBy('priority', 'asc');
+        }
+        $allItems = $query->get();
+        if ($sort === 'price_asc' || $sort === 'price_desc') {
+            $allItems = $allItems->sortBy(fn ($item) => (float) ($item->price ?? PHP_INT_MAX));
+            if ($sort === 'price_desc') {
+                $allItems = $allItems->reverse();
+            }
+        }
+        $allItems = $allItems->keyBy('id');
+        $itemsGrouped = ['main' => $allItems, 'subitems' => collect()];
+
         return view('site.shophead', [
             'h1' => 'ИНТЕРНЕТ-МАГАЗИН',
             'title' => 'Интернет магазин сантехники – компания Аквагарант',
             'description' => 'Тут вы можете купить котлы, радиаторы, водонагреватели и другие товары по отоплению, водопроводу и канализации.',
             'categories' => ShopCategory::getRootCategories(),
+            'items' => $itemsGrouped,
+            'currentSort' => $sort,
             'topText' => 'Затрудняетесь с выбором комплектующих для отопления, водопровода или канализации? Позвоните по номеру '.self::CONTACT_PHONE.' и мы поможем вам с выбором.',
         ]);
     }
@@ -138,12 +158,14 @@ class PageController extends Controller
         }
 
         $h1 = $category->name;
-        $itemsGrouped = Item::getGroupedByCategory($category->id);
+        $sort = request()->get('sort');
+        $itemsGrouped = Item::getGroupedByCategory($category->id, $sort);
 
         if ($category->children->isEmpty()) {
             return view('site.itemlist', [
                 'h1' => $h1,
                 'items' => $itemsGrouped,
+                'currentSort' => $sort,
                 'title' => "Купить \"{$h1}\" в интернет-магазине – компания Аквагарант",
                 'description' => "Купить \"{$h1}\" в интернет-магазине. Выгодные цены. Большой ассортимент.",
                 'topText' => "Затрудняетесь с выбором товара в категории \"{$h1}\" ? Позвоните по номеру ".self::CONTACT_PHONE.' и мы поможем вам с выбором.',
@@ -158,6 +180,7 @@ class PageController extends Controller
             'categories' => $category->children,
             'urls' => $category->children->mapWithKeys(fn ($child): array => [$child->id => $child->getUrl()]),
             'items' => $itemsGrouped,
+            'currentSort' => $sort,
         ]);
     }
 
@@ -165,12 +188,29 @@ class PageController extends Controller
     public function showItemPage(Item $item): View
     {
         $h1 = $item->name;
+
+        // Сохраняем просмотренные товары в сессию
+        $viewed = session()->get('viewed_items', []);
+        if (! in_array($item->id, $viewed)) {
+            $viewed[] = $item->id;
+        }
+        if (count($viewed) > 10) {
+            $viewed = array_slice($viewed, -10);
+        }
+        session()->put('viewed_items', $viewed);
+
+        // Загружаем просмотренные товары (кроме текущего)
+        $viewedItems = Item::whereIn('id', array_filter($viewed, fn ($id) => $id !== $item->id))
+            ->where('main_item', 1)
+            ->get();
+
         $commonData = [
             'h1' => $h1,
             'item' => $item,
             'title' => "Купить \"{$h1}\"  – компания Аквагарант",
             'description' => "Купить \"{$h1}\" в интернет-магазине. Выгодные цены. Качественный товар",
             'topText' => "Интересуют подробности о товаре \"{$h1}\"? Позвоните по номеру ".self::CONTACT_PHONE.' и мы предоставим вам всю интересующую вас информацию.',
+            'viewedItems' => $viewedItems,
         ];
 
         if ($item->main_item == 1) {
@@ -209,6 +249,7 @@ class PageController extends Controller
     public function showVideo(): View
     {
         $h1 = 'Видео о нас.';
+
         return view('site.video', [
             'h1' => $h1,
             'title' => $h1,
@@ -218,7 +259,8 @@ class PageController extends Controller
 
     public function showPolicyPage(): View
     {
-        $page = \App\Models\RulePage::where('slug', 'policy')->first();
+        $page = RulePage::where('slug', 'policy')->first();
+
         return view('site.rule_page', [
             'page' => $page,
             'title' => $page?->seo_title ?: 'Политика конфиденциальности',
@@ -228,7 +270,8 @@ class PageController extends Controller
 
     public function showPersonalDataPage(): View
     {
-        $page = \App\Models\RulePage::where('slug', 'personal-data')->first();
+        $page = RulePage::where('slug', 'personal-data')->first();
+
         return view('site.rule_page', [
             'page' => $page,
             'title' => $page?->seo_title ?: 'Обработка персональных данных',

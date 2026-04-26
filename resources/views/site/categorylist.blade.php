@@ -26,11 +26,19 @@
         <div class="container">
             <!-- shop sort -->
             <div class="custom_select">
-                <div class="selected">Сначала дешевые</div>
+                <div class="selected">
+                    @if($currentSort == 'price_desc')
+                        Сначала дорогие
+                    @elseif($currentSort == 'newest')
+                        Сначала новинки
+                    @else
+                        Сначала дешевые
+                    @endif
+                </div>
                 <div class="select_options">
-                    <div class="option active">Сначала дешевые</div>
-                    <div class="option">Сначала дорогие</div>
-                    <div class="option">Сначала новинки</div>
+                    <div class="option {{ $currentSort == 'price_asc' || !$currentSort ? 'active' : '' }}" data-sort="price_asc">Сначала дешевые</div>
+                    <div class="option {{ $currentSort == 'price_desc' ? 'active' : '' }}" data-sort="price_desc">Сначала дорогие</div>
+                    <div class="option {{ $currentSort == 'newest' ? 'active' : '' }}" data-sort="newest">Сначала новинки</div>
                 </div>
             </div>
             <!-- row -->
@@ -47,7 +55,7 @@
                                 @if($category->preview)
                                     <img src="{{asset($category->preview)}}" alt="{{$category->name}}">
                                 @else
-                                    <img src="{{asset('userfiles/system/no_product.png')}}" alt="{{$category->name}}">
+                                    <img src="{{asset('assets/img/no_product.png')}}" alt="{{$category->name}}">
                                 @endif
                             </div>
                             <!-- Item name -->
@@ -56,7 +64,12 @@
                             </div>
                             <!-- Item buttons -->
                             <div class="item_buttons">
-                                <div class="price"></div>
+                                <div class="price">
+                                    @php $minPrice = $category->getMinPrice(); @endphp
+                                    @if($minPrice)
+                                        от {{number_format($minPrice, 0, '.', ' ')}} ₽
+                                    @endif
+                                </div>
                                 <div class="item_favourito"></div>
                                 <div class="item_basket"></div>
                             </div>
@@ -82,7 +95,7 @@
                                 @if($item->preview)
                                     <img src="{{asset($item->preview)}}" alt="{{$item->name}}">
                                 @else
-                                    <img src="{{asset('userfiles/system/no_product.png')}}" alt="{{$item->name}}">
+                                    <img src="{{asset('assets/img/no_product.png')}}" alt="{{$item->name}}">
                                 @endif
                             </div>
                             <!-- Item name -->

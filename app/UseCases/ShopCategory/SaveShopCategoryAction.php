@@ -30,6 +30,9 @@ class SaveShopCategoryAction
         }
 
         $category->fill($fillData);
+        if (! empty($data['slug'])) {
+            $category->slug = $data['slug'];
+        }
         $category->save();
 
         return $category;

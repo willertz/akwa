@@ -38,6 +38,9 @@ readonly class SaveItemAction
             'meta_description' => $data['meta_description'] ?? '',
             'unit' => $data['unit'] ?? '',
         ]);
+        if (! empty($data['slug'])) {
+            $item->slug = $data['slug'];
+        }
 
         $item->save();
 

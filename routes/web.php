@@ -62,9 +62,10 @@ Route::get('/blog/{article}', [PageController::class, 'showArticlePage'])->name(
 Route::get('/price', [PageController::class, 'showPricePage'])->name('showPricePage');
 Route::get('/contacts', [PageController::class, 'showContactPage'])->name('showContactPage');
 Route::get('/internet-magazin', [PageController::class, 'showShopHeadPage'])->name('showShopHeadPage');
+Route::get('/internet-magazin/goods/{item}', [PageController::class, 'showItemPage'])->name('showItemPage');
 Route::get('/internet-magazin/{any}', [PageController::class, 'showCategoryPage'])->name('showCategoryPage')->where('any', '.*');
-Route::get('/goods/{item}', [PageController::class, 'showItemPage'])->name('showItemPage');
 Route::get('/cart', [PageController::class, 'showCart'])->name('showCart');
+Route::get('/basket', [PageController::class, 'showCart'])->name('showBasket');
 Route::get('/thanks', [PageController::class, 'showThanks'])->name('showThanks');
 Route::get('/video', [PageController::class, 'showVideo'])->name('showVideo');
 Route::get('/rules/policy', [PageController::class, 'showPolicyPage'])->name('showPolicyPage');
@@ -75,6 +76,7 @@ Route::get('/rules/personal-data', [PageController::class, 'showPersonalDataPage
  */
 Route::prefix('api')->group(function () {
     Route::post('/send-mail', [ApiController::class, 'sendMessage']);
+    Route::post('/send-meeting', [ApiController::class, 'sendMeeting']);
     Route::post('/send-cart', [CartController::class, 'sendCart']);
 
     Route::prefix('items')->group(function () {

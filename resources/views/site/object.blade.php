@@ -112,38 +112,5 @@
         </div>
     </section>
 
-    <!-- Portfolio half form -->
-    <section class="portfolio half">
-        <div class="container">
-            <form class="free_design" id="objectContactForm">
-                <!-- Left side -->
-                <div class="left_side">
-                    <div class="item_title">
-                        Запишитесь на встречу с нами
-                    </div>
-                    <ul class="item_desc">
-                        <li>Проработаем для вас стиль интерьера с учетом индивидуальных условий</li>
-                        <li>Разработаем планировочное решение с расстановкой мебели</li>
-                        <li>Обсудим подробности и возможные особые условия сотрудничества</li>
-                    </ul>
-                </div>
-                <!-- right side -->
-                <div class="right_side">
-                    <div class="inputs">
-                        <input type="text" name="name" id="objectFormName" placeholder="Имя">
-                        <input id="objectFormPhone" type="tel" />
-                    </div>
-                    <a href="#" class="follow_btn" id="objectFormSubmit">Записаться</a>
-                    <div class="terms consent_row">
-                        <label class="consent_label">
-                            <input type="checkbox" id="objectConsent" class="consent_checkbox">
-                            <span>Даю согласие на обработку своих персональных данных в соответствии с <a href="{{ route('showPolicyPage') }}" target="_blank" class="consent_link">политикой конфиденциальности</a>.</span>
-                        </label>
-                        <div id="objectConsentError" class="consent_error" style="display:none;">Необходимо дать согласие на обработку персональных данных</div>
-                    </div>
-                    <div id="objectFormMessage" style="display:none; margin-top:10px; color: #4caf50; font-weight:500;"></div>
-                </div>
-            </form>
-        </div>
-    </section>
+    @include('site.partials.meeting_form', ['formId' => 'objectContactForm'])
 @endsection

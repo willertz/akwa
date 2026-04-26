@@ -45,6 +45,14 @@
                 </v-col>
 
                 <v-col cols="12">
+                    <v-text-field
+                            label="Slug (URL категории)"
+                            variant="outlined"
+                            v-model="category.slug"
+                    ></v-text-field>
+                </v-col>
+
+                <v-col cols="12">
                     <div class="field-label">Превью изображение</div>
                     <ImagePicker v-model="preview" v-model:alt-value="previewAlt" preview-height="200px" />
                 </v-col>
@@ -67,7 +75,8 @@ const id = route.params.id;
 const category = ref({
     name: "",
     title: "",
-    description: ""
+    description: "",
+    slug: ""
 });
 const preview = ref("");
 const previewAlt = ref("");
@@ -82,6 +91,7 @@ const updateCat = async () => {
             name: category.value.name,
             title: category.value.title,
             description: category.value.description,
+            slug: category.value.slug,
             preview: preview.value,
             preview_alt: previewAlt.value,
         });

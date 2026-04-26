@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Services\CurrencyService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,6 +19,52 @@ class ShopCategory extends Model
     protected $fillable = [
         'name', 'slug', 'preview', 'title', 'description', 'depth_level', 'priority', 'parent_id',
     ];
+
+    /**
+     * Get minimum price for products in this category and its children
+     */
+    public function getMinPrice(): ?float
+    {
+        $categoryIds = [$this->id];
+
+        // Get children IDs (recursive would be better, but let's start with 1 level or use a flat approach if possible)
+        // For simplicity in this project, we check direct items first.
+
+        $items = Item::whereIn('category', $categoryIds)->get();
+        if ($items->isEmpty()) {
+            // Check subcategories items
+            foreach ($this->children as $child) {
+                $categoryIds[] = $child->id;
+            }
+            $items = Item::whereIn('category', $categoryIds)->get();
+        }
+
+        if ($items->isEmpty()) {
+            return null;
+        }
+
+        $currency = app(CurrencyService::class);
+        $minPrice = null;
+
+        foreach ($items as $item) {
+            $price = null;
+            if ($item->price) {
+                $price = (float) $item->price;
+            } elseif ($item->price_usd) {
+                $price = $currency->convertToRub('USD', (float) $item->price_usd);
+            } elseif ($item->price_eur) {
+                $price = $currency->convertToRub('EUR', (float) $item->price_eur);
+            }
+
+            if ($price !== null) {
+                if ($minPrice === null || $price < $minPrice) {
+                    $minPrice = $price;
+                }
+            }
+        }
+
+        return $minPrice;
+    }
 
     /**
      * Get the options for generating the slug.

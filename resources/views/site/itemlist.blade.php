@@ -26,11 +26,19 @@
         <div class="container">
             <!-- shop sort -->
             <div class="custom_select">
-                <div class="selected">Сначала дешевые</div>
+                <div class="selected">
+                    @if($currentSort == 'price_desc')
+                        Сначала дорогие
+                    @elseif($currentSort == 'newest')
+                        Сначала новинки
+                    @else
+                        Сначала дешевые
+                    @endif
+                </div>
                 <div class="select_options">
-                    <div class="option active">Сначала дешевые</div>
-                    <div class="option">Сначала дорогие</div>
-                    <div class="option">Сначала новинки</div>
+                    <div class="option {{ $currentSort == 'price_asc' || !$currentSort ? 'active' : '' }}" data-sort="price_asc">Сначала дешевые</div>
+                    <div class="option {{ $currentSort == 'price_desc' ? 'active' : '' }}" data-sort="price_desc">Сначала дорогие</div>
+                    <div class="option {{ $currentSort == 'newest' ? 'active' : '' }}" data-sort="newest">Сначала новинки</div>
                 </div>
             </div>
             <!-- row -->
@@ -58,7 +66,7 @@
                                 @if($item->preview)
                                     <img src="{{asset($item->preview)}}" alt="{{$item->name}}">
                                 @else
-                                    <img src="{{asset('userfiles/system/no_product.png')}}" alt="{{$item->name}}">
+                                    <img src="{{asset('assets/img/no_product.png')}}" alt="{{$item->name}}">
                                 @endif
                             </div>
                             <!-- Item name -->

@@ -21,14 +21,14 @@ class OrderMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Новый заказ на сайте Аквагарант!',
+            subject: 'Новый заказ на сайте Аквагарант',
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            view: 'order',
+            view: 'mail.order',
         );
     }
 }

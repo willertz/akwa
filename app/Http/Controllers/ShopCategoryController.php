@@ -8,6 +8,7 @@ use App\Http\Requests\ShopCategoryRequest;
 use App\Models\ShopCategory;
 use App\UseCases\ShopCategory\SaveShopCategoryAction;
 use Illuminate\Http\JsonResponse;
+use LaravelIdea\Helper\App\Models\_IH_ShopCategory_C;
 
 class ShopCategoryController extends Controller
 {
@@ -69,7 +70,7 @@ class ShopCategoryController extends Controller
         return $categoryR;
     }
 
-    public function getCategoryByParentId($id): bool
+    public function getCategoryByParentId($id): array|_IH_ShopCategory_C
     {
         $categories = ShopCategory::where('parent_id', '=', $id)->get();
         if (! $categories) {
@@ -116,17 +117,11 @@ class ShopCategoryController extends Controller
         $categories = ShopCategory::all();
         $res = [];
         foreach ($categories as $category) {
-            if ($category->parent_id != -1) {
-                $url = $this->getUrlByCode($category->parent_id, $category->slug);
-            } else {
-                $url = '/catalog/'.$category->slug.'/';
-            }
             $res[] = [
                 'name' => $category->name,
                 'id' => $category->id,
-                'url' => $url,
+                'url' => $category->getUrl(),
             ];
-
         }
 
         return response()->json($res);

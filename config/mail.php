@@ -133,4 +133,6 @@ return [
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
+    'manager_email' => env('MANAGER_EMAIL', 'manager@akwagarant.ru'),
+
 ];

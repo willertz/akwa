@@ -7,6 +7,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -54,12 +57,12 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function register(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+    public function register(Request $request): Redirector|RedirectResponse
     {
         return redirect('/');
     }
 
-    public function showRegistrationForm(): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+    public function showRegistrationForm(): Redirector|RedirectResponse
     {
         return redirect('/');
     }

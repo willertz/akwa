@@ -27,6 +27,6 @@ class ViteTest extends TestCase
     {
         $testResponse = $this->get('/');
         $testResponse->assertStatus(200);
-        $testResponse->assertSee('resources/sass/app.scss');
+        $testResponse->assertSee('resources/js/site.js');
     }
 }

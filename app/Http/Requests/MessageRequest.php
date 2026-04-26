@@ -19,6 +19,8 @@ class MessageRequest extends FormRequest
             'name' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:50',
             'mail' => 'nullable|string|max:255',
+            'method' => 'nullable|string|max:100',
+            'website' => 'prohibited',
         ];
     }
 }

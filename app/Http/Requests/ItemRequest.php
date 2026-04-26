@@ -34,6 +34,7 @@ class ItemRequest extends FormRequest
             'meta_title' => 'nullable|string',
             'meta_description' => 'nullable|string',
             'unit' => 'nullable|string|max:50',
+            'slug' => 'nullable|string|max:255',
         ];
     }
 }

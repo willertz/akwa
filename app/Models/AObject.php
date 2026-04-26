@@ -22,8 +22,7 @@ class AObject extends Model
      * @param  Builder<AObject>  $query
      * @return Builder<AObject>
      */
-    #[\Illuminate\Database\Eloquent\Attributes\Scope]
-    protected function getLatest4(Builder $query): Builder
+    public function scopeGetLatest4(Builder $query): Builder
     {
         return $query->where(static function (Builder $builder): void {
             $builder->whereNotIn('id', [100, 98])

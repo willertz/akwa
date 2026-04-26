@@ -24,6 +24,11 @@ class Item extends Model
             ->saveSlugsTo('slug');
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     protected $fillable = [
         'category', 'priority', 'art', 'name', 'slug', 'price', 'price_usd', 'price_eur',
         'description', 'full_description', 'country', 'main_item', 'parent_id',
@@ -44,9 +49,26 @@ class Item extends Model
      *
      * @return array{main: Collection<int, Item>, subitems: array<int, Collection<int, Item>>}
      */
-    public static function getGroupedByCategory(int $categoryId): array
+    public static function getGroupedByCategory(int $categoryId, ?string $sort = null): array
     {
-        $all = self::where('category', $categoryId)->orderBy('priority', 'asc')->get();
+        $query = self::where('category', $categoryId);
+
+        switch ($sort) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'newest':
+                $query->orderBy('created_at', 'desc');
+                break;
+            default:
+                $query->orderBy('priority', 'asc');
+                break;
+        }
+
+        $all = $query->get();
 
         return [
             'main' => $all->filter(fn ($item) => $item->main_item == 1 || $item->main_item === null || $item->main_item === '')->keyBy('id'),

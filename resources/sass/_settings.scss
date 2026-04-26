@@ -1,15 +1,6 @@
 @use "media";
 
-// Soviet font
-@font-face {
-    font-family: 'Sovest';
-    src: url("https://db.onlinewebfonts.com/t/a4c766c62326fc8a99a6512ec077b7e9.eot");
-    src: url("https://db.onlinewebfonts.com/t/a4c766c62326fc8a99a6512ec077b7e9.eot?#iefix")format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/a4c766c62326fc8a99a6512ec077b7e9.woff2")format("woff2"),
-    url("https://db.onlinewebfonts.com/t/a4c766c62326fc8a99a6512ec077b7e9.woff")format("woff"),
-    url("https://db.onlinewebfonts.com/t/a4c766c62326fc8a99a6512ec077b7e9.ttf")format("truetype"),
-    url("https://db.onlinewebfonts.com/t/a4c766c62326fc8a99a6512ec077b7e9.svg#Sovest Medium Regular")format("svg");
-}
+// Soviet font - loaded via blade layout to avoid Vite URL processing
 .loading{
     position: fixed;
     left: 0;
@@ -527,7 +518,7 @@ body{
     transform: translateX(-100px);
     transition: all 0.8s ease;
 }
-  
+
 .step.animate {
     opacity: 1;
     transform: translateX(0);
@@ -535,12 +526,12 @@ body{
 
 .parallax-window {
     height: 100%;
-}  
+}
 .glow{
     filter: none !important;
     // margin-bottom: 30px;
     // margin: 0 auto 30px auto;
-    // display: flex; 
+    // display: flex;
     // width: 100%;
     // text{
     //     stroke: #000000;
@@ -686,13 +677,13 @@ section, footer{
         transform: rotate(-45deg);
     }
   }
-  
+
 .selected {
     padding: 10px;
     cursor: pointer;
     border-radius: 5px;
 }
-  
+
 .select_options {
     position: absolute;
     top: 100%;
@@ -710,7 +701,7 @@ section, footer{
     padding: 10px;
     cursor: pointer;
 }
-  
+
 .option:hover {
     background-color: #f0f0f0;
 }
@@ -786,4 +777,3 @@ section, footer{
         }
     }
 }
-  

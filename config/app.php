@@ -3,7 +3,6 @@
 use App\Providers\AppServiceProvider;
 use App\Providers\EventServiceProvider;
 use App\Providers\RouteServiceProvider;
-use CKSource\CKFinderBridge\CKFinderServiceProvider;
 use Illuminate\Auth\AuthServiceProvider;
 use Illuminate\Auth\Passwords\PasswordResetServiceProvider;
 use Illuminate\Broadcasting\BroadcastServiceProvider;
@@ -237,7 +236,6 @@ return [
         EventServiceProvider::class,
         RouteServiceProvider::class,
         UiServiceProvider::class,
-        CKFinderServiceProvider::class,
     ],
 
     /*

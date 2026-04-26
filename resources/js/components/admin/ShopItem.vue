@@ -89,10 +89,22 @@
                     ></v-text-field>
                 </v-col>
                 <v-col cols="12">
-                    <v-text-field
-                            label="URL категории"
+                    <v-select
+                            label="Категория"
                             variant="outlined"
                             v-model="editItem.category_url"
+                            :items="categories"
+                            item-title="name"
+                            item-value="url"
+                            clearable
+                    ></v-select>
+                </v-col>
+
+                <v-col cols="12">
+                    <v-text-field
+                            label="Slug (URL товара)"
+                            variant="outlined"
+                            v-model="editItem.slug"
                     ></v-text-field>
                 </v-col>
 
@@ -208,6 +220,7 @@ const editItem = ref(null);
 const preview = ref("");
 const previewAlt = ref("");
 const items = ref([]);
+const categories = ref([]);
 const loading = ref(true);
 
 const loadItems = async () => {
@@ -218,6 +231,15 @@ const loadItems = async () => {
         console.error(error);
     } finally {
         loading.value = false;
+    }
+};
+
+const loadCategories = async () => {
+    try {
+        const response = await axios.get('/api/categories');
+        categories.value = response.data;
+    } catch (error) {
+        console.error(error);
     }
 };
 
@@ -233,7 +255,7 @@ const deleteItemById = async (id) => {
     await loadItems();
 };
 
-onMounted(loadItems);
+onMounted(() => { loadItems(); loadCategories(); });
 
 const saveItem = async () => {
     try {
@@ -241,6 +263,7 @@ const saveItem = async () => {
             id: editItem.value.id,
             art: editItem.value.art,
             name: editItem.value.name,
+            slug: editItem.value.slug,
             price: editItem.value.price,
             price_usd: editItem.value.price_usd,
             price_eur: editItem.value.price_eur,
